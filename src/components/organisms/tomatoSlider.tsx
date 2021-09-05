@@ -1,23 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import React, {
-  Dispatch,
   useState,
   useEffect,
-  SetStateAction,
   useRef,
 } from "react";
 import { Slider } from "@material-ui/core";
-import Display from "../organisms/display";
+import Display from "../molecules/display";
 import {
   makeStyles,
-  styled,
 } from "@material-ui/core/styles";
-import Image from 'next/image'
-/*
-import { Howl } from 'howler';
-import Timer from './timer.mp3';
-*/
-
 
 const useStyles = makeStyles({
   root: {
@@ -68,6 +59,7 @@ const useStyles = makeStyles({
   },
 });
 
+
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
     const ten = 10 ** (digit - 1);
@@ -98,13 +90,6 @@ function CreateSliderMarks(maxTime: number, round: number) {
   ];
 }
 
-const Container = styled("div")({
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-});
-
 function UpThumbComponent(props: any) {
   return (
     <span {...props}>
@@ -134,8 +119,7 @@ type Props = {
   isAutoStart: boolean;
   maxTime: number;
   count: number;
-  interval: number;
-  setCount: Dispatch<SetStateAction<number>>;
+  countUp: () => void;
 };
 
 
@@ -154,12 +138,12 @@ const usePauseTime = (
 
 const useIntervalTimeLeft = (
   endTime: Date,
-  interval: number,
   status: clockStatus,
+  interval: number,
   minutesLeft: number,
   setMinutesLeft: React.Dispatch<React.SetStateAction<number>>,
   setSliderVal: React.Dispatch<React.SetStateAction<number>>,
-  setCount: React.Dispatch<React.SetStateAction<number>>
+  countUp: () => void,
 ) => {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -172,7 +156,7 @@ const useIntervalTimeLeft = (
         } else {
           setMinutesLeft(0);
           setSliderVal(0);
-          setCount((prev) => prev + 1);
+          countUp();
         }
       }
     }, interval);
@@ -186,8 +170,9 @@ const TomatoSlider: React.VFC<Props> = ({
   isAutoStart,
   maxTime,
   count,
-  setCount,
+  countUp,
 }) => {
+  const interval = 1000
   const classes = useStyles();
   const [sliderVal, setSliderVal] = useState(0);
   const [minutesLeft, setMinutesLeft] = useState(0);
@@ -195,12 +180,12 @@ const TomatoSlider: React.VFC<Props> = ({
   const [status, setStatus] = useState<clockStatus>("STOPPED");
   useIntervalTimeLeft(
     endTime.current,
-    990,
     status,
+    interval,
     minutesLeft,
     setMinutesLeft,
     setSliderVal,
-    setCount
+    countUp
   );
   usePauseTime(status, minutesLeft, endTime.current);
   const start = () => {
@@ -221,7 +206,7 @@ const TomatoSlider: React.VFC<Props> = ({
   const resume = () => setStatus("RESUME");
   const stop = () => {
     setStatus("STOPPED");
-    setCount((prev) => prev + 1);
+    countUp();
   };
   const reset = () => {
     const now = new Date();
@@ -254,12 +239,10 @@ const TomatoSlider: React.VFC<Props> = ({
   };
 
   return (
-    <Container>
-      <div>
+    <>
         <Display
           minutesLeft={minutesLeft}
          />
-      </div>
       <Slider
         classes={{root: classes.slider, thumb: classes.thumb, track: classes.track, rail: classes.rail, mark: classes.mark, markLabel: classes.markLabel, markActive: classes.markLabel}}
         value={sliderVal}
@@ -281,7 +264,7 @@ const TomatoSlider: React.VFC<Props> = ({
         onChange={onChangeSlider}
         onChangeCommitted={onCommitedSlider}
       />
-    </Container>
+    </>
   );
 };
 
