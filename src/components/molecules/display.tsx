@@ -8,22 +8,23 @@ const useStyles = makeStyles({
   },
 });
 
-const toClockString = (timeLeft: number) => {
-  if (timeLeft <= 0) {
+const toClockString = (secondsLeft: number) => {
+  console.log(secondsLeft)
+  if (secondsLeft <= 0) {
     return "0:00";
   }
-  const minutes = Math.floor(timeLeft);
-  const seconds = Math.round((timeLeft - minutes) * 60);
+  const minutes = Math.floor(secondsLeft / 60);
+  const seconds = Math.round(secondsLeft - minutes * 60);
   return `${minutes}:${("00" + seconds).slice(-2)}`;
 };
 
 
-const Display: React.VFC<{minutesLeft: number}> = ({minutesLeft}) => {
+const Display: React.VFC<{secondsLeft: number}> = ({secondsLeft}) => {
   const classes = useStyles();
   return (
     <>
       <Typography className={classes.root} align={"center"} variant="h3">
-        {toClockString(minutesLeft)}
+        {toClockString(secondsLeft)}
       </Typography>
     </>
   );

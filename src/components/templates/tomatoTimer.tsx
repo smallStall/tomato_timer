@@ -17,9 +17,6 @@ const Container = styled("div")({
   justifyContent: "center",
 });
 
-
-type clockStatus = "STOPPED" | "RUNNING" | "PAUSED" | "RESUME";
-
 type Props = {
   key: string;
   isAutoStart: boolean;

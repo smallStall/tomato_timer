@@ -1,14 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import React, {
-  useState,
-  useEffect,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Slider } from "@material-ui/core";
 import Display from "../molecules/display";
-import {
-  makeStyles,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+import { useCountdown } from "../../hooks/useCountdown";
 
 const useStyles = makeStyles({
   root: {
@@ -59,7 +54,6 @@ const useStyles = makeStyles({
   },
 });
 
-
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
     const ten = 10 ** (digit - 1);
@@ -72,20 +66,20 @@ function roundDigit(num: number, digit: number) {
 function CreateSliderMarks(maxTime: number, round: number) {
   return [
     {
-      value: -maxTime / 5,
-      label: roundDigit((maxTime / 5) * 1, round).toString(),
+      value: -maxTime / 300,
+      label: roundDigit((maxTime / 300) * 1, round).toString(),
     },
     {
-      value: (-maxTime / 5) * 2,
-      label: roundDigit((maxTime / 5) * 2, round).toString(),
+      value: (-maxTime / 300) * 2,
+      label: roundDigit((maxTime / 300) * 2, round).toString(),
     },
     {
-      value: (-maxTime / 5) * 3,
-      label: roundDigit((maxTime / 5) * 3, round).toString(),
+      value: (-maxTime / 300) * 3,
+      label: roundDigit((maxTime / 300) * 3, round).toString(),
     },
     {
-      value: (-maxTime / 5) * 4,
-      label: roundDigit((maxTime / 5) * 4, round).toString(),
+      value: (-maxTime / 300) * 4,
+      label: roundDigit((maxTime / 300) * 4, round).toString(),
     },
   ];
 }
@@ -93,21 +87,21 @@ function CreateSliderMarks(maxTime: number, round: number) {
 function UpThumbComponent(props: any) {
   return (
     <span {...props}>
-      <img className="tomato" src="/pomodoroUp.svg" alt="tomato"/>
+      <img className="tomato" src="/pomodoroUp.svg" alt="tomato" />
     </span>
   );
 }
 function DownThumbComponent(props: any) {
   return (
     <span {...props}>
-      <img className="tomato" src="/pomodoroDown.svg" alt="tomato"/>
+      <img className="tomato" src="/pomodoroDown.svg" alt="tomato" />
     </span>
   );
 }
 function UpReverseThumbComponent(props: any) {
   return (
     <span {...props}>
-      <img className="tomato" src="/pomodoroUpReverse.svg" alt="tomato"/>
+      <img className="tomato" src="/pomodoroUpReverse.svg" alt="tomato" />
     </span>
   );
 }
@@ -122,99 +116,25 @@ type Props = {
   countUp: () => void;
 };
 
-
-const usePauseTime = (
-  status: clockStatus,
-  minutesLeft: number,
-  endTime: Date,
-) => {
-  useEffect(() => {
-    if (status === "RESUME") {
-      const now = new Date();
-      endTime.setTime(now.getTime() + minutesLeft * 1000 * 60);
-    }
-  }, [endTime, minutesLeft, status]);
-};
-
-const useIntervalTimeLeft = (
-  endTime: Date,
-  status: clockStatus,
-  interval: number,
-  minutesLeft: number,
-  setMinutesLeft: React.Dispatch<React.SetStateAction<number>>,
-  setSliderVal: React.Dispatch<React.SetStateAction<number>>,
-  countUp: () => void,
-) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (status === "RUNNING" || status === "RESUME") {
-        const now = new Date();
-        const minutes = (endTime.getTime() - now.getTime()) / 60000;
-        if (minutes > 0) {
-          setMinutesLeft(minutes);
-          setSliderVal(-minutes);
-        } else {
-          setMinutesLeft(0);
-          setSliderVal(0);
-          countUp();
-        }
-      }
-    }, interval);
-    return () => clearTimeout(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [minutesLeft, status]);
-};
-
-
 const TomatoSlider: React.VFC<Props> = ({
   isAutoStart,
   maxTime,
   count,
   countUp,
 }) => {
-  const interval = 1000
+  const interval = 1000;
+  const [timer, secondsLeft, status] = useCountdown(maxTime, interval);
   const classes = useStyles();
   const [sliderVal, setSliderVal] = useState(0);
-  const [minutesLeft, setMinutesLeft] = useState(0);
-  const endTime = useRef(new Date());
-  const [status, setStatus] = useState<clockStatus>("STOPPED");
-  useIntervalTimeLeft(
-    endTime.current,
-    status,
-    interval,
-    minutesLeft,
-    setMinutesLeft,
-    setSliderVal,
-    countUp
-  );
-  usePauseTime(status, minutesLeft, endTime.current);
-  const start = () => {
-    setStatus("RUNNING");
-    const now = new Date();
-    now.setMinutes(now.getMinutes() + Math.floor(maxTime));
-    now.setSeconds(now.getSeconds() + (maxTime - Math.floor(maxTime)) * 60);
-    endTime.current =now;
-    setMinutesLeft(maxTime);
-  };
   useEffect(() => {
     if (isAutoStart) {
-      start();
+      timer.start();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const pause = () => setStatus("PAUSED");
-  const resume = () => setStatus("RESUME");
-  const stop = () => {
-    setStatus("STOPPED");
-    countUp();
-  };
-  const reset = () => {
-    const now = new Date();
-    now.setMinutes(now.getMinutes() + maxTime);
-    endTime.current = now;
-    setStatus("RUNNING");
-  };
-
+  useEffect(() => {
+    setSliderVal(- secondsLeft / 60);
+  }, [secondsLeft]);
   const onChangeSlider = (event: any, value: number | number[]) => {
     if (status !== "RUNNING" && "number" === typeof value) {
       setSliderVal(value);
@@ -224,39 +144,45 @@ const TomatoSlider: React.VFC<Props> = ({
   const onCommitedSlider = (event: any, value: number | number[]) => {
     if (status === "STOPPED" && "number" === typeof value) {
       setSliderVal(value);
-      if (-value >= maxTime * 0.98) {
-        start();
+      if (-value >= (maxTime / 60 * 0.98)) {
+        timer.start();
       }
     } else if (status === "RUNNING" || status === "RESUME") {
-      pause();
-    } else if (status === "PAUSED" && -value > maxTime * 0.98) {
-      start();
+      timer.pause();
+    } else if (status === "PAUSED" && -value > (maxTime / 60 * 0.98)) {
+      timer.start();
     } else if (status === "PAUSED" && -value > 0.02) {
-      resume();
+      timer.resume();
     } else if (status === "PAUSED" && -value < 0.02 && count % 2 !== 0) {
-      stop();
+      timer.stop();
     }
   };
 
   return (
     <>
-        <Display
-          minutesLeft={minutesLeft}
-         />
+      <Display secondsLeft={secondsLeft} />
       <Slider
-        classes={{root: classes.slider, thumb: classes.thumb, track: classes.track, rail: classes.rail, mark: classes.mark, markLabel: classes.markLabel, markActive: classes.markLabel}}
+        classes={{
+          root: classes.slider,
+          thumb: classes.thumb,
+          track: classes.track,
+          rail: classes.rail,
+          mark: classes.mark,
+          markLabel: classes.markLabel,
+          markActive: classes.markLabel,
+        }}
         value={sliderVal}
         defaultValue={0}
         aria-labelledby="discrete-slider-always"
-        step={-maxTime / 10}
-        min={-maxTime}
+        step={-maxTime / 600}
+        min={-maxTime / 60}
         max={0}
         marks={CreateSliderMarks(maxTime, 3)}
         valueLabelDisplay="on"
         track="inverted"
         ThumbComponent={
           status === "RUNNING" || status === "RESUME"
-            ? Math.round(minutesLeft * 60) % 2 === 0
+            ? Math.round(secondsLeft) % 2 === 0
               ? UpThumbComponent
               : DownThumbComponent
             : UpReverseThumbComponent
