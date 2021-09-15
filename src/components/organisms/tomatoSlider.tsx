@@ -4,6 +4,8 @@ import { Slider } from "@material-ui/core";
 import Display from "../molecules/display";
 import { makeStyles } from "@material-ui/core/styles";
 import { useCountdown } from "../../hooks/useCountdown";
+import { ReactComponent as Icon } from "/pomodoroUp.svg";
+
 
 const useStyles = makeStyles({
   root: {
@@ -87,7 +89,8 @@ function CreateSliderMarks(maxTime: number, round: number) {
 function UpThumbComponent(props: any) {
   return (
     <span {...props}>
-      <img className="tomato" src="/pomodoroUp.svg" alt="tomato" />
+      <Icon />
+      
     </span>
   );
 }
@@ -105,8 +108,6 @@ function UpReverseThumbComponent(props: any) {
     </span>
   );
 }
-
-type clockStatus = "STOPPED" | "RUNNING" | "PAUSED" | "RESUME";
 
 type Props = {
   key: string;
@@ -133,6 +134,11 @@ const TomatoSlider: React.VFC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
+    if(status === 'FINISHED'){
+      countUp();
+    };
+  }, [status, countUp]);
+  useEffect(() => {
     setSliderVal(- secondsLeft / 60);
   }, [secondsLeft]);
   const onChangeSlider = (event: any, value: number | number[]) => {
@@ -157,7 +163,7 @@ const TomatoSlider: React.VFC<Props> = ({
       timer.stop();
     }
   };
-
+  
   return (
     <>
       <Display secondsLeft={secondsLeft} />

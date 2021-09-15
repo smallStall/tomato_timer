@@ -34,6 +34,7 @@ describe('Start', () => {
       jest.advanceTimersByTime(2000);
     });
     expect(getByTestId('time').textContent).toBe('0.0');
+    expect(getByTestId('status').textContent).toBe('FINISHED');
 
   })
 })

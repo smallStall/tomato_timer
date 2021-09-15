@@ -1,10 +1,10 @@
 
-export type Status = "STOPPED" | "RUNNING" | "PAUSED" | "RESUME";
-export type TimerActionsType<T extends string, P extends unknown> = {type: T; payload: P}
+export type Status = "STOPPED" | "RUNNING" | "PAUSED" | "RESUME" | "FINISHED";
 
 export interface State {
   status: Status;
   time: number;
+  endTime: number;
 }
 
 export interface Timer {
