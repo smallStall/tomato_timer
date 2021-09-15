@@ -4,7 +4,6 @@ import { Slider } from "@material-ui/core";
 import Display from "../molecules/display";
 import { makeStyles } from "@material-ui/core/styles";
 import { useCountdown } from "../../hooks/useCountdown";
-import { ReactComponent as Icon } from "/pomodoroUp.svg";
 
 
 const useStyles = makeStyles({
@@ -89,8 +88,7 @@ function CreateSliderMarks(maxTime: number, round: number) {
 function UpThumbComponent(props: any) {
   return (
     <span {...props}>
-      <Icon />
-      
+      <img className="tomato" src="/pomodoroUp.svg" alt="tomato" />      
     </span>
   );
 }

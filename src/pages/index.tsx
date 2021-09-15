@@ -9,9 +9,9 @@ import React, {
 } from "react";
 import { Container } from "@material-ui/core";
 import TomatoTimer from "../components/templates/tomatoTimer";
-import PomodoroSelect from "../components/templates/selectCount";
-import Memo from "../components/templates/memo";
-import notifyMe from "../components/templates/notify";
+import PomodoroSelect from "../components/organisms/selectCount";
+import Memo from "../components/organisms/memo";
+import notifyMe from "../components/organisms/notify";
 
 function isAuto(count: number, oneSet: number): boolean {
   if (count === 0) {
