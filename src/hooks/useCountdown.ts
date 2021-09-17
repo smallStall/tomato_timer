@@ -8,7 +8,6 @@ import {
 import reducer from "./reducer";
 
 
-
 export const useCountdown = (
   maxTime: number,
   interval = 1000,

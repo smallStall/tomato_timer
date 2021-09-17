@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useRef } from "react";
-import { Slider } from "@material-ui/core";
+import { Slider, Icon } from "@material-ui/core";
 import Display from "../molecules/display";
 import { makeStyles } from "@material-ui/core/styles";
 import { useCountdown } from "../../hooks/useCountdown";

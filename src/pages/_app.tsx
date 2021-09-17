@@ -2,9 +2,7 @@ import React from 'react'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { CssBaseline } from '@material-ui/core'
-import { ThemeProvider } from '@material-ui/core/styles'
-import theme from './theme'
+import ThemeButton from './theme'
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   React.useEffect(() => {
@@ -22,10 +20,9 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <ThemeButton>
         <Component {...pageProps} />
-      </ThemeProvider>
+      </ThemeButton>
     </>
   )
 }
