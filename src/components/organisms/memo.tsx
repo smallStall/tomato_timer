@@ -1,33 +1,28 @@
-import { makeStyles, TextField } from "@material-ui/core";
-import React, { Dispatch, SetStateAction } from "react";
+import { makeStyles, TextField, createStyles, Theme } from "@material-ui/core";
+import React from "react";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      marginTop: 50,
+    },
+  })
+);
 
-const useStyles = makeStyles({
-  textMemo:{
-    marginTop: 40,
-  },
-})
+type Prop = {};
 
-type Prop = {
-  pushMemo : string
-  setPushMemo: Dispatch<SetStateAction<string>>
-}
-
-export const Memo: React.VFC<Prop> = ({pushMemo: defaultMessage, setPushMemo: setDefaultMessage}) => {
+export const Memo: React.VFC<Prop> = () => {
   const classes = useStyles();
-  return(
+  return (
     <TextField
-      className={classes.textMemo}
+      color='primary'
+      className={classes.root}
       label="思い出しメモ"
-      onChange={(event)=>{setDefaultMessage(event.target.value)}}
-      value={defaultMessage}
-      InputLabelProps={{
-      }
-    }
-    fullWidth
-    variant="outlined"
+      InputLabelProps={{}}
+      fullWidth
+      variant="outlined"
     />
-  )
-}
+  );
+};
 
 export default Memo;

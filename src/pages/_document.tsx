@@ -9,7 +9,7 @@ import Document, {
   NextScript,
 } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
-
+import themeButton from './theme'
 
 export default class MyDocument extends Document {
   render(): JSX.Element {
@@ -29,7 +29,6 @@ export default class MyDocument extends Document {
           <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#000000" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta name="msapplication-config" content="/favicons/browserconfig.xml" />
-          <meta name="theme-color" content="#ffffff" />
         </Head>
         <body>
           <Main />

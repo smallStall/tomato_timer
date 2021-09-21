@@ -9,7 +9,6 @@ const useStyles = makeStyles({
 });
 
 const toClockString = (secondsLeft: number) => {
-  console.log(secondsLeft)
   if (secondsLeft <= 0) {
     return "0:00";
   }
@@ -23,7 +22,7 @@ const Display: React.VFC<{secondsLeft: number}> = ({secondsLeft}) => {
   const classes = useStyles();
   return (
     <>
-      <Typography className={classes.root} align={"center"} variant="h3">
+      <Typography className={classes.root} align={"center"} variant="h3" color="primary">
         {toClockString(secondsLeft)}
       </Typography>
     </>

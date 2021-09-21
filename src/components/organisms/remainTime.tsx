@@ -12,7 +12,7 @@ export const RemainTime: React.VFC<{time: string}> = ({time}) => {
   return(
     <Typography
       className={classes.remainTime}
-      align={'center'}
+      align={'center'} 
       variant="h3"
     >{time}</Typography>
   )

@@ -10,6 +10,7 @@ import TomatoTimer from "../components/templates/tomatoTimer";
 import PomodoroSelect from "../components/organisms/selectCount";
 import Memo from "../components/organisms/memo";
 import notifyMe from "../components/organisms/notify";
+import CreditFooter from "../components/organisms/creditFooter";
 
 function isAuto(count: number, oneSet: number): boolean {
   if (count === 0) {
@@ -21,7 +22,7 @@ function isAuto(count: number, oneSet: number): boolean {
   }
 }
 
-function makeNotifyMessage(count: number, memo: string, oneSet: number) {
+function makeNotifyMessage(count: number, oneSet: number) {
   let message;
   const pomodoroCount = Math.ceil(count / 2);
   if (oneSet === 1) {
@@ -39,7 +40,7 @@ function makeNotifyMessage(count: number, memo: string, oneSet: number) {
     message =
       oneSet.toString() + "回ポモドーロを達成しました。お疲れ様でした。";
   }
-  return message + (memo !== "" ? "メモ:" + memo : "");
+  return message;
 }
 
 const Home: NextPage = () => {
@@ -57,7 +58,7 @@ const Home: NextPage = () => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
     } else {
-      notifyMe(makeNotifyMessage(count, pushMemo, oneSet));
+      notifyMe(makeNotifyMessage(count, oneSet));
       setPushMemo("");
       if (Math.ceil(count / 2) === oneSet && oneSet !== 1) {
         isFirstRender.current = true;
@@ -85,8 +86,10 @@ const Home: NextPage = () => {
           maxTime={count % 2 === 0 ? maxWorkTime : maxRestTime}
           countUp={countUp}
         />
-        <Memo pushMemo={pushMemo} setPushMemo={setPushMemo} />
+        <Memo/>
       </Container>
+      <CreditFooter/>
+
     </>
   );
 };

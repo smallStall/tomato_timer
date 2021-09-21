@@ -1,59 +1,58 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Slider, Icon } from "@material-ui/core";
 import Display from "../molecules/display";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useCountdown } from "../../hooks/useCountdown";
+const thumbPath = "/27_tomato.svg";
 
-
-const useStyles = makeStyles({
-  root: {
-    width: "60%",
-    marginLeft: "5%",
-    marginTop: "12%",
-  },
-  valueLabel: {
-    fontSize: "2rem",
-  },
-  slider: {
-    height: 2,
-    padding: "30px 0",
-    elevation: 0,
-  },
-  thumb: {
-    marginTop: -25,
-    marginLeft: -6,
-    "& .tomato": {
-      // display: inline-block !important;
-      height: 55,
-      width: 55,
-      //backgroundColor: 'currentColor',
-      marginLeft: 1,
-      marginRight: 1,
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: "60%",
+      color: theme.palette.primary.main,
     },
-  },
-  track: {
-    height: 4,
-  },
-  rail: {
-    height: 4,
-    opacity: 0.1,
-  },
-  mark: {
-    height: 15,
-    width: 2,
-    marginTop: -5,
-    opacity: 0.1,
-  },
-  markActive: {
-    opacity: 1,
-    backgroundColor: "currentColor",
-  },
-  markLabel: {
-    lineHeight: "3.5rem",
-    fontSize: "1.2rem",
-  },
-});
+    valueLabel: {
+      fontSize: "2rem",
+    },
+    slider: {
+      height: 2,
+      padding: "55px 0",
+      elevation: 0,
+    },
+    thumb: {
+      marginTop: -25,
+      marginLeft: -6,
+      "& .tomato": {
+        height: 55,
+        width: 55,
+        marginLeft: 1,
+        marginRight: 1,
+      },
+    },
+    track: {
+      height: 4,
+    },
+    rail: {
+      height: 4,
+      opacity: 1.0,
+    },
+    mark: {
+      height: 15,
+      width: 2,
+      marginTop: -5,
+      color: theme.palette.secondary.light,
+    },
+    markActive: {
+    },
+    markLabel: {
+      fontSize: "1.3rem",
+      opacity: 1.0,
+    },
+    markLabelActive: {
+    }
+  })
+);
 
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
@@ -65,46 +64,16 @@ function roundDigit(num: number, digit: number) {
 }
 
 function CreateSliderMarks(maxTime: number, round: number) {
-  return [
-    {
-      value: -maxTime / 300,
-      label: roundDigit((maxTime / 300) * 1, round).toString(),
-    },
-    {
-      value: (-maxTime / 300) * 2,
-      label: roundDigit((maxTime / 300) * 2, round).toString(),
-    },
-    {
-      value: (-maxTime / 300) * 3,
-      label: roundDigit((maxTime / 300) * 3, round).toString(),
-    },
-    {
-      value: (-maxTime / 300) * 4,
-      label: roundDigit((maxTime / 300) * 4, round).toString(),
-    },
-  ];
-}
-
-function UpThumbComponent(props: any) {
-  return (
-    <span {...props}>
-      <img className="tomato" src="/pomodoroUp.svg" alt="tomato" />      
-    </span>
-  );
-}
-function DownThumbComponent(props: any) {
-  return (
-    <span {...props}>
-      <img className="tomato" src="/pomodoroDown.svg" alt="tomato" />
-    </span>
-  );
-}
-function UpReverseThumbComponent(props: any) {
-  return (
-    <span {...props}>
-      <img className="tomato" src="/pomodoroUpReverse.svg" alt="tomato" />
-    </span>
-  );
+  type SliderLabel = { value: number; label: string };
+  let arr: SliderLabel[];
+  arr = [];
+  for (let step = 1; step < 5; step++) {
+    arr.push({
+      value: (-maxTime / 300) * step,
+      label: roundDigit((maxTime / 300) * step, round).toString(),
+    });
+  }
+  return arr;
 }
 
 type Props = {
@@ -132,12 +101,12 @@ const TomatoSlider: React.VFC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if(status === 'FINISHED'){
+    if (status === "FINISHED") {
       countUp();
-    };
+    }
   }, [status, countUp]);
   useEffect(() => {
-    setSliderVal(- secondsLeft / 60);
+    setSliderVal(-secondsLeft / 60);
   }, [secondsLeft]);
   const onChangeSlider = (event: any, value: number | number[]) => {
     if (status !== "RUNNING" && "number" === typeof value) {
@@ -148,12 +117,12 @@ const TomatoSlider: React.VFC<Props> = ({
   const onCommitedSlider = (event: any, value: number | number[]) => {
     if (status === "STOPPED" && "number" === typeof value) {
       setSliderVal(value);
-      if (-value >= (maxTime / 60 * 0.98)) {
+      if (-value >= (maxTime / 60) * 0.98) {
         timer.start();
       }
     } else if (status === "RUNNING" || status === "RESUME") {
       timer.pause();
-    } else if (status === "PAUSED" && -value > (maxTime / 60 * 0.98)) {
+    } else if (status === "PAUSED" && -value > (maxTime / 60) * 0.98) {
       timer.start();
     } else if (status === "PAUSED" && -value > 0.02) {
       timer.resume();
@@ -161,7 +130,25 @@ const TomatoSlider: React.VFC<Props> = ({
       timer.stop();
     }
   };
-  
+
+  function makeThumTomato(props: any) {
+    return (
+      <span {...props}>
+        <img
+          className="tomato"
+          src={thumbPath}
+          alt="tomato"
+          style={
+            status === "RUNNING" || status === "RESUME"
+              ? Math.round(secondsLeft) % 2 === 0
+                ? { transform: `rotate(0deg)` }
+                : { transform: `rotate(340deg)` }
+              : { transform: `scale(-1, 1)` }
+          }
+        />
+      </span>
+    );
+  }
   return (
     <>
       <Display secondsLeft={secondsLeft} />
@@ -184,13 +171,7 @@ const TomatoSlider: React.VFC<Props> = ({
         marks={CreateSliderMarks(maxTime, 3)}
         valueLabelDisplay="on"
         track="inverted"
-        ThumbComponent={
-          status === "RUNNING" || status === "RESUME"
-            ? Math.round(secondsLeft) % 2 === 0
-              ? UpThumbComponent
-              : DownThumbComponent
-            : UpReverseThumbComponent
-        }
+        ThumbComponent={makeThumTomato}
         onChange={onChangeSlider}
         onChangeCommitted={onCommitedSlider}
       />

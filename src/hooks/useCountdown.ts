@@ -20,11 +20,11 @@ export const useCountdown = (
   });
 
   const { status, time, endTime } = state;
-    /*
-    const now = new Date();
-    now.setMinutes(now.getMinutes() + Math.floor(maxTime / 60));
-    now.setSeconds(now.getSeconds() + (maxTime - Math.floor(maxTime / 60)));
-    */
+  /*
+  const now = new Date();
+  now.setMinutes(now.getMinutes() + Math.floor(maxTime / 60));
+  now.setSeconds(now.getSeconds() + (maxTime - Math.floor(maxTime / 60)));
+  */
 
 
   const start = useCallback(() => {
@@ -49,15 +49,15 @@ export const useCountdown = (
   }, [endTime])
 
   useEffect(() => {
- 
+
     const timer = setTimeout(() => {
       if (status === "RUNNING" || status === "RESUME") {
         const now = new Date();
-        const left = endTime - now.getTime()/ 1000;
+        const left = endTime - now.getTime() / 1000;
         if (left > 0.05) {
-          dispatch({ type:'setTime', payload: {newTime:left}} );
+          dispatch({ type: 'setTime', payload: { newTime: left } });
         } else {
-          dispatch({ type:'finish'} );
+          dispatch({ type: 'finish' });
         }
       }
     }, interval < time / 1000 ? time / 1000 : interval);
@@ -68,9 +68,11 @@ export const useCountdown = (
     const prev = status === "PAUSED" ? new Date() : null;
     if (status === "RESUME" && prev !== null) {
       const additional = endTime + Date.now() / 1000 - prev.getTime() / 1000;
-      dispatch({ type:'setEnd', payload: {newTime:additional}})
+      dispatch({ type: 'setEnd', payload: { newTime: additional } })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }}, [status]);
+  }, [status]);
 
   return [{ start, stop, pause, resume, add, reduce }, time, status]
 }
