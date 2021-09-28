@@ -1,21 +1,25 @@
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography, createStyles } from "@material-ui/core";
 import React from "react";
 
-const useStyles = makeStyles({
-  remainTime:{
-    marginTop: 20,
-  },
-})
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      marginTop: 20,
+    },
+  })
+);
 
-export const RemainTime: React.VFC<{time: string}> = ({time}) => {
+export const RemainTime: React.VFC<{ time: string }> = ({ time }) => {
   const classes = useStyles();
-  return(
+  return (
     <Typography
-      className={classes.remainTime}
-      align={'center'} 
+      classes={{ root: classes.root }}
+      align={"center"}
       variant="h3"
-    >{time}</Typography>
-  )
-}
+    >
+      {time}
+    </Typography>
+  );
+};
 
 export default RemainTime;

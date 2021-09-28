@@ -1,9 +1,9 @@
 import { Status, Timer } from "./types"
 import {
-  useEffect,
   useRef,
+  useEffect,
   useReducer,
-  useCallback
+  useCallback,
 } from "react";
 import reducer from "./reducer";
 
@@ -49,7 +49,6 @@ export const useCountdown = (
   }, [endTime])
 
   useEffect(() => {
-
     const timer = setTimeout(() => {
       if (status === "RUNNING" || status === "RESUME") {
         const now = new Date();
@@ -63,18 +62,22 @@ export const useCountdown = (
     }, interval < time / 1000 ? time / 1000 : interval);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time, status]);
-  useEffect(() => {
-    const prev = status === "PAUSED" ? new Date() : null;
-    if (status === "RESUME" && prev !== null) {
-      const additional = endTime + Date.now() / 1000 - prev.getTime() / 1000;
-      dispatch({ type: 'setEnd', payload: { newTime: additional } })
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [time, status, endTime]);
+
+  const usePause = () => {
+    const ref = useRef(new Date());
+    useEffect(() => {
+      if(status === "PAUSED"){
+        ref.current = new Date();
+      }
+      if (status === "RESUME") {
+        const newTime = endTime + Date.now() / 1000 - ref.current.getTime() / 1000;
+        dispatch({ type: 'setEnd', payload: { newTime: newTime } })
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [status]);  
+  }
+  usePause();
 
   return [{ start, stop, pause, resume, add, reduce }, time, status]
 }
-
-

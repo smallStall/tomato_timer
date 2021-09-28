@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, {useCallback} from "react";
 import TomatoSlider from "../organisms/tomatoSlider";
 import {
   styled,
@@ -32,7 +32,6 @@ const TomatoTimer: React.VFC<Props> = ({
   count,
   countUp,
 }) => {
- 
    return (
     <Container>
       <TomatoSlider
@@ -46,4 +45,5 @@ const TomatoTimer: React.VFC<Props> = ({
   );
 };
 
-export default TomatoTimer;
+
+export default React.memo(TomatoTimer);

@@ -1,15 +1,12 @@
-import {
-  createTheme,
-  CssBaseline,
-  ThemeProvider,
-} from "@material-ui/core";
+import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import React, {
   useState,
+  useEffect,
   createContext,
   SetStateAction,
   Dispatch,
 } from "react";
-import MenuAppBar from "../components/organisms/appMenuBar";
+import MenuAppBar from "../components/organisms/menuAppBar";
 
 type Props = {
   children: React.ReactNode;
@@ -19,43 +16,78 @@ export const DarkModeContext = createContext<{
   isDarkMode: boolean;
 }>({ setDarkMode: () => {}, isDarkMode: false });
 
+export const VolumeContext = createContext<{
+  setVolume: Dispatch<SetStateAction<number>>;
+  volume: number;
+}>({ setVolume: () => {}, volume: 0 });
+
+//TODO ボリューム調整
 export default function ThemeButton({ children }: Props) {
   const [isDarkMode, setDarkMode] = useState<boolean>(false);
+  const [volume, setVolume] = useState<number>(0);
+  useEffect(() => {
+    if (localStorage.getItem("useState") === null) {
+      setVolume(0);
+    } else {
+      setVolume(Number(localStorage.getItem("useState")!));
+    }
+    setDarkMode(localStorage.getItem("darkMode") === "on" ? true : false);
+  }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isDarkMode) {
       localStorage.setItem("darkMode", "on");
     } else {
       localStorage.setItem("darkMode", "off");
     }
-    console.log(theme.palette)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDarkMode]);
+
+  useEffect(() => {
+    localStorage.setItem("volume", volume.toString());
+  }, [volume]);
 
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#65272b",
-        contrastText: "#fff4d6"
+        main: isDarkMode ? "#fff4d6" : "#65272b",
+        contrastText: "#fff4d6",
       },
       secondary: {
-        light: isDarkMode ? "#321315" : "#C4ACAE",
-        main: "#825058",
+        main: isDarkMode ? "#321315" : "#65272b",
+      },
+      warning: {
+        main: "#ae0d16",
       },
       background: {
         paper: "#65272b",
-        default: isDarkMode ? "#412b1c" : "#fff4d6",
+        default: isDarkMode ? "#46292c" : "#fff4d6",
       },
+
       type: isDarkMode ? "dark" : "light",
+    },
+    overrides: {
+      MuiPaper: {
+        root: {
+          backgroundColor: isDarkMode ? "#412b1c" : "#fff4d6",
+        },
+      },
+      MuiInputBase: {
+        input: {
+          lineHeight: "1.4em",
+        },
+      },
     },
   });
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <DarkModeContext.Provider value={{ setDarkMode, isDarkMode }}>
-        <MenuAppBar />
+      <VolumeContext.Provider value={{ setVolume, volume }}>
+        <DarkModeContext.Provider value={{ setDarkMode, isDarkMode }}>
+          <MenuAppBar />
+        </DarkModeContext.Provider>
         {children}
-      </DarkModeContext.Provider>
+      </VolumeContext.Provider>
     </ThemeProvider>
   );
 }

@@ -9,11 +9,11 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "10%",
       position: "absolute",
       bottom: 0,
-      background: theme.palette.primary.main,
+      background: theme.palette.secondary.main,
       boxShadow: '0 0 7px 0 black',
     },
     credit: {
-      color: theme.palette.background.default,
+      color: theme.palette.primary.contrastText,
       margin: "0 20px 10px 0",
       position: "absolute",
       bottom: '5px',
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const CreditFooter = () => {
   const classes = useStyles();
   return <div className={classes.creditFooter}>
-    <Typography className={classes.credit}>Copyright Small Games</Typography>
+    <Typography className={classes.credit}>Copyright Small Tall</Typography>
   </div>;
 };
 

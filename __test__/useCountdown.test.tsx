@@ -89,13 +89,22 @@ describe('PauseAndResume', () => {
     fireEvent.click(getByTestId('start'));
     expect(getByTestId('status').textContent).toBe('RUNNING');
     fireEvent.click(getByTestId('pause'));
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
     expect(getByTestId('status').textContent).toBe('PAUSED');
     fireEvent.click(getByTestId('resume'));
+    expect(getByTestId('time').textContent).toBe('2.0');
     expect(getByTestId('status').textContent).toBe('RESUME');
     act(() => {
       jest.advanceTimersByTime(1010);
     });
+    fireEvent.click(getByTestId('pause'));
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
     expect(getByTestId('time').textContent).toBe('1.0');
+    fireEvent.click(getByTestId('resume'));
     act(() => {
       jest.advanceTimersByTime(1000);
     });
