@@ -50,8 +50,8 @@ function makeNotifyMessage(count: number, oneSet: number) {
 }
 
 const Home: NextPage = () => {
-  const [maxWorkTime, setMaxWorkTime] = useState(1.05 * 60);
-  const [maxRestTime, setMaxRestTime] = useState(0.5 * 60);
+  const [maxWorkTime, setMaxWorkTime] = useState(25 * 60);
+  const [maxRestTime, setMaxRestTime] = useState(5 * 60);
   const [count, setCount] = useState(0);
   const isFirstRender = useRef(false);
   const [pushMemo, setPushMemo] = useState("");

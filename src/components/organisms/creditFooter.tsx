@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const CreditFooter = () => {
   const classes = useStyles();
   return <div className={classes.creditFooter}>
-    <Typography className={classes.credit}>Copyright Small Tall</Typography>
+    <Typography className={classes.credit}>Copyright Small Stall</Typography>
   </div>;
 };
 
