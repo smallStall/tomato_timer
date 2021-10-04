@@ -1,13 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import React, {useCallback} from "react";
+import React, {useCallback, Dispatch, SetStateAction} from "react";
 import TomatoSlider from "../organisms/tomatoSlider";
 import {
   styled,
 } from "@material-ui/core/styles";
-/*
-import { Howl } from 'howler';
-import Timer from './timer.mp3';
-*/
 
 
 const Container = styled("div")({
@@ -21,7 +17,6 @@ type Props = {
   key: string;
   isAutoStart: boolean;
   maxTime: number;
-  count: number;
   countUp: () => void;
 };
 
@@ -29,16 +24,13 @@ type Props = {
 const TomatoTimer: React.VFC<Props> = ({
   isAutoStart,
   maxTime,
-  count,
-  countUp,
+  countUp
 }) => {
    return (
     <Container>
       <TomatoSlider
-        key={count.toString()}
         isAutoStart={isAutoStart}
         maxTime={maxTime}
-        count={count}
         countUp={countUp}
       />
     </Container>

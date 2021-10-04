@@ -7,6 +7,7 @@ import {
   Theme,
   createStyles,
 } from "@material-ui/core";
+import { Style } from "@material-ui/icons";
 import React, { Dispatch, SetStateAction } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -15,7 +16,11 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 40,
     },
     root: {
-      width: 130,
+      width: 120,
+      color: theme.palette.primary.main,
+    },
+    shrinkInputLabel: {
+      fontSize: "large",
     },
   })
 );
@@ -32,7 +37,9 @@ export const PomodoroSelect: React.VFC<Props> = ({
   const classes = useStyles();
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel>ポモドーロ回数</InputLabel>
+      <InputLabel classes={{ shrink: classes.shrinkInputLabel }}>
+        Count / Set
+      </InputLabel>
       <Select
         className={classes.root}
         value={defaultMenuItem}

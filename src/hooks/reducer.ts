@@ -2,6 +2,7 @@
 import { TimerActionsType } from "./actions";
 import { State } from "./types"
 
+
 function reducer(state: State, action: TimerActionsType): State {
   switch (action.type) {
     case 'pause': {

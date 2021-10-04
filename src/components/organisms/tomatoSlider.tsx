@@ -1,81 +1,92 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Slider } from "@material-ui/core";
 import Display from "../molecules/display";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { useCountdown } from "../../hooks/useCountdown";
+import { VolumeContext } from "../../pages/theme";
 const thumbPath = "/27_tomato.svg";
+const SOUND_TIME = 4;
 
-const useStyles = makeStyles(theme =>
-  ({
-    root: {
-      color: theme.palette.secondary.main,
-    },
-    valueLabel: {
-      fontSize: "2rem",
-    },
-    slider: {
-      width: "80%",
-      height: 2,
-      padding: "55px 0",
-      marginLeft: '5.5vw',
-      elevation: 0,
-    },
-    thumb: {
-      color: theme.palette.warning.main,
-      width: "40px",
-      height: "40px",
-      transition: "unset",
-      marginTop: -30,
-      marginLeft: -15,
-      boxShadow: "0 0 0 0",
-      "& .tomato": {
-        height: 65,
-        width: 59,
-        marginTop: -5,
-        marginLeft: 0,
-        marginRight: 1,
-      },
-    },
-    thumbFocusVisible: {
-      boxShadow: "0 0 0 0!important",
-    },
-    label:{
-      color: theme.palette.primary.main,
-    },
-    track: {
-      height: 4,
-    },
-    active: {
-      color: theme.palette.primary.light,
-    },
-    rail: {
-      height: 4,
-      opacity: 1.0,
-      color: theme.palette.primary.light,
-    },
-    mark: {
-      height: 15,
-      width: 2,
+interface StylesProps{
+  minutes: number;
+  addMinutes: number;
+}
+
+const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
+  root: {
+    color: theme.palette.secondary.main,
+  },
+  valueLabel: {
+    fontSize: "2rem",
+  },
+  slider: {
+    width: "80%",
+    height: 2,
+    padding: "55px 0",
+    marginLeft: "10vw",
+  },
+  thumb: {
+    color: theme.palette.warning.main,
+    pointerEvents: "none",
+    width: "40px",
+    height: "40px",
+    transition: "unset",
+    marginTop: -30,
+    marginLeft: -15,
+    boxShadow: "0 0 0 0",
+    "& .tomato": {
+      height: 65,
+      width: 59,
       marginTop: -5,
-      color: theme.palette.primary.light,
+      marginLeft: 0,
+      marginRight: 1,
     },
-    markActive: {},
-    markLabel: {
-      fontSize: "1.3em",
-      opacity: 1.0,
-      [theme.breakpoints.down("sm")]: {
-        marginTop: '25px',
-      },
-      [theme.breakpoints.up("sm")]:{
-        marginTop: '40px',
-      }
-      ,
+  },
+  thumbFocusVisible: {
+    boxShadow: "0 0 0 0!important",
+  },
+  label: {
+    color: theme.palette.primary.main,
+  },
+  track: {
+    height: 4,
+  },
+  active: {
+    color: theme.palette.primary.light,
+  },
+  rail: {
+    height: 4,
+    opacity: 1.0,
+    color: theme.palette.primary.light,
+    "&::after": {
+      position: "absolute",
+      right: 0,
+      backgroundColor: theme.palette.background.default,
+      content: '""',
+      width: ({minutes, addMinutes}) => (addMinutes / (minutes + addMinutes) * 100).toString() + '%',
+      height: "7px",
     },
-    markLabelActive: {},
-  })
-);
-
+  },
+  mark: {
+    height: 15,
+    width: 2,
+    marginTop: -5,
+    color: theme.palette.primary.light,
+  },
+  markActive: {},
+  markLabel: {
+    fontSize: "1.3em",
+    opacity: 1.0,
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "25px",
+    },
+    [theme.breakpoints.up("sm")]: {
+      marginTop: "40px",
+    },
+  },
+  markLabelActive: {},
+}));
 
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
@@ -86,7 +97,7 @@ function roundDigit(num: number, digit: number) {
   }
 }
 
-function createSliderMarks(maxTime: number, round: number) {
+function createSliderMarks(maxTime: number, round: number, status: string) {
   type SliderLabel = { value: number; label: string };
   let arr: SliderLabel[];
   arr = [];
@@ -96,6 +107,14 @@ function createSliderMarks(maxTime: number, round: number) {
       label: roundDigit((maxTime / 300) * step, round).toString(),
     });
   }
+  arr.push({
+    value: -maxTime / 60,
+    label: "🍅",
+  });
+  arr.push({
+    value: 0,
+    label: status === "STOPPED" ? "👈" : "👍",
+  });
   return arr;
 }
 
@@ -124,27 +143,30 @@ const makeDownTomato = (props: any) => makeThumbTomato("Down", props);
 const makeReverseTomato = (props: any) => makeThumbTomato("Reverse", props);
 
 type Props = {
-  key: string;
   isAutoStart: boolean;
   maxTime: number;
-  count: number;
   countUp: () => void;
 };
 
-
-const TomatoSlider: React.VFC<Props> = ({
-  isAutoStart,
-  maxTime,
-  count,
-  countUp,
-}) => {
+const TomatoSlider: React.VFC<Props> = ({ isAutoStart, maxTime, countUp }) => {
   const interval = 1000;
-  const [timer, secondsLeft, status] = useCountdown(maxTime, interval);
-  const classes = useStyles();
-  const [sliderVal, setSliderVal] = useState(0);
+  const { volume } = useContext(VolumeContext);
+  const [timer, secondsLeft, status] = useCountdown(
+    maxTime,
+    interval,
+    0,
+    volume
+  );
+  const props = {minutes: maxTime / 60, addMinutes: maxTime / 60 / 9};
+  const classes = useStyles(props);
+
+  const [sliderVal, setSliderVal] = useState(1);
   useEffect(() => {
     if (isAutoStart) {
-      timer.start();
+      countUp();
+      setTimeout(() => {
+        timer.start(), SOUND_TIME * 1000;
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -154,39 +176,46 @@ const TomatoSlider: React.VFC<Props> = ({
     }
   }, [status, countUp]);
   useEffect(() => {
-    setSliderVal(-secondsLeft / 60);
+    setSliderVal(-secondsLeft / 60), 3000;
   }, [secondsLeft]);
 
   const onChangeSlider = (event: any, value: number | number[]) => {
     if (status !== "RUNNING" && "number" === typeof value) {
-      setSliderVal(value);
+      if (value <= 0) {
+        setSliderVal(value);
+      }
     }
-  }
+  };
 
   const onCommitedSlider = (event: any, value: number | number[]) => {
+    if (value > 0) {
+      return;
+    }
     if (status === "STOPPED" && "number" === typeof value) {
       setSliderVal(value);
-      if (-value >= (maxTime / 60) * 0.98) {
+      if (-value >= (maxTime / 60) * 0.97) {
         timer.start();
+        countUp();
       }
     } else if (status === "RUNNING" || status === "RESUME") {
       timer.pause();
-    } else if (status === "PAUSED" && -value > (maxTime / 60) * 0.98) {
+    } else if (status === "PAUSED" && -value > (maxTime / 60) * 0.97) {
       timer.start();
     } else if (status === "PAUSED" && -value > 0.02) {
       timer.resume();
-    } else if (status === "PAUSED" && -value < 0.02 && count % 2 !== 0) {
+    } else if (status === "PAUSED" && -value < 0.02) {
       timer.stop();
+      countUp();
     }
-  }
+  };
 
-  const makeThumbTomato =(props: any) => {
+  const makeThumbTomato = (props: any) => {
     return status === "RUNNING" || status === "RESUME"
       ? Math.round(secondsLeft) % 2 === 0
         ? makeUpTomato(props)
         : makeDownTomato(props)
       : makeReverseTomato(props);
-  }
+  };
 
   return (
     <>
@@ -197,7 +226,7 @@ const TomatoSlider: React.VFC<Props> = ({
           thumb: classes.thumb,
           focusVisible: classes.thumbFocusVisible,
           valueLabel: classes.label,
-         track: classes.track,
+          track: classes.track,
           rail: classes.rail,
           mark: classes.mark,
           markLabel: classes.markLabel,
@@ -207,10 +236,9 @@ const TomatoSlider: React.VFC<Props> = ({
         value={sliderVal}
         defaultValue={0}
         aria-labelledby="discrete-slider-always"
-        step={-maxTime / 600}
         min={-maxTime / 60}
-        max={0}
-        marks={createSliderMarks(maxTime, 3)}
+        max={maxTime / 60 / 9} //トマトのhover判定を長めに取るために+3分多めに取る
+        marks={createSliderMarks(maxTime, 3, status)}
         valueLabelDisplay="on"
         track="inverted"
         ThumbComponent={makeThumbTomato}
@@ -220,6 +248,5 @@ const TomatoSlider: React.VFC<Props> = ({
     </>
   );
 };
-
 
 export default React.memo(TomatoSlider);

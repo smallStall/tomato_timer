@@ -21,16 +21,19 @@ export const VolumeContext = createContext<{
   volume: number;
 }>({ setVolume: () => {}, volume: 0 });
 
+export const InputMemoContext = createContext<{
+  setInputMemo: Dispatch<SetStateAction<boolean>>;
+  isInputMemo: boolean;
+}>({ setInputMemo: () => {}, isInputMemo: false });
+
+
 //TODO ボリューム調整
 export default function ThemeButton({ children }: Props) {
   const [isDarkMode, setDarkMode] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0);
+  const [isInputMemo, setInputMemo] = useState<boolean>(false);
+
   useEffect(() => {
-    if (localStorage.getItem("useState") === null) {
-      setVolume(0);
-    } else {
-      setVolume(Number(localStorage.getItem("useState")!));
-    }
     setDarkMode(localStorage.getItem("darkMode") === "on" ? true : false);
   }, []);
 
@@ -43,9 +46,6 @@ export default function ThemeButton({ children }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDarkMode]);
 
-  useEffect(() => {
-    localStorage.setItem("volume", volume.toString());
-  }, [volume]);
 
   const theme = createTheme({
     palette: {
@@ -86,7 +86,9 @@ export default function ThemeButton({ children }: Props) {
         <DarkModeContext.Provider value={{ setDarkMode, isDarkMode }}>
           <MenuAppBar />
         </DarkModeContext.Provider>
-        {children}
+        <InputMemoContext.Provider value={{ setInputMemo, isInputMemo }}>
+          {children}
+        </InputMemoContext.Provider>
       </VolumeContext.Provider>
     </ThemeProvider>
   );
