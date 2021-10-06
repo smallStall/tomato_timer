@@ -13,12 +13,13 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     toolBar: {
+      minHeight: '6vh',
     },
     appBar: {
       backgroundColor: theme.palette.secondary.main,
     },
     title: {
-      marginTop: '10px',
+      marginTop: '5px',
       flexGrow: 1,
     },
   })
@@ -30,7 +31,7 @@ export default function MenuAppBar() {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolBar}>
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant="h5" className={classes.title}>
             Pomodoro Timer
           </Typography>
         </Toolbar>

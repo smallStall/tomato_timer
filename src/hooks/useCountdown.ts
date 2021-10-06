@@ -10,6 +10,8 @@ import { Howl } from "howler";
 import Sound from "../../public/zihou30.ogg";
 const SOUND_TIME = 3.5;
 
+export default Timer;
+
 export const useCountdown = (
   maxTime: number,
   interval = 1000,

@@ -59,7 +59,7 @@ function makeNotifyMessage(count: number, oneSet: number) {
 const Home: NextPage = () => {
   const [maxWorkTime, setMaxWorkTime] = useState(300) // * 60); // * 60);
   const [maxRestTime, setMaxRestTime] = useState(300) // * 60); // * 60);
-  const [count, setCount] = useState(-1);
+  const [count, setCount] = useState(0);
   const isFirstRender = useRef(false);
   const [pushMemo, setPushMemo] = useState("");
   const [oneSet, setOneSet] = useState(1);
@@ -84,6 +84,7 @@ const Home: NextPage = () => {
   const countUp = useCallback(
     () =>
       setCount((prev: number) => {
+        console.log(prev + 1);
         return prev + 1;
       }),
     []
@@ -114,10 +115,10 @@ const Home: NextPage = () => {
           maxTime={Math.floor(count / 2) % 2 ? maxWorkTime : maxRestTime}
           countUp={countUp}
         />
+        <div style={{ marginRight: "25px", textAlign: "right" }}>
+          <Memo />
+        </div>
       </Container>
-      <div style={{ marginRight: "25px", textAlign: "right" }}>
-        <Memo />
-      </div>
       <CreditFooter />
     </>
   );

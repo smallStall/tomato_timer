@@ -1,14 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { Slider } from "@material-ui/core";
-import Display from "../molecules/display";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { useCountdown } from "../../hooks/useCountdown";
-import { VolumeContext } from "../../pages/theme";
-const thumbPath = "/27_tomato.svg";
-const SOUND_TIME = 4;
+import { Timer } from "../../hooks/types";
 
-interface StylesProps{
+const upThumbPath = "/27_tomato_up.png";
+const downThumbPath = "/27_tomato_down.png";
+const reverseThumbPath = "/27_tomato_rev.png";
+
+interface StylesProps {
   minutes: number;
   addMinutes: number;
 }
@@ -25,6 +25,7 @@ const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
     height: 2,
     padding: "55px 0",
     marginLeft: "10vw",
+    marginBottom: 0,
   },
   thumb: {
     color: theme.palette.warning.main,
@@ -36,8 +37,6 @@ const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
     marginLeft: -15,
     boxShadow: "0 0 0 0",
     "& .tomato": {
-      height: 65,
-      width: 59,
       marginTop: -5,
       marginLeft: 0,
       marginRight: 1,
@@ -64,7 +63,8 @@ const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
       right: 0,
       backgroundColor: theme.palette.background.default,
       content: '""',
-      width: ({minutes, addMinutes}) => (addMinutes / (minutes + addMinutes) * 100).toString() + '%',
+      width: ({ minutes, addMinutes }) =>
+        ((addMinutes / (minutes + addMinutes)) * 100).toString() + "%",
       height: "7px",
     },
   },
@@ -119,21 +119,19 @@ function createSliderMarks(maxTime: number, round: number, status: string) {
 }
 
 type Angle = "Up" | "Down" | "Reverse";
+
+const upThumb = <img className="tomato" alt="tomato" src={upThumbPath}></img>;
+const downThumb = (
+  <img className="tomato" alt="tomato" src={downThumbPath}></img>
+);
+const reverseThumb = (
+  <img className="tomato" alt="tomato" src={reverseThumbPath}></img>
+);
+
 const makeThumbTomato = (angle: Angle, props: any) => {
   return (
     <span {...props}>
-      <img
-        className="tomato"
-        src={thumbPath}
-        alt="tomato"
-        style={
-          angle === "Up"
-            ? { transform: `rotate(0deg)` }
-            : angle === "Down"
-            ? { transform: `rotate(340deg)` }
-            : { transform: `scale(-1, 1)` }
-        }
-      />
+      {angle === "Up" ? upThumb : angle === "Down" ? downThumb : reverseThumb}
     </span>
   );
 };
@@ -146,37 +144,27 @@ type Props = {
   isAutoStart: boolean;
   maxTime: number;
   countUp: () => void;
+  secondsLeft: number;
+  status: string;
+  timer: Timer;
 };
 
-const TomatoSlider: React.VFC<Props> = ({ isAutoStart, maxTime, countUp }) => {
-  const interval = 1000;
-  const { volume } = useContext(VolumeContext);
-  const [timer, secondsLeft, status] = useCountdown(
-    maxTime,
-    interval,
-    0,
-    volume
-  );
-  const props = {minutes: maxTime / 60, addMinutes: maxTime / 60 / 9};
+const TomatoSlider: React.VFC<Props> = ({
+  isAutoStart,
+  maxTime,
+  countUp,
+  secondsLeft,
+  status,
+  timer,
+}) => {
+  const props = { minutes: maxTime / 60, addMinutes: maxTime / 60 / 9 };
   const classes = useStyles(props);
 
   const [sliderVal, setSliderVal] = useState(1);
   useEffect(() => {
-    if (isAutoStart) {
-      countUp();
-      setTimeout(() => {
-        timer.start(), SOUND_TIME * 1000;
-      });
+    if (Math.ceil(secondsLeft) % 3 === 0) {
+      setSliderVal(-secondsLeft / 60), 3000;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    if (status === "FINISHED") {
-      countUp();
-    }
-  }, [status, countUp]);
-  useEffect(() => {
-    setSliderVal(-secondsLeft / 60), 3000;
   }, [secondsLeft]);
 
   const onChangeSlider = (event: any, value: number | number[]) => {
@@ -219,7 +207,6 @@ const TomatoSlider: React.VFC<Props> = ({ isAutoStart, maxTime, countUp }) => {
 
   return (
     <>
-      <Display secondsLeft={secondsLeft} />
       <Slider
         classes={{
           root: classes.slider,

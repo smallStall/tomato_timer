@@ -5,12 +5,16 @@ import { InputMemoContext } from "../../pages/theme";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     creditFooter: {
-      bottom: 0,
       width: "100%",
       height: "10vh",
-      position: "absolute",
-      background: theme.palette.secondary.main,
       boxShadow: '0 0 7px 0 black',
+      bottom: 0,
+      position: "absolute",
+      background: theme.palette.secondary.main,        
+      [theme.breakpoints.down('sm')]: {
+        height: "8vh",
+      },
+
     },
     emptyFooter: {
       display: 'none'

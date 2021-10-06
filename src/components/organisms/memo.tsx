@@ -6,9 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       color: theme.palette.primary.main,
-      margin: "20 0 20 auto",
-      maxHeight: 3,
-      height: 300,
+      margin: "0 0 20 auto",
       textHeight: "1.4em",
       minWidth: "20em",
     },

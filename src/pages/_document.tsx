@@ -10,9 +10,11 @@ import Document, {
 } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
 
+
 export default class MyDocument extends Document {
   render(): JSX.Element {
     return (
+      
       <Html lang="ja">
         <Head>
           {/* PWA primary color */}

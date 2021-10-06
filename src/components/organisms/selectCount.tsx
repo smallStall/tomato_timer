@@ -14,6 +14,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     formControl: {
       marginTop: 40,
+      [theme.breakpoints.down('sm')]: {
+        marginTop: 30,
+      },
+
     },
     root: {
       width: 120,
