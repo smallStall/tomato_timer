@@ -8,12 +8,9 @@ const upThumbPath = "/27_tomato_up.png";
 const downThumbPath = "/27_tomato_down.png";
 const reverseThumbPath = "/27_tomato_rev.png";
 
-interface StylesProps {
-  minutes: number;
-  addMinutes: number;
-}
 
-const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
+
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     color: theme.palette.secondary.main,
   },
@@ -63,8 +60,7 @@ const useStyles = makeStyles<Theme, StylesProps>((theme) => ({
       right: 0,
       backgroundColor: theme.palette.background.default,
       content: '""',
-      width: ({ minutes, addMinutes }) =>
-        ((addMinutes / (minutes + addMinutes)) * 100).toString() + "%",
+      width: "10%",
       height: "7px",
     },
   },
@@ -157,8 +153,7 @@ const TomatoSlider: React.VFC<Props> = ({
   status,
   timer,
 }) => {
-  const props = { minutes: maxTime / 60, addMinutes: maxTime / 60 / 9 };
-  const classes = useStyles(props);
+  const classes = useStyles();
 
   const [sliderVal, setSliderVal] = useState(1);
   useEffect(() => {

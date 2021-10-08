@@ -3,12 +3,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { InputMemoContext } from "../../pages/theme";
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+  ({
     root: {
       color: theme.palette.primary.main,
       margin: "0 0 20 auto",
       textHeight: "1.4em",
       minWidth: "20em",
+      height: "8em"
     },
     input: {
       color: theme.palette.primary.main,
