@@ -7,8 +7,9 @@ import {
 } from "react";
 import reducer from "./reducer";
 import { Howl } from "howler";
-import Sound from "../../public/zihou30.ogg";
-const SOUND_TIME = 3.5;
+import Sound1 from "../../public/zihou30.ogg";
+import Sound2 from "../../public/zihou30.mp3";
+const SOUND_TIME = 2.5;
 
 export default Timer;
 
@@ -26,18 +27,24 @@ export const useCountdown = (
 
   const { status, time, endTime } = state;
   const soundRef = useRef(new Howl({
-    src: Sound,
+    src: [Sound1, Sound2],
     volume: volume / 100,
     html5: true,
     preload: false,
   }));
+
   const sound = soundRef.current;
   useEffect(() => {
     if (status === 'RUNNING') {
-      if (sound.duration() > (maxTime + SOUND_TIME)) {
-        sound.seek(sound.duration() - maxTime - SOUND_TIME);
-        sound.play();
-      }
+      sound.load();
+      sound.once("load", () => {
+        if (sound.duration() > (maxTime + SOUND_TIME)) {
+          sound.seek(sound.duration() - maxTime - SOUND_TIME);
+          if (volume > 0) {
+            sound.play();
+          }
+        }
+      });
     } else if (status === 'PAUSED') {
       sound.seek(sound.duration())
     } else if (status === 'RESUME') {

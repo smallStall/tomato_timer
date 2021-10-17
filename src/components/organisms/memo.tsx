@@ -1,32 +1,11 @@
-import { makeStyles, TextField, createStyles, Theme } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import React, { useState, useEffect, useContext } from "react";
 import { InputMemoContext } from "../../pages/theme";
-
-const useStyles = makeStyles((theme: Theme) =>
-  ({
-    root: {
-      color: theme.palette.primary.main,
-      margin: "0 0 20 auto",
-      textHeight: "1.4em",
-      minWidth: "20em",
-      height: "8em"
-    },
-    input: {
-      color: theme.palette.primary.main,
-      fontSize: "0.95rem",
-    },
-    shrink: {
-      fontSize: "large",
-      backgroundColor: theme.palette.background.default,
-      paddingRight: 5,
-    },
-  })
-);
+import styles from "../../styles/components/memo.module.scss";
 
 type Prop = {};
 
 export const Memo: React.VFC<Prop> = () => {
-  const classes = useStyles();
   const [text, setText] = useState<string | null>("");
   const { setInputMemo } = useContext(InputMemoContext);
 
@@ -42,26 +21,23 @@ export const Memo: React.VFC<Prop> = () => {
   };
 
   return (
-    <div>
-      <TextField
-        color="primary"
-        className={classes.root}
-        label="Memo"
-        InputProps={{
-          className: classes.input,
-          onFocus: () => setInputMemo(true),
-          onBlur: () => setInputMemo(false),
-        }}
-        InputLabelProps={{
-          classes: { root: classes.input, shrink: classes.shrink },
-        }}
-        variant="outlined"
-        multiline={true}
-        rows={4}
-        value={text}
-        onChange={onWrite}
-      />
-    </div>
+    <TextField
+      className={styles.root}
+      label="Memo"
+      InputProps={{
+        classes: { root: styles.input, focused: styles.focused },
+        onFocus: () => setInputMemo(true),
+        onBlur: () => setInputMemo(false),
+      }}
+      InputLabelProps={{
+        classes: { root: styles.input, shrink: styles.shrink },
+      }}
+      variant="outlined"
+      multiline={true}
+      rows={4}
+      value={text}
+      onChange={onWrite}
+    />
   );
 };
 

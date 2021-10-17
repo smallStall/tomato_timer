@@ -35,6 +35,6 @@ function pomodoroNotification (message:string){
     'ポモドーロタイマー',
     {
       body:message,
-      tag: 'pomodoro123',
+      tag: 'pomodoro-timer',
     });  
 }

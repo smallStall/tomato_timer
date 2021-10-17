@@ -1,0 +1,26 @@
+
+.root {
+  flex-grow: 1;
+  color: var(--contrast);
+}
+
+.toolBar {
+  color: var(--contrast);
+  min-height: 6vh;
+}
+
+.app {
+  color: var(--contrast);
+  background-color: var(--secondary),
+}
+
+.title {
+  margin-top: 5px;
+  flex-grow: 1;
+}
+
+.iconBar {
+  display: flex;
+  align-content: flex-start;
+  align-items:center;
+}

@@ -1,0 +1,18 @@
+@import "../variable.scss";
+
+.root {
+  color: var(--primary);
+  margin: 0 0 20px 0;
+  min-width: 20em;
+  height: 8em;
+}
+.input {
+  color: var(--primary);
+  font-size: 0.95em;
+  line-height: 1.4em;
+}
+.shrink {
+  font-size: 1.3em;
+  background-color: var(--background);
+  padding-right: 5px;
+}

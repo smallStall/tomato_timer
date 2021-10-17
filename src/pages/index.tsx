@@ -1,17 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Container } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
 import TomatoTimer from "../components/templates/tomatoTimer";
 import PomodoroSelect from "../components/organisms/selectCount";
 import Memo from "../components/organisms/memo";
 import notifyMe from "../components/organisms/notify";
-import CreditFooter from "../components/organisms/creditFooter";
+import Footer from "../components/organisms/footer";
 
 function isAuto(count: number, oneSet: number): boolean {
   if (count <= 0) {
     return false;
-  } else{
+  } else {
     return Math.floor(count / 4) < oneSet;
   }
 }
@@ -37,54 +37,42 @@ const returnFavicon = (count: number) => {
 
 function makeNotifyMessage(count: number, oneSet: number) {
   let message;
-  const pomodoroCount = Math.floor(count / 4);
+  const pomodoroCount = Math.ceil(count / 4);
   if (oneSet === 1) {
     message =
-      pomodoroCount === count ? "お休みに移ります。" : "お休みが終わりました。";
-  } else if (pomodoroCount !== oneSet) {
+      (count / 2) % 2 !== 0 ? "お休みに移ります。" : "お休みが終わりました。";
+  } else {
     message =
-      pomodoroCount !== 0
+      (count / 2) % 2 !== 0
         ? oneSet.toString() +
           "回中" +
           pomodoroCount.toString() +
           "回ポモドーロが終わりました。お休みに移ります。"
-        : "お休みが終わりました。作業に取り掛かりましょう。";
-  } else {
-    message =
-      oneSet.toString() + "回ポモドーロを達成しました。お疲れ様でした。";
+        : "お休みが終わりました。";
   }
   return message;
 }
 
 const Home: NextPage = () => {
-  const [maxWorkTime, setMaxWorkTime] = useState(300) // * 60); // * 60);
-  const [maxRestTime, setMaxRestTime] = useState(300) // * 60); // * 60);
+  const [maxWorkTime, setMaxWorkTime] = useState(25 * 60); // * 60); // * 60);
+  const [maxRestTime, setMaxRestTime] = useState(5 * 60); // * 60); // * 60);
   const [count, setCount] = useState(0);
-  const isFirstRender = useRef(false);
-  const [pushMemo, setPushMemo] = useState("");
   const [oneSet, setOneSet] = useState(1);
-  useEffect(() => {
-    isFirstRender.current = true;
-  }, []);
   useEffect(() => {
     setCount(0);
   }, [oneSet]);
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    } else {
+    if (count % 2 === 0 && count > 1) {
       notifyMe(makeNotifyMessage(count, oneSet));
       if (Math.floor(count / 4) === oneSet) {
-        isFirstRender.current = true;
         setCount(0);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, oneSet, pushMemo]);
+  }, [count, oneSet]);
   const countUp = useCallback(
     () =>
       setCount((prev: number) => {
-        console.log(prev + 1);
         return prev + 1;
       }),
     []
@@ -107,19 +95,38 @@ const Home: NextPage = () => {
         />
         <title>{returnActivity(count)}</title>
       </Head>
-      <Container maxWidth="md">
+      <div style={{ height: '80vh', margin: '0 0 0 0', backgroundColor: 'var(--background)' }}>
         <PomodoroSelect defaultMenuItem={oneSet} setOneSet={setOneSet} />
-        <TomatoTimer
-          key={Math.floor(count / 2).toString()}
-          isAutoStart={isAuto(count, oneSet)}
-          maxTime={Math.floor(count / 2) % 2 ? maxWorkTime : maxRestTime}
-          countUp={countUp}
-        />
-        <div style={{ marginRight: "25px", textAlign: "right" }}>
+        <Container
+          maxWidth="md"
+          style={{
+            position: "absolute",
+            top: "47%",
+            left: "50%",
+            transform: `translate(-50%, -50%)`,
+          }}
+        >
+          <TomatoTimer
+            key={Math.floor(count / 2).toString()}
+            isAutoStart={isAuto(count, oneSet)}
+            workTime={maxWorkTime}
+            restTime={maxRestTime}
+            countUp={countUp}
+          />
+        </Container>
+        <div
+          style={{
+            textAlign: "right",
+            width: "92%",
+            bottom: "12%",
+            position: "absolute",
+          }}
+        >
           <Memo />
         </div>
-      </Container>
-      <CreditFooter />
+      </div>
+
+      <Footer />
     </>
   );
 };

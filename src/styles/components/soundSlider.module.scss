@@ -1,0 +1,22 @@
+@import "../variable.scss";
+
+.root {
+  width: 9%;
+  margin: 10px 10px 10px 5px;
+}
+
+.thumb {
+  color: var(--contrast);
+}
+
+.rail {
+  color: var(--contrast);
+}
+
+.track{
+  color: var(--contrast);
+}
+
+.volumeDown{
+  margin-left: 8px;
+}

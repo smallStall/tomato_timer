@@ -1,12 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles({
-  root: {
-    marginTop: 20,
-  },
-});
+import styles from "../../styles/components/display.module.scss";
 
 const toClockString = (secondsLeft: number) => {
   if (secondsLeft <= 0) {
@@ -19,10 +13,9 @@ const toClockString = (secondsLeft: number) => {
 
 
 const Display: React.VFC<{secondsLeft: number}> = ({secondsLeft}) => {
-  const classes = useStyles();
   return (
     <>
-      <Typography className={classes.root} align={"center"} variant="h3" color="primary">
+      <Typography align={"center"} className={styles.root}>
         {toClockString(secondsLeft)}
       </Typography>
     </>

@@ -4,30 +4,13 @@ import { Slider } from "@material-ui/core";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import { VolumeContext } from "../../pages/theme";
-import Timer from "../../../public/zihou30.ogg";
+import Timer1 from "../../../public/zihou30.ogg";
+import Timer2 from "../../../public/zihou30.mp3";
 import { Howl } from "howler";
+import styles from "../../styles/components/soundSlider.module.scss"
+
 const SOUND_TIME = 4.0;
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    thumb: {
-      color: theme.palette.primary.contrastText,
-    },
-    root: {
-      width: "9%",
-      margin: "10px 10px 10px 5px",
-    },
-    rail: {
-      color: theme.palette.primary.light,
-    },
-    activeRail: {
-      color: theme.palette.primary.contrastText,
-    },
-    volumeDown: {
-      marginLeft: "8px",
-    },
-  })
-);
 
 export default function ContinuousSlider() {
   const { volume, setVolume } = useContext(VolumeContext);
@@ -50,31 +33,33 @@ export default function ContinuousSlider() {
       setVolume(newValue);
       localStorage.setItem("volume", newValue.toString());
       const sound = new Howl({
-        src: Timer,
+        src: [Timer1, Timer2],
         volume: newValue / 100,
         html5: true,
-        preload: false,
+        sprite: {
+          pi: [1797000, 2800]
+        },
+        preload: false
       });
+      sound.load();
 
       sound.once("load", () => {
-        if (sound.duration() > SOUND_TIME) {
-          sound.seek(sound.duration() - SOUND_TIME);
-          sound.play();
+        if (sound.duration() > SOUND_TIME && newValue > 0) {
+          sound.play('pi');
         }
       });
     }
   };
-  const classes = useStyles();
 
   return (
     <>
-      <VolumeDownIcon className={classes.volumeDown} />
+      <VolumeDownIcon className={styles.volumeDown} />
       <Slider
         classes={{
-          root: classes.root,
-          thumb: classes.thumb,
-          rail: classes.rail,
-          track: classes.activeRail,
+          root: styles.root,
+          thumb: styles.thumb,
+          rail: styles.rail,
+          track: styles.track,
         }}
         aria-label="Volume"
         value={value}

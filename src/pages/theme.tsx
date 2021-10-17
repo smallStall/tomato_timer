@@ -1,4 +1,9 @@
-import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import {
+  createTheme,
+  CssBaseline,
+  StylesProvider,
+  ThemeProvider,
+} from "@material-ui/core";
 import React, {
   useState,
   useEffect,
@@ -6,7 +11,23 @@ import React, {
   SetStateAction,
   Dispatch,
 } from "react";
-import MenuAppBar from "../components/organisms/menuAppBar";
+import Menu from "../components/organisms/menu";
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "rgba(var(--warning))",//"#ae0d16",
+    },
+  },
+  overrides: {
+    MuiPaper: {
+      root: {
+        backgroundColor: `var(--background)`,
+      },
+    },
+  },
+});
 
 type Props = {
   children: React.ReactNode;
@@ -26,12 +47,12 @@ export const InputMemoContext = createContext<{
   isInputMemo: boolean;
 }>({ setInputMemo: () => {}, isInputMemo: false });
 
-
 //TODO ボリューム調整
 export default function ThemeButton({ children }: Props) {
   const [isDarkMode, setDarkMode] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0);
   const [isInputMemo, setInputMemo] = useState<boolean>(false);
+
 
   useEffect(() => {
     setDarkMode(localStorage.getItem("darkMode") === "on" ? true : false);
@@ -46,50 +67,17 @@ export default function ThemeButton({ children }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDarkMode]);
 
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: isDarkMode ? "#fff4d6" : "#65272b",
-        contrastText: "#fff4d6",
-      },
-      secondary: {
-        main: isDarkMode ? "#321315" : "#65272b",
-      },
-      warning: {
-        main: "#ae0d16",
-      },
-      background: {
-        paper: "#65272b",
-        default: isDarkMode ? "#46292c" : "#fff4d6",
-      },
-
-      type: isDarkMode ? "dark" : "light",
-    },
-    overrides: {
-      MuiPaper: {
-        root: {
-          backgroundColor: isDarkMode ? "#412b1c" : "#fff4d6",
-        },
-      },
-      MuiInputBase: {
-        input: {
-          lineHeight: "1.4em",
-        },
-      },
-    },
-  });
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
-      <VolumeContext.Provider value={{ setVolume, volume }}>
-        <DarkModeContext.Provider value={{ setDarkMode, isDarkMode }}>
-          <MenuAppBar />
-        </DarkModeContext.Provider>
-        <InputMemoContext.Provider value={{ setInputMemo, isInputMemo }}>
-          {children}
-        </InputMemoContext.Provider>
-      </VolumeContext.Provider>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <VolumeContext.Provider value={{ setVolume, volume }}>
+            <Menu />
+          <InputMemoContext.Provider value={{ setInputMemo, isInputMemo }}>
+            {children}
+          </InputMemoContext.Provider>
+        </VolumeContext.Provider>
+      </ThemeProvider>
+    </>
   );
 }

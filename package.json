@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "lint:css": "stylelint **/*.{css,scss,sass}"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
@@ -17,7 +18,11 @@
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-hot-toast": "^2.1.1"
+    "react-hot-toast": "^2.1.1",
+    "sass": "^1.42.1",
+    "stylelint": "^13.13.1",
+    "stylelint-config-recommended-scss": "^4.3.0",
+    "stylelint-scss": "^3.21.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -30,7 +35,9 @@
     "file-loader": "^6.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.1.0",
+    "prettier": "^2.4.1",
     "react-test-renderer": "^17.0.2",
+    "stylelint-config-prettier": "^9.0.2",
     "typescript": "4.4.2",
     "url-loader": "^4.1.1"
   }
