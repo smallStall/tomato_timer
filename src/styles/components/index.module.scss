@@ -1,0 +1,28 @@
+@import "../variable.scss";
+
+.container{
+  position: absolute;
+  top: 43%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 20px;
+  @include mq(sm) {
+    margin-top: 40px;
+  } 
+}
+
+.center{
+  height: 77vh;
+  margin: 0 0 0 0;
+  background-color: var(--background);
+  @include mq(sm) {
+    height: 72vh;
+  } 
+}
+
+.memoDiv{
+  text-align: right;
+  width: 92%;
+  bottom: 12%;
+  position: absolute;
+}

@@ -2,17 +2,29 @@
 
 .root {
   color: var(--primary);
+  background-color: var(--background);
   margin: 0 0 20px 0;
   min-width: 20em;
   height: 8em;
+  @include mq(sm) {
+    min-width: 80vw;
+  }  
+
 }
 .input {
   color: var(--primary);
   font-size: 0.95em;
   line-height: 1.4em;
+  @include mq(sm) {
+    font-size: 16px;
+  }
 }
 .shrink {
   font-size: 1.3em;
   background-color: var(--background);
   padding-right: 5px;
+}
+
+.outline{
+  border-color: var(--primary);
 }

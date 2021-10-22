@@ -5,6 +5,9 @@
   padding: 52px 0;
   margin-left: 10vw;
   margin-bottom: 0;
+  @include mq(height){
+    display: none;
+  }
 }
 
 .thumb {
@@ -17,30 +20,39 @@
   margin-top: -30px;
   margin-left: -20px;
   opacity: 1;
-  background-color: brown;
 }
 
 .tomato{
   width: 65px;
 }
 
-.valueLabel {
+.valueLabelRun{
   width: 59px;
   height: 59px;
-  position:absolute;
   font-size: 0;
-  background-image: url(/27_tomato_up.png);
+  background-image: url(/27_tomato.png);
   color: transparent;
-  right: 0;
-  margin: 25px 0 0 25px;
-  animation: rotation 1s steps(1) 0s 100 alternate none running;
+  margin: 32px 10px 28px 14px;
+  animation: rotation 2s steps(1, end) 0s infinite;
+  animation-play-state: var(--animation);
+  transform-origin: left 50% 0;
 }
 
+.valueLabelStop {
+  @extend .valueLabelRun;
+  background-image: url(/27_tomato_rev.png);
+}
 
 @keyframes rotation {
-
+  0%{
+    transform: scale(1) translateY(-10px);
+  }
   50% {
-    transform: rotate(-30deg);
+    transform: rotate(-15deg);
+  }
+  99.9%,
+  to{
+    transform: scale(1) translateY(-10px);
   }
 
 }

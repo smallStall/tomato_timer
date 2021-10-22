@@ -1,9 +1,4 @@
-import {
-  createTheme,
-  CssBaseline,
-  StylesProvider,
-  ThemeProvider,
-} from "@material-ui/core";
+import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import React, {
   useState,
   useEffect,
@@ -13,17 +8,27 @@ import React, {
 } from "react";
 import Menu from "../components/organisms/menu";
 
-
 const theme = createTheme({
   palette: {
     primary: {
-      main: "rgba(var(--warning))",//"#ae0d16",
+      main: "rgba(var(--warning))", //"#ae0d16",
     },
   },
   overrides: {
     MuiPaper: {
       root: {
+        color: `var(--paper)`,
         backgroundColor: `var(--background)`,
+      },
+    },
+    MuiInput: {
+      underline: {
+        "&::before": {
+          borderBottom: "1px solid var(--primary)",
+          borderBottomColor: "var(--primary)",
+          transition:
+            "border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+        },
       },
     },
   },
@@ -32,50 +37,42 @@ const theme = createTheme({
 type Props = {
   children: React.ReactNode;
 };
-export const DarkModeContext = createContext<{
-  setDarkMode: Dispatch<SetStateAction<boolean>>;
-  isDarkMode: boolean;
-}>({ setDarkMode: () => {}, isDarkMode: false });
-
 export const VolumeContext = createContext<{
   setVolume: Dispatch<SetStateAction<number>>;
   volume: number;
 }>({ setVolume: () => {}, volume: 0 });
 
-export const InputMemoContext = createContext<{
-  setInputMemo: Dispatch<SetStateAction<boolean>>;
-  isInputMemo: boolean;
-}>({ setInputMemo: () => {}, isInputMemo: false });
+export const MobileContext = createContext<{
+  setMobile: Dispatch<SetStateAction<boolean>>;
+  isMobile: boolean;
+}>({ setMobile: () => {}, isMobile: false });
 
 //TODO ボリューム調整
 export default function ThemeButton({ children }: Props) {
-  const [isDarkMode, setDarkMode] = useState<boolean>(false);
-  const [volume, setVolume] = useState<number>(0);
-  const [isInputMemo, setInputMemo] = useState<boolean>(false);
-
+  const [volume, setVolume] = useState(0);
+  const [isMobile, setMobile] = useState(false);
 
   useEffect(() => {
-    setDarkMode(localStorage.getItem("darkMode") === "on" ? true : false);
+    let currentTheme = localStorage.getItem("theme");
+    document.documentElement.setAttribute(
+      "data-theme",
+      currentTheme != null ? currentTheme : "light"
+    );
+    setMobile(
+      window.matchMedia &&
+        window.matchMedia("(max-device-width: 640px)").matches
+    );
   }, []);
-
-  useEffect(() => {
-    if (isDarkMode) {
-      localStorage.setItem("darkMode", "on");
-    } else {
-      localStorage.setItem("darkMode", "off");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDarkMode]);
 
   return (
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <VolumeContext.Provider value={{ setVolume, volume }}>
+          <MobileContext.Provider value={{ setMobile, isMobile }}>
             <Menu />
-          <InputMemoContext.Provider value={{ setInputMemo, isInputMemo }}>
             {children}
-          </InputMemoContext.Provider>
+          </MobileContext.Provider>
         </VolumeContext.Provider>
       </ThemeProvider>
     </>

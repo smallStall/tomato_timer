@@ -12,7 +12,7 @@ jest.useFakeTimers();
 describe('Start', () => {
   it('time should be zero', ()=> {
     const Component = () => {
-      const [ timer, time, status ] = useCountdown(2, 1000);
+      const [ timer, time, status ] = useCountdown(2, 1000, 1);
       return(
         <div>
           <button onClick={timer.start}>Start</button>
@@ -43,7 +43,7 @@ describe('Start', () => {
 describe('Stop', () => {
   it('should stop timer when pushes button', ()=> {
     const Component = () => {
-      const [ timer, time, status ] = useCountdown(2, 1000);
+      const [ timer, time, status ] = useCountdown(2, 1000, 1);
       return(
         <div>
           <button  data-testid="start" onClick={timer.start}>Start</button>
@@ -73,7 +73,7 @@ describe('Stop', () => {
 describe('PauseAndResume', () => {
   it('should pause and resume timer when pushes button', ()=> {
     const Component = () => {
-      const [ timer, time, status ] = useCountdown(2, 1000);
+      const [ timer, time, status ] = useCountdown(2, 1000, 1);
       return(
         <div>
           <button data-testid="start" onClick={timer.start}>A</button>

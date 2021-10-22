@@ -6,6 +6,7 @@ import { State } from "./types"
 function reducer(state: State, action: TimerActionsType): State {
   switch (action.type) {
     case 'pause': {
+      document.documentElement.setAttribute('timer', 'pause')
       return{
         ...state,
         status: 'PAUSED'
@@ -26,6 +27,7 @@ function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'resume': {
+      document.documentElement.setAttribute('timer', 'running')
       return{
         ...state,
         status: 'RESUME'
@@ -48,6 +50,7 @@ function reducer(state: State, action: TimerActionsType): State {
     }
     case 'start': {
       const { initialTime } = action.payload;
+      document.documentElement.setAttribute('timer', 'running')
       return {
         ...state,
         time: initialTime,
@@ -56,6 +59,7 @@ function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'stop': {
+      document.documentElement.setAttribute('timer', 'pause')
       return {
         ...state,
         time: 0,
@@ -63,6 +67,7 @@ function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'finish': {
+      document.documentElement.setAttribute('timer', 'pause')
       return {
         ...state,
         time: 0,

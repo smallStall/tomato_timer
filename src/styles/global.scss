@@ -1,40 +1,58 @@
 
 :root {
   --primary: #65272b;
-  --secondary: #65272b;
   --warning: #ae0d16;
   --paper: #65272b;
   --background: #fff4d6;
   --contrast: #fff4d6;
   --footer-header: #65272b;
   --deep: #412b1c;
+  --theme: #412b1c;
   --pale: #e2c8bb;
 }
 
 
 html[data-theme='light'] {
   --primary: #65272b;
-  --secondary: #65272b;
   --warning: #ae0d16;
   --paper: #65272b;
   --background: #fff4d6;
   --contrast: #fff4d6;
   --footer-header: #65272b;
   --deep: #412b1c;
+  --theme: #412b1c;
   --pale: #e2c8bb;
 }
 
 html[data-theme='dark'] {
-  --primary: #fff4d6;
-  --secondary: #65272b;
-  --warning: #ae0d16;
-  --paper: #65272b;
+  --primary: #fffaee;
+  --warning: #cc242d;
+  --paper: #fffaee;
   --background:#65272b ;
-  --contrast: #fff4d6;
-  --footer-header: #65272b;
+  --contrast: #fffaee;
+  --footer-header: #412b1c;
   --deep: #412b1c;
+  --theme: #ae0d16;
   --pale: #e2c8bb;
 }
+
+html[timer='running']{
+  --tomato: url(/27_tomato.png);
+  --animation: running;
+}
+
+html[timer='pause']{
+  --tomato: url(/27_tomato_rev.png);
+  --animation: paused;
+}
+
+ 
+
+html{
+  --tomato: url(/27_tomato_rev.png);
+  --animation: paused;
+}
+
 
 .app-body{
   background-color: var(--footer-header);

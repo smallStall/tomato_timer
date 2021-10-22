@@ -3,11 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Slider } from "@material-ui/core";
 import { Timer } from "../../hooks/types";
 import styles from "../../styles/components/tomatoSlider.module.scss";
-import { Label } from "@material-ui/icons";
-
-const upThumbPath = "/27_tomato_up.png";
-const downThumbPath = "/27_tomato_down.png";
-const reverseThumbPath = "/27_tomato_rev.png";
 
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
@@ -35,38 +30,8 @@ function createSliderMarks(maxTime: number, round: number, status: string) {
   return arr;
 }
 
-type Angle = "Up" | "Down" | "Reverse";
-
-
-
-const makeUpTomato = (props: any) => {
-  return (
-    <span {...props}>
-      <img className={styles.tomato} alt="tomato" src={upThumbPath}></img>
-    </span>
-  );
-};
-const makeDownTomato =(props: any) => {
-  return (
-    <span {...props}>
-      <img className={styles.tomato} alt="tomato" src={downThumbPath}></img>
-    </span>
-  );
-};
-const makeReverseTomato = (props: any) => {
-  return (
-    <span {...props}>
-      <img className={styles.tomato} alt="tomato" src={reverseThumbPath}></img>
-    </span>
-  );
-};
-
-const mat = React.memo(makeUpTomato);
-const mdt = React.memo(makeDownTomato);
-
 type Props = {
-  workTime: number;
-  restTime: number;
+  maxTime: number;
   countUp: () => void;
   secondsLeft: number;
   status: string;
@@ -74,19 +39,21 @@ type Props = {
 };
 
 const TomatoSlider: React.VFC<Props> = ({
-  workTime: maxTime,
+  maxTime,
   countUp,
   secondsLeft,
   status,
   timer,
 }) => {
   const [sliderVal, setSliderVal] = useState(1);
+
   useEffect(() => {
-    if (Math.ceil(secondsLeft) % 3 === 0 || Math.ceil(secondsLeft) < 10) {
-      setSliderVal(-secondsLeft / 60), 3000;
+    if (secondsLeft < 0.5) {
+      setSliderVal(0);
+    } else {
+      setSliderVal(-secondsLeft / 60);
     }
   }, [secondsLeft]);
-
   const onChangeSlider = (event: any, value: number | number[]) => {
     if (status !== "RUNNING" && "number" === typeof value) {
       if (value <= 0) {
@@ -119,14 +86,6 @@ const TomatoSlider: React.VFC<Props> = ({
     }
   };
 
-  const makeThumbTomato = (props: any) => {
-    return status === "RUNNING" || status === "RESUME"
-      ? Math.round(secondsLeft) % 2 === 0
-        ? mat(props)
-        : mdt(props)
-      : makeReverseTomato(props);
-  };
-
   return (
     <Slider
       classes={{
@@ -134,7 +93,8 @@ const TomatoSlider: React.VFC<Props> = ({
         thumb: styles.thumb,
         markLabel: styles.markLabel,
         markLabelActive: styles.markLabelActive,
-        valueLabel: styles.valueLabel,
+        valueLabel:
+          status !== "STOPPED" ? styles.valueLabelRun : styles.valueLabelStop,
         track: styles.track,
         rail: styles.rail,
         mark: styles.mark,
