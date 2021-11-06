@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Slider, Typography } from "@material-ui/core";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";

@@ -49,7 +49,7 @@ export const MobileContext = createContext<{
 
 //TODO ボリューム調整
 export default function Theme({ children }: Props) {
-  const [volume, setVolume] = useState(0);
+  const [volume, setVolume] = useState(100);
   const [isMobile, setMobile] = useState(false);
 
   useEffect(() => {
