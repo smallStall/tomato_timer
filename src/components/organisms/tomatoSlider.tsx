@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Slider } from "@material-ui/core";
 import { Timer } from "../../hooks/types";
 import styles from "../../styles/components/tomatoSlider.module.scss";
+import { delay } from "../molecules/accessory"
 
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
@@ -32,7 +33,6 @@ function createSliderMarks(maxTime: number, round: number, status: string) {
 
 type Props = {
   maxTime: number;
-  countUp: () => void;
   secondsLeft: number;
   status: string;
   timer: Timer;
@@ -40,13 +40,12 @@ type Props = {
 
 const TomatoSlider: React.VFC<Props> = ({
   maxTime,
-  countUp,
   secondsLeft,
   status,
   timer,
 }) => {
-  const [sliderVal, setSliderVal] = useState(1);
-
+  const [sliderVal, setSliderVal] = useState(-secondsLeft / 60);
+  const [pausedVal, setPausedVal] = useState(0);
   useEffect(() => {
     if (secondsLeft < 0.5) {
       setSliderVal(0);
@@ -62,27 +61,21 @@ const TomatoSlider: React.VFC<Props> = ({
     }
   };
 
+
   const onCommitedSlider = (event: any, value: number | number[]) => {
-    if (value > 0) {
+    if (value > 0 || "number" !== typeof value) {
       return;
     }
-    if (status === "STOPPED" && "number" === typeof value) {
-      setSliderVal(value);
-      if (-value >= (maxTime / 60) * 0.97) {
-        setTimeout(() => {
-          timer.start();
-          countUp();
-        }, 250);
-      }
+    if (status === "STOPPED") {
+      setSliderVal(-maxTime / 60);
+      delay(timer.start, 250);
+
     } else if (status === "RUNNING" || status === "RESUME") {
+      setPausedVal(value);
       timer.pause();
-    } else if (status === "PAUSED" && -value > (maxTime / 60) * 0.97) {
-      timer.start();
-    } else if (status === "PAUSED" && -value > 0.02) {
+    } else if (status === "PAUSED") {
+      timer.add((pausedVal - sliderVal) * 60);
       timer.resume();
-    } else if (status === "PAUSED" && -value < 0.02) {
-      timer.stop();
-      countUp();
     }
   };
 
@@ -101,12 +94,11 @@ const TomatoSlider: React.VFC<Props> = ({
         markActive: styles.markActive,
       }}
       value={sliderVal}
-      defaultValue={0}
       aria-labelledby="discrete-slider-always"
       min={-maxTime / 60}
       max={maxTime / 60 / 9} //トマトのhover判定を長めに取るために余分に長くする
       marks={createSliderMarks(maxTime, 3, status)}
-      step={maxTime / 60 / 5}
+      step={maxTime / 60 / 25}
       valueLabelDisplay="on"
       onChange={onChangeSlider}
       onChangeCommitted={onCommitedSlider}

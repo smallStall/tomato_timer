@@ -11,7 +11,6 @@
   --pale: #e2c8bb;
 }
 
-
 html[data-theme='light'] {
   --primary: #65272b;
   --warning: #ae0d16;
@@ -28,11 +27,11 @@ html[data-theme='dark'] {
   --primary: #fffaee;
   --warning: #cc242d;
   --paper: #fffaee;
-  --background:#65272b ;
+  --background:#3f2419;
   --contrast: #fffaee;
-  --footer-header: #412b1c;
+  --footer-header: #652727;
   --deep: #412b1c;
-  --theme: #ae0d16;
+  --theme: #412b1c;
   --pale: #e2c8bb;
 }
 
@@ -49,11 +48,16 @@ html[timer='pause']{
  
 
 html{
+  height:100%;
   --tomato: url(/27_tomato_rev.png);
   --animation: paused;
 }
 
-
-.app-body{
+body{
+  height:100%;
   background-color: var(--footer-header);
+}
+
+#__next{
+  height: 100%;
 }

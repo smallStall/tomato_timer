@@ -1,26 +1,29 @@
-
-.root {
-  flex-grow: 1;
-  color: var(--contrast);
-}
-
-.toolBar {
-  color: var(--contrast);
-  min-height: 6vh;
-}
-
-.app {
-  color: var(--contrast);
-  background-color: var(--secondary),
-}
-
-.title {
-  margin-top: 5px;
-  flex-grow: 1;
-}
+@import "../variable.scss";
 
 .iconBar {
   display: flex;
-  align-content: flex-start;
-  align-items:center;
+  flex-wrap: wrap;
+  align-items: center;
+  color: var(--contrast);
+  background-color: var(--secondary);
+  height: 8%;
+  margin-top: 0.7vh;
+  margin-bottom: 2vh;
+}
+
+.iconBar >:first-child {
+  flex-basis: 1;
+}
+
+.iconBar > :last-child {
+  flex-basis: 0;
+  flex-grow: 1;
+  min-width: 40%;
+}
+
+
+.iconBar > * {
+  margin-top:  1vh;
+  margin-bottom: 1vh;
+  margin-left: 20px;
 }

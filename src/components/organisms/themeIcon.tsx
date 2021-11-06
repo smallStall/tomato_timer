@@ -17,12 +17,18 @@ const ThemeIcon = () => {
   };
 
   return (
-    <>
+    <div>
       <FormControlLabel
+        className={styles.root}
+        label={"Theme"}
+        classes={{
+          label: styles.label,
+        }}
+        labelPlacement='start'
         control={
           <Switch
             classes={{
-              root: styles.root,
+              root: styles.switch,
               switchBase: styles.switchBase,
               checked: styles.checked,
               thumb: styles.thumb,
@@ -30,12 +36,10 @@ const ThemeIcon = () => {
             }}
             checked={isDarkMode === "dark"}
             onChange={toggleDataTheme}
-            aria-label="login switch"
           />
         }
-        label={isDarkMode ? "Dark Theme" : "Light Theme"}
       />
-    </>
+    </div>
   );
 };
 

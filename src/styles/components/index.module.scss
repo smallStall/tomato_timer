@@ -1,28 +1,46 @@
 @import "../variable.scss";
 
 .container{
-  position: absolute;
-  top: 43%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   margin-top: 20px;
   @include mq(sm) {
     margin-top: 40px;
   } 
 }
 
+.main{
+  height: 79%;
+  @include mq(sm) {
+    height: 73%;
+  }
+}
+
 .center{
-  height: 77vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items:stretch;
+  height: 100%;
   margin: 0 0 0 0;
   background-color: var(--background);
-  @include mq(sm) {
-    height: 72vh;
-  } 
 }
 
 .memoDiv{
   text-align: right;
-  width: 92%;
+  top:auto;
   bottom: 12%;
-  position: absolute;
+}
+
+.sideBarTopBar{
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.sideBarTopBar > :first-child {
+  flex-grow: 1;
+}
+.sideBarTopBar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: 60%;
 }

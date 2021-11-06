@@ -1,0 +1,16 @@
+@import "../variable.scss";
+
+.titleBar {
+  color: var(--contrast);
+  background-color: var(--secondary);
+  padding-top: 1.5vh;
+  padding-bottom: 1.1%;
+  @include mq(sm){
+    padding-bottom: 0%;
+  }
+}
+
+.title {
+  margin-left: 20px;
+  flex-grow: 1;
+}

@@ -2,8 +2,8 @@
 
 .root {
   color: var(--primary);
+  margin-bottom: 4%;
   background-color: var(--background);
-  margin: 0 0 20px 0;
   min-width: 20em;
   height: 8em;
   @include mq(sm) {
@@ -15,6 +15,7 @@
   color: var(--primary);
   font-size: 0.95em;
   line-height: 1.4em;
+  margin-right: 10%;
   @include mq(sm) {
     font-size: 16px;
   }

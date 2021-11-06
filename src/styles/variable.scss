@@ -10,6 +10,7 @@ $breakpoints: (
   'lg': 'screen and (max-width: #{$lg})',
   'xl': 'screen and (max-width: #{$xl})',
   'height': 'screen and (max-height: #{$xs})',
+  'pc': 'screen and (min-width: #{$md})',
 );
 
 @mixin mq($size) {

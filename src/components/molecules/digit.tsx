@@ -6,10 +6,9 @@ type Props = {
   seconds: number;
 };
 
-const Display: React.VFC<Props> = ({ seconds }) => {
+const Digit: React.VFC<Props> = ({ seconds }) => {
   const min = seconds > 0 ? Math.floor(seconds / 60 + 0.01) : 0;
   const sec = seconds > 0 ? Math.floor(seconds - min * 60) : 0;
-
   const style = {
     "--seconds": sec,
     "--minutes": min,
@@ -24,4 +23,4 @@ const Display: React.VFC<Props> = ({ seconds }) => {
   );
 };
 
-export default React.memo(Display);
+export default React.memo(Digit);

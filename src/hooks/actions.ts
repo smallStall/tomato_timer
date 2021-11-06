@@ -1,27 +1,26 @@
 import { createActionType } from "./helper"
 
 const PAUSE = () => createActionType('pause');
+const SETTIME = () => createActionType('setTime');
+const START = (maxCount:number) => createActionType('start', {maxCount});
+const STOP = () => createActionType('stop');
+const RESUME = () => createActionType('resume');
+const RETRY = () => createActionType('retry');
+const JUMP = () => createActionType('jump');
+const ADD = (seconds: number) => createActionType('add', { seconds });
+/*const SETMAXTIME =(maxCount:number) => createActionType('setMaxTime', {maxCount});
 
 const ADD = (addTime: number) => createActionType('add', { addTime });
 const REDUCE = (reduceTime: number) => createActionType('reduce', { reduceTime });
-const SETTIME = (newTime: number) => createActionType('setTime', { newTime });
-const SETEND = (newTime: number) => createActionType('setEnd', { newTime });
-
-const START = (initialTime: number) =>
-  createActionType('start', { initialTime });
-
-const STOP = () => createActionType('stop');
-const RESUME = () => createActionType('resume');
-const FINISH = () => createActionType('finish');
+*/
 
 export type TimerActionsType = ReturnType<
   | typeof PAUSE
   | typeof SETTIME
-  | typeof SETEND
-  | typeof ADD
-  | typeof REDUCE
   | typeof START
   | typeof STOP
   | typeof RESUME
-  | typeof FINISH
+  | typeof RETRY
+  | typeof JUMP
+  | typeof ADD
 >;

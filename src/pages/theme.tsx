@@ -6,7 +6,7 @@ import React, {
   SetStateAction,
   Dispatch,
 } from "react";
-import Menu from "../components/organisms/menu";
+//import Menu from "../components/organisms/menu";
 
 const theme = createTheme({
   palette: {
@@ -48,7 +48,7 @@ export const MobileContext = createContext<{
 }>({ setMobile: () => {}, isMobile: false });
 
 //TODO ボリューム調整
-export default function ThemeButton({ children }: Props) {
+export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(0);
   const [isMobile, setMobile] = useState(false);
 
@@ -70,7 +70,6 @@ export default function ThemeButton({ children }: Props) {
       <ThemeProvider theme={theme}>
         <VolumeContext.Provider value={{ setVolume, volume }}>
           <MobileContext.Provider value={{ setMobile, isMobile }}>
-            <Menu />
             {children}
           </MobileContext.Provider>
         </VolumeContext.Provider>

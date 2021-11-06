@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Slider } from "@material-ui/core";
+import { Slider, Typography } from "@material-ui/core";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import { VolumeContext } from "../../pages/theme";
-import Timer2 from "../../../public/zihou35.mp3";
+import Timer2 from "../../../public/zihou1.mp3";
 import { Howl } from "howler";
 import { MobileContext } from "../../pages/theme";
 import styles from "../../styles/components/soundSlider.module.scss";
@@ -56,11 +56,12 @@ export default function ContinuousSlider() {
   };
 
   return (
-    <>
-      <VolumeDownIcon className={styles.volumeDown} />
+    <div className={styles.root}>
+      <Typography>Sound</Typography>
+      <VolumeDownIcon />
       <Slider
         classes={{
-          root: styles.root,
+          root: styles.slider,
           thumb: styles.thumb,
           rail: styles.rail,
           track: styles.track,
@@ -71,7 +72,7 @@ export default function ContinuousSlider() {
         onChangeCommitted={handleOnCommit}
         step={useContext(MobileContext).isMobile ? 100 : 1}
       />
-      <VolumeUpIcon />
-    </>
+      <VolumeUpIcon className={styles.volumeUp}/>
+    </div>
   );
 }

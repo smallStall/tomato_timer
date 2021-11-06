@@ -1,13 +1,23 @@
 @import "../variable.scss";
 
 .root {
-  width: 9%;
-  margin: 10px 10px 10px 5px;
+  display: flex;
+  align-items: center;
+  width: 150px;
+  @include mq(sm){
+    width: 130px;
+  }
+}
+
+.slider{
+  margin-right: 5px;
+  margin-left: 2px;
 }
 
 .thumb {
   color: var(--contrast);
 }
+
 
 .rail {
   color: var(--contrast);
@@ -17,6 +27,19 @@
   color: var(--contrast);
 }
 
-.volumeDown{
-  margin-left: 8px;
+.volumeUp{
+  animation: inflation 1s steps(1, end) 0s 8;
+}
+
+@keyframes inflation {
+  0%{
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  99.9%,
+  to{
+    transform: scale(1);
+  }
 }

@@ -1,0 +1,12 @@
+@import "../variable.scss";
+
+.container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.toast {
+  --toastify-color-light: #fff4d6;
+}

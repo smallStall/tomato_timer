@@ -20,17 +20,13 @@ export const PomodoroSelect: React.VFC<Props> = ({
         classes={{root: styles.root, icon:styles.icon}}
         value={defaultMenuItem}
         onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
-          setOneSet(event.target.value as number);
+          setOneSet(typeof(event.target.value) === 'number' ? event.target.value : 1);
         }}
       >
         <MenuItem value={1}>1</MenuItem>
         <MenuItem value={2}>2</MenuItem>
         <MenuItem value={3}>3</MenuItem>
         <MenuItem value={4}>4</MenuItem>
-        <MenuItem value={4}>5</MenuItem>
-        <MenuItem value={4}>6</MenuItem>
-        <MenuItem value={4}>7</MenuItem>
-        <MenuItem value={4}>8</MenuItem>
       </Select>
     </FormControl>
   );
