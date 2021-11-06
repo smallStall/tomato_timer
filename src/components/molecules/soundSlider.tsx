@@ -14,7 +14,7 @@ const SOUND_TIME = 4.0;
 
 export default function ContinuousSlider() {
   const { volume, setVolume } = useContext(VolumeContext);
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(100);
   useEffect(() => {
     if (localStorage.getItem("volume") !== null) {
       setVolume(Number(localStorage.getItem("volume")));
