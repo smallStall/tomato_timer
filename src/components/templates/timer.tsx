@@ -6,9 +6,9 @@ import { VolumeContext } from "../../pages/theme";
 import Head from "next/head";
 import Digit from "../molecules/digit";
 import styles from "../../styles/components/timer.module.scss";
-import { ToastContainer, Zoom } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, Zoom } from "react-toastify";
+import { useWindowFocused } from "../../hooks/useWindowFocused";
+import "react-toastify/dist/ReactToastify.css";
 import {
   notifyMe,
   makeNotifyMessage,
@@ -16,8 +16,6 @@ import {
   returnFavicon,
   toastTomato,
 } from "../organisms/notify";
-
-
 
 type Props = {
   workTime: number;
@@ -28,7 +26,6 @@ type Props = {
 const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
   const { volume } = useContext(VolumeContext);
   const INTERVAL = 1;
-
   const { timer, displayTime, state } = useIntervalTimer(
     workTime,
     restTime,
@@ -41,31 +38,21 @@ const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
 
   const [digitalTime, setDigitalTime] = useState(workTime);
   useEffect(() => {
-    if (state.activity === 'NextRest' || state.activity === 'NextWork') {
+    if (state.activity === "NextRest" || state.activity === "NextWork") {
       notifyMe(makeNotifyMessage(state.count, maxCount, state.activity));
       setDigitalTime(0);
-    }else if(state.activity === 'Rest' || state.activity === 'Work'){
+    } else if (state.activity === "Rest" || state.activity === "Work") {
       setDigitalTime(displayTime);
-    }else if(state.activity === 'None'){
-      setDigitalTime(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.count, maxCount, state.activity]);
-  const diff = INTERVAL * 0.7;
 
   useEffect(() => {
-    if (
-      (displayTime > 60 - diff && displayTime < 60 + diff) ||
-      (displayTime > 600 - diff && displayTime < 60 + diff)
-    ) {
-      setDigitalTime(displayTime);
-    }else if(state.status === 'RESUME'){
-      setDigitalTime(displayTime);
-    }
-
+    setDigitalTime(displayTime);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayTime, state.status]);
-  useEffect(()=> {
+  }, [useWindowFocused().isFocused, state.status]);
+
+  useEffect(() => {
     toastTomato();
   }, []);
   return (
@@ -91,7 +78,13 @@ const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
           {returnActivity(state.activity, state.count, maxCount, state.status)}
         </title>
       </Head>
-      <ToastContainer className={styles.toast} autoClose={6000} hideProgressBar={true} position={'bottom-right'} transition={Zoom}/>
+      <ToastContainer
+        className={styles.toast}
+        autoClose={6000}
+        hideProgressBar={true}
+        position={"bottom-right"}
+        transition={Zoom}
+      />
       <div className={styles.container}>
         <Digit
           seconds={digitalTime}

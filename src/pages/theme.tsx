@@ -51,7 +51,7 @@ export const MobileContext = createContext<{
 export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(100);
   const [isMobile, setMobile] = useState(false);
-
+  const [isFocused, setIsFocused] = useState(true);
   useEffect(() => {
     let currentTheme = localStorage.getItem("theme");
     document.documentElement.setAttribute(

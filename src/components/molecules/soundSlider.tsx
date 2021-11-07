@@ -8,8 +8,6 @@ import { Howl } from "howler";
 import { MobileContext } from "../../pages/theme";
 import styles from "../../styles/components/soundSlider.module.scss";
 
-
-
 const SOUND_TIME = 4.0;
 
 export default function ContinuousSlider() {
