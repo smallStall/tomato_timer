@@ -2,17 +2,18 @@ import React, { useContext, useState, useEffect } from "react";
 import { Slider, Typography } from "@material-ui/core";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
-import { VolumeContext } from "../../pages/theme";
+import { VolumeContext } from "../../pages/context";
 import Timer2 from "../../../public/zihou1.mp3";
 import { Howl } from "howler";
-import { MobileContext } from "../../pages/theme";
-import styles from "../../styles/components/soundSlider.module.scss";
+import { MobileContext } from "../../pages/context";
+import styles from "./soundSlider.module.scss";
 
 const SOUND_TIME = 4.0;
+const DEFAULT_VOLUME = 100;
 
 export default function ContinuousSlider() {
   const { volume, setVolume } = useContext(VolumeContext);
-  const [value, setValue] = useState<number>(100);
+  const [value, setValue] = useState<number>(DEFAULT_VOLUME);
   useEffect(() => {
     if (localStorage.getItem("volume") !== null) {
       setVolume(Number(localStorage.getItem("volume")));

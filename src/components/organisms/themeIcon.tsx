@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { FormControlLabel, Switch } from "@material-ui/core";
-import styles from "../../styles/components/themeIcon.module.scss";
+import styles from "./themeIcon.module.scss";
 
 const ThemeIcon = () => {
-  const [isDarkMode, setDarkMode] = useState("light");
+  const [isDarkMode, setDarkMode] = useState(false); //string -> boolean
+
   useEffect(() => {
-    let currentTheme = localStorage.getItem("theme");
-    setDarkMode(currentTheme != null ? currentTheme : "light");
+    const currentTheme = localStorage.getItem("is-dark");
+    if (currentTheme != null) {
+      setDarkMode(JSON.parse(currentTheme));
+    }
   }, []);
+
   const toggleDataTheme = () => {
-    let currentTheme = document.documentElement.getAttribute("data-theme");
-    currentTheme = currentTheme !== "light" ? "light" : "dark";
-    setDarkMode(currentTheme);
-    document.documentElement.setAttribute("data-theme", currentTheme);
-    localStorage.setItem("theme", currentTheme);
+    const currentTheme = document.documentElement.getAttribute("is-dark");
+
+    const newTheme: boolean = !JSON.parse(
+      currentTheme == null ? "false" : currentTheme
+    );
+    setDarkMode(newTheme);
+    document.documentElement.setAttribute("is-dark", newTheme.toString());
+    localStorage.setItem("is-dark", newTheme.toString());
   };
 
   return (
@@ -24,7 +31,7 @@ const ThemeIcon = () => {
         classes={{
           label: styles.label,
         }}
-        labelPlacement='start'
+        labelPlacement="start"
         control={
           <Switch
             classes={{
@@ -34,7 +41,7 @@ const ThemeIcon = () => {
               thumb: styles.thumb,
               track: styles.track,
             }}
-            checked={isDarkMode === "dark"}
+            checked={isDarkMode}
             onChange={toggleDataTheme}
           />
         }

@@ -1,7 +1,7 @@
 import React from "react";
 import ThemeIcon from "./themeIcon";
 import SoundSlider from "../molecules/soundSlider";
-import styles from "../../styles/components/menu.module.scss";
+import styles from "./menu.module.scss";
 
 export default function Menu() {
   return (

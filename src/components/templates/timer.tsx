@@ -2,10 +2,10 @@
 import React, { useEffect, useContext, useCallback, useState } from "react";
 import TomatoSlider from "../organisms/tomatoSlider";
 import { useIntervalTimer } from "../../hooks/useIntervalTimer";
-import { VolumeContext } from "../../pages/theme";
+import { VolumeContext } from "../../pages/context";
 import Head from "next/head";
 import Digit from "../molecules/digit";
-import styles from "../../styles/components/timer.module.scss";
+import styles from "./timer.module.scss";
 import { ToastContainer, Zoom } from "react-toastify";
 import { useWindowFocused } from "../../hooks/useWindowFocused";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,13 +15,15 @@ import {
   returnActivity,
   returnFavicon,
   toastTomato,
-} from "../organisms/notify";
+} from "../accessory/notify";
 
 type Props = {
   workTime: number;
   restTime: number;
   maxCount: number;
 };
+
+const TIMER_DELAY_TIME = 3;
 
 const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
   const { volume } = useContext(VolumeContext);
@@ -32,7 +34,7 @@ const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
     INTERVAL,
     volume,
     maxCount,
-    3,
+    TIMER_DELAY_TIME,
     "zihou1.mp3"
   );
 

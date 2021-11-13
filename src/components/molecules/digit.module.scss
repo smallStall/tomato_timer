@@ -1,5 +1,3 @@
-@import "../variable.scss";
-
 .root {
   --seconds: 0;
   --minutes: 0;
@@ -12,9 +10,6 @@
   line-height: var(--font-size);
   overflow: hidden;
   height: var(--font-size);
-  @include mq(height){
-    display: none;
-  }
 }
 
 .root::before,

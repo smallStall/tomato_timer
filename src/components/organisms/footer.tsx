@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Typography } from "@material-ui/core";
-import styles from "../../styles/components/footer.module.scss";
+import styles from "./footer.module.scss";
 
 const Footer = () => {
   return (

@@ -1,5 +1,5 @@
-import { TimerActionsType } from "./actions";
-import { State, Status } from "./types"
+import { TimerActionsType } from './actions';
+import { State, Status } from "../../types/intervalTimer"
 
 /*1 count is 
   workTime -> delayTime -> restTime -> delayTime
@@ -178,15 +178,6 @@ function reducer(state: State, action: TimerActionsType): State {
         displayTime: calcDisplayTime({ ...state, leftTime: nextLeftTime, count: count}),
       }      
     }
-    /*
-    case 'setMaxTime': {
-      const { maxCount } = action.payload;
-      return {
-        ...state,
-        maxTime: (state.workTime + state.restTime + state.delayTime * 2) * maxCount,
-      }
-    }
-    */
 
 
   }

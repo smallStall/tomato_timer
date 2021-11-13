@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import { Slider } from "@material-ui/core";
-import { Timer } from "../../hooks/types";
-import styles from "../../styles/components/tomatoSlider.module.scss";
-import { delay } from "../molecules/accessory"
+import { Timer } from "../../types/intervalTimer";
+import styles from "./tomatoSlider.module.scss";
+import { delay } from "../accessory/functions"
 
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {

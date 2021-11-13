@@ -1,11 +1,11 @@
-import { Timer, UseIntervalTimerReturn } from "./types"
+import { Timer, UseIntervalTimerReturn } from "../types/intervalTimer"
 import {
   useRef,
   useEffect,
   useReducer,
   useCallback,
 } from "react";
-import reducer from "./reducer";
+import reducer from "./intervalTimerReducer/reducer";
 import { Howl } from "howler";
 export default Timer;
 

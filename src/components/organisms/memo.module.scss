@@ -1,14 +1,12 @@
-@import "../variable.scss";
-
 .root {
   color: var(--primary);
   margin-bottom: 6%;
   background-color: var(--background);
-  min-width: 20em;
+  min-width: 25em;
   height: 8em;
-  @include mq(sm) {
+  @media screen and (max-width:576px) {
     min-width: 80vw;
-  }  
+  }
 
 }
 .input {
@@ -16,7 +14,7 @@
   font-size: 0.95em;
   line-height: 1.4em;
   margin-right: 10%;
-  @include mq(sm) {
+  @media screen and (max-width:576px) {
     font-size: 16px;
   }
 }

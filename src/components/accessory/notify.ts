@@ -1,9 +1,5 @@
 import { toast } from 'react-toastify';
-import { MobileContext } from "../../pages/theme";
-import { cssTransition } from 'react-toastify';
-
-
-export type Activity = "None" | "Work" | "Rest" | "NextWork" | "NextRest";
+import { Activity } from 'types/intervalTimer';
 
 export function toastTomato() {
   if (isToast()) {
@@ -58,12 +54,11 @@ function pomodoroNotification(message: string) {
     {
       body: message,
       tag: 'pomodoro-timer',
+      renotify: true,
     });
+    //renotifyがFireFoxでどうなるか確認
 }
 
-function calcCount(count: number, activity: Activity) {
-  return activity === 'Work' ? count + 1 : count + 2;
-}
 
 export function makeNotifyMessage(count: number, maxCount: number, activity: Activity) {
 
@@ -81,7 +76,7 @@ export function makeNotifyMessage(count: number, maxCount: number, activity: Act
 }
 
 export const returnActivity = (activity: Activity, count: number, maxCount: number, status: string) => {
-  const countPerMax = maxCount === 1 ? "" : "(" + calcCount(count, activity) + "/" + maxCount.toFixed() + ")"
+  const countPerMax = maxCount === 1 ? "" : "(" + count + "/" + maxCount.toFixed() + ")"
   if (status === "STOPPED") {
     return "ポモドーロタイマー"
   }

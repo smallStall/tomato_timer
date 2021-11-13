@@ -6,7 +6,7 @@ import React, {
   SetStateAction,
   Dispatch,
 } from "react";
-//import Menu from "../components/organisms/menu";
+
 
 const theme = createTheme({
   palette: {
@@ -47,17 +47,10 @@ export const MobileContext = createContext<{
   isMobile: boolean;
 }>({ setMobile: () => {}, isMobile: false });
 
-//TODO ボリューム調整
 export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(100);
   const [isMobile, setMobile] = useState(false);
-  const [isFocused, setIsFocused] = useState(true);
   useEffect(() => {
-    let currentTheme = localStorage.getItem("theme");
-    document.documentElement.setAttribute(
-      "data-theme",
-      currentTheme != null ? currentTheme : "light"
-    );
     setMobile(
       window.matchMedia &&
         window.matchMedia("(max-device-width: 640px)").matches

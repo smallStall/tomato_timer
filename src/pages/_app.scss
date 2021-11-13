@@ -11,7 +11,7 @@
   --pale: #e2c8bb;
 }
 
-html[data-theme='light'] {
+html[is-dark='false'] {
   --primary: #65272b;
   --warning: #ae0d16;
   --paper: #65272b;
@@ -23,7 +23,7 @@ html[data-theme='light'] {
   --pale: #e2c8bb;
 }
 
-html[data-theme='dark'] {
+html[is-dark='true'] {
   --primary: #fffaee;
   --warning: #cc242d;
   --paper: #fffaee;

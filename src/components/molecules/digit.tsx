@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import styles from "../../styles/components/display.module.scss";
+import styles from "./digit.module.scss";
 
 type Props = {
   seconds: number;

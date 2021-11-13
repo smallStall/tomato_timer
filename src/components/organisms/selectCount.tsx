@@ -1,6 +1,6 @@
 import { Select, MenuItem, InputLabel, FormControl, InputBase } from "@material-ui/core";
 import React, { Dispatch, SetStateAction } from "react";
-import styles from "../../styles/components/selectCount.module.scss";
+import styles from "./selectCount.module.scss";
 
 type Props = {
   defaultMenuItem: number;

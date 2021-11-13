@@ -1,6 +1,6 @@
 import { TextField } from "@material-ui/core";
 import React, { useState, useEffect, useContext } from "react";
-import styles from "../../styles/components/memo.module.scss";
+import styles from "./memo.module.scss";
 
 type Prop = {};
 const ID = "inputFieldId";

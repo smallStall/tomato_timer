@@ -1,15 +1,13 @@
-@import "../variable.scss";
-
 .root{
   width: 100%;
   height: 1.7%;
   bottom: 0;
   position: absolute;
   background: var(--footer-header);
-  @include mq(sm) {
+  @media screen and (max-width:576px) {
     height: 3%
   }
-  @include mq(height){
+  @media screen and (max-height:400px) {
     display: none;
   }
 }

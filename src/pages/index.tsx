@@ -5,15 +5,19 @@ import Timer from "../components/templates/timer";
 import PomodoroSelect from "../components/organisms/selectCount";
 import Memo from "../components/organisms/memo";
 import Footer from "../components/organisms/footer";
-import styles from "../styles/components/index.module.scss";
+import styles from "./index.module.scss";
 import Title from "../components/molecules/title";
-import Theme from "./theme";
+import Theme from "./context";
 import Menu from "../components/organisms/menu";
 
 const Home: NextPage = () => {
-  const [maxWorkTime, setMaxWorkTime] = useState(25 * 60); // * 60); // * 60);
-  const [maxRestTime, setMaxRestTime] = useState(5 * 60); // * 60); // * 60);
-  const [maxCount, setMaxCount] = useState(1);
+  const MAX_WORK_COUNT = 25 * 60;
+  const MAX_REST_COUNT = 5 * 60;
+  const MAX_COUNT = 1;
+
+  const [maxWorkTime, setMaxWorkTime] = useState(MAX_WORK_COUNT); // * 60); // * 60);
+  const [maxRestTime, setMaxRestTime] = useState(MAX_REST_COUNT); // * 60); // * 60);
+  const [maxCount, setMaxCount] = useState(MAX_COUNT);
   return (
     <Theme>
       <Title />

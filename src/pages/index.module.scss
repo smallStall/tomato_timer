@@ -1,15 +1,13 @@
-@import "../variable.scss";
-
 .container{
   margin-top: 20px;
-  @include mq(sm) {
-    margin-top: 40px;
-  } 
+  @media screen and (max-width:576px) {
+    margin-top: 40px;   
+  }
 }
 
 .main{
   height: 79%;
-  @include mq(sm) {
+  @media screen and (max-width:576px) {
     height: 73%;
   }
 }

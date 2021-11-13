@@ -1,12 +1,7 @@
-@import "../variable.scss";
-
 .formControl {
   color: var(--primary);
   width: 8em;
   margin: 6% 0 0 5%;
-   @include mq(sm) {
-    margin: 6% 0 0 5%;
-  }
   min-height: 3em;
 }
 

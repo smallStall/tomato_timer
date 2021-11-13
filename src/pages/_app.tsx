@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import React from "react";
-import "../styles/global.scss"
+import "./_app.scss"
 import { StylesProvider } from "@material-ui/core/styles";
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
