@@ -3,7 +3,6 @@ import { Activity } from 'types/intervalTimer';
 
 export function toastTomato() {
   if (isToast()) {
-    toast('トマトを移動させるとタイマーが動きます', { icon: '🍅' });
     toast('音が鳴るので気をつけてください', { icon: '🔊' });
   }
 }

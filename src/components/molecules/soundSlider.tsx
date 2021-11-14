@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Slider, Typography } from "@material-ui/core";
-import VolumeDownIcon from "@material-ui/icons/VolumeDown";
-import VolumeUpIcon from "@material-ui/icons/VolumeUp";
+import { Slider, Typography } from "@mui/material";
+import VolumeDownIcon from '@mui/icons-material/VolumeDown';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { VolumeContext } from "../../pages/context";
 import Timer2 from "../../../public/zihou1.mp3";
 import { Howl } from "howler";

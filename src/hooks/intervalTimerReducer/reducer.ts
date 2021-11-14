@@ -90,7 +90,7 @@ function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'pause': {
-      document.documentElement.setAttribute('timer', 'pause')
+      document.documentElement.setAttribute('animation', 'paused')
       const leftTime = state.endTime - Date.now() / 1000;
       return {
         ...state,
@@ -101,7 +101,7 @@ function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'resume': {
-      document.documentElement.setAttribute('timer', 'running')
+      document.documentElement.setAttribute('animation', 'running')
       const diff = state.pausedTime > 0 ? Date.now() / 1000 - state.pausedTime : 0;
       return {
         ...state,
@@ -111,7 +111,7 @@ function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'start': {
-      document.documentElement.setAttribute('timer', 'running')
+      document.documentElement.setAttribute('animation', 'running')
       const { maxCount } = action.payload;      
       const maxTime = (state.workTime + state.restTime + state.delayTime * 2) * maxCount;
       return {
@@ -125,7 +125,7 @@ function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'stop': {
-      document.documentElement.setAttribute('timer', 'pause')
+      document.documentElement.setAttribute('animation', 'paused')
       return {
         ...state,
         activity: 'None',

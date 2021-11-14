@@ -12,7 +12,7 @@ import {
 import {
   UseIntervalTimerProps,
   UseIntervalTimerReturn,
-} from "../src/hooks/types";
+} from "../src/types/intervalTimer";
 
 const advanceSeconds = (seconds: number) => {
   act(() => {

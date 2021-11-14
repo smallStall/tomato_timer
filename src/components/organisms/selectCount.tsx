@@ -1,4 +1,4 @@
-import { Select, MenuItem, InputLabel, FormControl, InputBase } from "@material-ui/core";
+import { Select, MenuItem, InputLabel, FormControl, SelectChangeEvent } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 import styles from "./selectCount.module.scss";
 
@@ -14,12 +14,12 @@ export const PomodoroSelect: React.VFC<Props> = ({
   return (
     <FormControl classes={{ root: styles.formControl }}>
       <InputLabel classes={{ shrink: styles.shrinkInputLabel }}>
-        Count / Set
+        Count
       </InputLabel>
       <Select
         classes={{root: styles.root, icon:styles.icon}}
         value={defaultMenuItem}
-        onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+        onChange={(event: SelectChangeEvent<number>) => {
           setOneSet(typeof(event.target.value) === 'number' ? event.target.value : 1);
         }}
       >

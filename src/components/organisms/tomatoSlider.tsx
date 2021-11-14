@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
-import { Slider } from "@material-ui/core";
+import { Slider } from "@mui/material";
 import { Timer } from "../../types/intervalTimer";
 import styles from "./tomatoSlider.module.scss";
 import { delay } from "../accessory/functions"
+
 
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
@@ -86,8 +87,6 @@ const TomatoSlider: React.VFC<Props> = ({
         thumb: styles.thumb,
         markLabel: styles.markLabel,
         markLabelActive: styles.markLabelActive,
-        valueLabel:
-          status !== "STOPPED" ? styles.valueLabelRun : styles.valueLabelStop,
         track: styles.track,
         rail: styles.rail,
         mark: styles.mark,
@@ -99,7 +98,7 @@ const TomatoSlider: React.VFC<Props> = ({
       max={maxTime / 60 / 9} //トマトのhover判定を長めに取るために余分に長くする
       marks={createSliderMarks(maxTime, 3, status)}
       step={maxTime / 60 / 25}
-      valueLabelDisplay="on"
+      valueLabelDisplay="off"
       onChange={onChangeSlider}
       onChangeCommitted={onCommitedSlider}
     />

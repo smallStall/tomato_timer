@@ -1,7 +1,7 @@
 import type { AppProps } from "next/app";
 import React from "react";
 import "./_app.scss"
-import { StylesProvider } from "@material-ui/core/styles";
+import StylesProvider from '@mui/styles/StylesProvider';
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   React.useEffect(() => {

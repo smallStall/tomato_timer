@@ -1,4 +1,4 @@
-import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import React, {
   useState,
   useEffect,
@@ -7,27 +7,42 @@ import React, {
   Dispatch,
 } from "react";
 
-
 const theme = createTheme({
   palette: {
     primary: {
       main: "rgba(var(--warning))", //"#ae0d16",
     },
   },
-  overrides: {
+  components: {
     MuiPaper: {
-      root: {
-        color: `var(--paper)`,
-        backgroundColor: `var(--background)`,
+      styleOverrides: {
+        root: {
+          color: "var(--paper)",
+          backgroundColor: "var(--background)",
+        },
+      },
+    },
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          ".Mui-checked+.MuiSwitch-track" :{
+            backgroundColor: "var(--contrast)",           
+          }
+        },
+        track: {
+          backgroundColor: "var(--contrast)",
+        },
       },
     },
     MuiInput: {
-      underline: {
-        "&::before": {
-          borderBottom: "1px solid var(--primary)",
-          borderBottomColor: "var(--primary)",
-          transition:
-            "border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+      styleOverrides: {
+        underline: {
+          "&::before": {
+            borderBottom: "1px solid var(--primary)",
+            borderBottomColor: "var(--primary)",
+            transition:
+              "border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+          },
         },
       },
     },

@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { FormControlLabel, Switch } from "@material-ui/core";
+import { FormControlLabel, Switch } from "@mui/material";
 import styles from "./themeIcon.module.scss";
 
 const ThemeIcon = () => {
   const [isDarkMode, setDarkMode] = useState(false); //string -> boolean
 
   useEffect(() => {
-    const currentTheme = localStorage.getItem("is-dark");
+    const currentTheme = localStorage.getItem("isDark");
     if (currentTheme != null) {
       setDarkMode(JSON.parse(currentTheme));
+      document.documentElement.setAttribute("isDark", currentTheme.toString());
     }
   }, []);
 
   const toggleDataTheme = () => {
-    const currentTheme = document.documentElement.getAttribute("is-dark");
+    const currentTheme = document.documentElement.getAttribute("isDark");
 
     const newTheme: boolean = !JSON.parse(
       currentTheme == null ? "false" : currentTheme
     );
     setDarkMode(newTheme);
-    document.documentElement.setAttribute("is-dark", newTheme.toString());
-    localStorage.setItem("is-dark", newTheme.toString());
+    document.documentElement.setAttribute("isDark", newTheme.toString());
+    localStorage.setItem("isDark", newTheme.toString());
   };
 
   return (
