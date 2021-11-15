@@ -1,7 +1,7 @@
 import type { AppProps } from "next/app";
 import React from "react";
 import "./_app.scss"
-import StylesProvider from '@mui/styles/StylesProvider';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   React.useEffect(() => {
@@ -13,8 +13,8 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   }, []);
 
   return (
-    <StylesProvider injectFirst>
+    <StyledEngineProvider injectFirst>
         <Component {...pageProps} />
-    </StylesProvider>
+    </StyledEngineProvider>
   );
 }
