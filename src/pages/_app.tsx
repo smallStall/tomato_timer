@@ -1,5 +1,6 @@
 import type { AppProps } from "next/app";
 import React from "react";
+import { CssBaseline } from "@mui/material";
 import "./_app.scss"
 import { StyledEngineProvider } from '@mui/material/styles';
 
@@ -14,6 +15,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
   return (
     <StyledEngineProvider injectFirst>
+        <CssBaseline />
         <Component {...pageProps} />
     </StyledEngineProvider>
   );

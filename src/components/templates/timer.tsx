@@ -2,7 +2,7 @@
 import React, { useEffect, useContext, useCallback, useState } from "react";
 import TomatoSlider from "../organisms/tomatoSlider";
 import { useIntervalTimer } from "../../hooks/useIntervalTimer";
-import { VolumeContext } from "../../pages/context";
+import { VolumeContext } from "../../pages/theme";
 import Head from "next/head";
 import Digit from "../molecules/digit";
 import styles from "./timer.module.scss";
