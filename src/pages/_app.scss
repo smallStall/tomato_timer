@@ -27,27 +27,31 @@ html[isDark='false'] {
 
 html[isDark='true'] {
   --primary: #fffaee;
-  --warning: #cc242d;
+  --warning: #9d1d22;
   --paper: #fffaee;
-  --background:#3f2419;
+  --background:#39251d;
   --contrast: #fffaee;
-  --footer-header: #652727;
+  --footer-header: #552525;
   --deep: #412b1c;
   --theme: #412b1c;
   --pale: #e2c8bb;
 }
 
-html[animation='running']{
+html[animation='running1']{
   --animation: running;
-  --tomato: url('/27_tomato.png')
+  --tomato: url('/27_tomato.png');
 }
+html[animation='running2']{
+  --animation: running;
+  --tomato: url('/27_tomato_rot.png');
+}
+
 
 html[animation='paused']{
   --animation: paused;
-  --tomato: url('/27_tomato_rev.png')
+  --tomato: url('/27_tomato_rev.png');
 }
 
- 
 
 html{
   height:100%;

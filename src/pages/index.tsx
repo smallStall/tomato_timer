@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Timer from "../components/templates/timer";
-import PomodoroSelect from "../components/organisms/selectCount";
+import PomodoroSelect from "../components/molecules/selectCount";
 import Memo from "../components/organisms/memo";
 import Footer from "../components/organisms/footer";
 import styles from "./index.module.scss";

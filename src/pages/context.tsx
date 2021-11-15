@@ -10,7 +10,7 @@ import React, {
 const theme = createTheme({
   palette: {
     primary: {
-      main: "rgba(var(--warning))", //"#ae0d16",
+      main: "rgb(var(--primary))", //var(--contrast)
     },
   },
   components: {
@@ -30,9 +30,16 @@ const theme = createTheme({
           }
         },
         track: {
-          backgroundColor: "var(--contrast)",
+          backgroundColor: "var(--contrast) !important", //TODO!important後で外す
         },
       },
+    },
+    MuiOutlinedInput:{
+      styleOverrides:{
+        input:{
+          border: "none",
+        }
+      }
     },
     MuiInput: {
       styleOverrides: {

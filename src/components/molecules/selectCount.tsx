@@ -17,7 +17,7 @@ export const PomodoroSelect: React.VFC<Props> = ({
         Count
       </InputLabel>
       <Select
-        classes={{root: styles.root, icon:styles.icon}}
+        classes={{root: styles.select, icon:styles.icon, outlined:styles.outlined}}
         value={defaultMenuItem}
         onChange={(event: SelectChangeEvent<number>) => {
           setOneSet(typeof(event.target.value) === 'number' ? event.target.value : 1);

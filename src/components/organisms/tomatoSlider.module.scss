@@ -17,54 +17,32 @@
 }
 
 .thumb::after{
-  position: absolute;
-  left: -21px;
-  top: -21px;
   background-position: center;
   background-image: var(--tomato);
   background-repeat: no-repeat;
   width:  80px;
   height:  80px;
-  transform: rotate(0);
-  animation: rotation1 2s steps(1, end) 0s infinite;
+  /*
+  animation: rotation 2s steps(1, end) 1s infinite;
   animation-play-state: var(--animation);
+  */
 }
+
 
 /*
-.valueLabelRun{
-  width: 59px;
-  height: 59px;
-  font-size: 0;
-  background-image: url(/27_tomato.png);
-  color: transparent;
-  margin: 32px 10px 28px 14px;
-  animation: rotation1 2s steps(1, end) 0s infinite;
-  animation-play-state: var(--animation);
-  transform-origin: left 50% 0;
-}
-
-.valueLabelStop {
-  @extend .valueLabelRun;
-  background-image: url(/27_tomato_rev.png);
-  animation: rotation2 1s steps(1, end) 0s 10;
-}
-*/
-
-@keyframes rotation1 {
+@keyframes rotation {
   0%{
-    transform-origin: center;
-    transform: rotate(0);
+    transform: rotateZ(0);
   }
   50% {
-    transform: rotate(0);
-    transform: rotate(-15deg);
+    transform: rotateZ(-15deg);
   }
   99.9%,
   to{
-    transform: rotate(0);
+    transform: rotateZ(0);
   }
 }
-
+*/
 
 .valueLabelLabel {
   display: none;

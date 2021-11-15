@@ -52,6 +52,8 @@ const TomatoSlider: React.VFC<Props> = ({
       setSliderVal(0);
     } else {
       setSliderVal(-secondsLeft / 60);
+      const tomato = Math.round(secondsLeft) % 2 === 0 ? "running1" : "running2";
+      document.documentElement.setAttribute("animation", tomato);
     }
   }, [secondsLeft]);
   const onChangeSlider = (event: any, value: number | number[]) => {
@@ -91,6 +93,7 @@ const TomatoSlider: React.VFC<Props> = ({
         rail: styles.rail,
         mark: styles.mark,
         markActive: styles.markActive,
+        valueLabel: styles.valueLabel,
       }}
       value={sliderVal}
       aria-labelledby="discrete-slider-always"
