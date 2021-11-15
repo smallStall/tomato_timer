@@ -7,7 +7,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   React.useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
     jssStyles?.parentElement?.removeChild(jssStyles);
-    //document.querySelector("body")!.classList.add("app-body");
+    document.querySelector("body")!.classList.add("app-body");
     document.documentElement.setAttribute('timer', 'pause');
 
   }, []);
