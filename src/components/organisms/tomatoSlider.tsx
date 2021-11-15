@@ -5,6 +5,8 @@ import { Timer } from "../../types/intervalTimer";
 import styles from "./tomatoSlider.module.scss";
 import { delay } from "../accessory/functions"
 
+const SLIDER_MARK_NUM = 5
+
 
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
@@ -15,14 +17,16 @@ function roundDigit(num: number, digit: number) {
   }
 }
 
+
 function createSliderMarks(maxTime: number, round: number, status: string) {
   type SliderLabel = { value: number; label: string };
   let arr: SliderLabel[];
   arr = [];
-  for (let step = 1; step < 6; step++) {
+  const oneMarkMinutes = maxTime / SLIDER_MARK_NUM / 60;
+  for (let step = 1; step <= SLIDER_MARK_NUM; step++) {
     arr.push({
-      value: (-maxTime / 300) * step * 0.9999,
-      label: roundDigit((maxTime / 300) * step, round).toString(),
+      value: (-oneMarkMinutes) * step * 0.9999,
+      label: roundDigit(oneMarkMinutes * step, round).toString(),
     });
   }
   arr.push({
@@ -100,7 +104,7 @@ const TomatoSlider: React.VFC<Props> = ({
       min={-maxTime / 60}
       max={maxTime / 60 / 9} //トマトのhover判定を長めに取るために余分に長くする
       marks={createSliderMarks(maxTime, 3, status)}
-      step={maxTime / 60 / 25}
+      step={1}
       valueLabelDisplay="off"
       onChange={onChangeSlider}
       onChangeCommitted={onCommitedSlider}

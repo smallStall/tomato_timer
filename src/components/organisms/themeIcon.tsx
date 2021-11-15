@@ -15,7 +15,6 @@ const ThemeIcon = () => {
 
   const toggleDataTheme = () => {
     const currentTheme = document.documentElement.getAttribute("isDark");
-
     const newTheme: boolean = !JSON.parse(
       currentTheme == null ? "false" : currentTheme
     );
