@@ -7,7 +7,7 @@ import Memo from "../components/organisms/memo";
 import Footer from "../components/organisms/footer";
 import styles from "./index.module.scss";
 import Title from "../components/molecules/title";
-import Theme from "./context";
+import Theme from "./theme";
 import Menu from "../components/organisms/menu";
 
 const Home: NextPage = () => {

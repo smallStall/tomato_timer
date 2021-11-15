@@ -2,10 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import { Slider, Typography } from "@mui/material";
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import { VolumeContext } from "../../pages/context";
+import { VolumeContext } from "../../pages/theme";
 import Timer2 from "../../../public/zihou1.mp3";
 import { Howl } from "howler";
-import { MobileContext } from "../../pages/context";
+import { MobileContext } from "../../pages/theme";
 import styles from "./soundSlider.module.scss";
 
 const SOUND_TIME = 4.0;
