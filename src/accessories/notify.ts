@@ -75,7 +75,7 @@ export function makeNotifyMessage(count: number, maxCount: number, activity: Act
 }
 
 export const returnActivity = (activity: Activity, count: number, maxCount: number, status: string) => {
-  const countPerMax = maxCount === 1 ? "" : "(" + count + "/" + maxCount.toFixed() + ")"
+  const countPerMax = maxCount === 1 ? "" : "(" + (count + 1) + "/" + maxCount.toFixed() + ")"
   if (status === "STOPPED") {
     return "ポモドーロタイマー"
   }

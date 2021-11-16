@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Slider } from "@mui/material";
 import { Timer } from "../../types/intervalTimer";
 import styles from "./tomatoSlider.module.scss";
-import { delay } from "../accessory/functions"
+import { delay } from "../../accessories/functions"
 
 const SLIDER_MARK_NUM = 5
 
@@ -16,7 +16,6 @@ function roundDigit(num: number, digit: number) {
     throw "An argument of roundDigit is not correct";
   }
 }
-
 
 function createSliderMarks(maxTime: number, round: number, status: string) {
   type SliderLabel = { value: number; label: string };
@@ -41,6 +40,7 @@ type Props = {
   secondsLeft: number;
   status: string;
   timer: Timer;
+  isRunning: boolean
 };
 
 const TomatoSlider: React.VFC<Props> = ({
@@ -48,10 +48,14 @@ const TomatoSlider: React.VFC<Props> = ({
   secondsLeft,
   status,
   timer,
+  isRunning,
 }) => {
   const [sliderVal, setSliderVal] = useState(-secondsLeft / 60);
   const [pausedVal, setPausedVal] = useState(0);
   useEffect(() => {
+    if(!isRunning){
+      return;
+    }
     if (secondsLeft < 0.5) {
       setSliderVal(0);
     } else {
@@ -59,7 +63,7 @@ const TomatoSlider: React.VFC<Props> = ({
       const tomato = Math.round(secondsLeft) % 2 === 0 ? "running1" : "running2";
       document.documentElement.setAttribute("animation", tomato);
     }
-  }, [secondsLeft]);
+  }, [secondsLeft, isRunning]);
   const onChangeSlider = (event: any, value: number | number[]) => {
     if (status !== "RUNNING" && "number" === typeof value) {
       if (value <= 0) {

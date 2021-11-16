@@ -30,7 +30,7 @@ export const useIntervalTimer = (
     workTime: workTime,
     restTime: restTime,
     maxTime: 0,
-    displayTime: 0,
+    displayTime: 0
   });
   const { status, leftTime, endTime } = state;
   const soundRef = useRef<Howl>();
@@ -44,7 +44,7 @@ export const useIntervalTimer = (
   const setTime = useCallback(() => {
     dispatch({ type: 'setTime' });
   }, []);
-  
+
 
   const resume = useCallback(() => {
     dispatch({ type: 'resume' });
@@ -103,7 +103,7 @@ export const useIntervalTimer = (
             } else {
               stop();
             }
-          }    
+          }
           resolve(timer);
         }, ms)
       });
@@ -112,5 +112,5 @@ export const useIntervalTimer = (
   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     , [leftTime, status]);
-  return { timer: { start, stop, pause, resume, jump, retry, add }, displayTime: state.displayTime, state: state }
+  return { timer: { start, stop, pause, resume, jump, retry, add }, displayTime: state.displayTime, state: state, isRunning: status === "RUNNING" || status === "RESUME" }
 }

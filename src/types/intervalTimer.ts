@@ -35,6 +35,7 @@ export type UseIntervalTimerReturn = {
   timer: Timer;
   displayTime: number;
   state: State;
+  isRunning: boolean;
 }
 
 export type UseIntervalTimerProps = {

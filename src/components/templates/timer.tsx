@@ -8,6 +8,7 @@ import Digit from "../molecules/digit";
 import styles from "./timer.module.scss";
 import { ToastContainer, Zoom } from "react-toastify";
 import { useWindowFocused } from "../../hooks/useWindowFocused";
+import TimerButtons from  "../organisms/timerButtons";
 import "react-toastify/dist/ReactToastify.css";
 import {
   notifyMe,
@@ -15,7 +16,7 @@ import {
   returnActivity,
   returnFavicon,
   toastTomato,
-} from "../accessory/notify";
+} from "../../accessories/notify";
 
 type Props = {
   workTime: number;
@@ -28,7 +29,7 @@ const TIMER_DELAY_TIME = 3;
 const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
   const { volume } = useContext(VolumeContext);
   const INTERVAL = 1;
-  const { timer, displayTime, state } = useIntervalTimer(
+  const { timer, displayTime, state, isRunning } = useIntervalTimer(
     workTime,
     restTime,
     INTERVAL,
@@ -92,6 +93,10 @@ const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
           seconds={digitalTime}
           key={state.activity + digitalTime.toString()}
         />
+        <TimerButtons
+          timer={timer}
+          isRunning={isRunning}
+         />
         <TomatoSlider
           maxTime={
             state.activity === "Work" || state.activity === "None"
@@ -101,6 +106,7 @@ const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
           secondsLeft={displayTime}
           status={state.status}
           timer={timer}
+          isRunning={isRunning}
           key={state.activity + "-slider"}
         />
       </div>
