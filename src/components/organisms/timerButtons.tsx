@@ -7,10 +7,11 @@ import SvgIcon from "@mui/material/SvgIcon";
 
 type Props = {
   isRunning: boolean;
+  status: Status;
   timer: Timer;
 };
 
-const TimerButtons: React.VFC<Props> = ({ isRunning, timer }) => {
+const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
   const getIcon = (isRunning: boolean) => {
     return isRunning ? (
       <SvgIcon className={styles.pauseButton}>
@@ -21,12 +22,18 @@ const TimerButtons: React.VFC<Props> = ({ isRunning, timer }) => {
       <PlayArrowIcon className={styles.playButton} />
     );
   };
+  const onClick = (status: Status) => {
+    if (status === "RUNNING" || status === "RESUME") {
+      timer.pause();
+    } else if (status === "STOPPED") {
+      timer.start();
+    } else if (status === "PAUSED") {
+      timer.resume();
+    }
+  };
 
   return (
-    <div
-      className={styles.root}
-      onClick={() => (isRunning ? timer.pause() : timer.start())}
-    >
+    <div className={styles.root} onClick={() => onClick(status)}>
       <IconButton>{getIcon(isRunning)}</IconButton>
     </div>
   );

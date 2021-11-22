@@ -8,7 +8,7 @@ import Digit from "../molecules/digit";
 import styles from "./timer.module.scss";
 import { ToastContainer, Zoom } from "react-toastify";
 import { useWindowFocused } from "../../hooks/useWindowFocused";
-import TimerButtons from  "../organisms/timerButtons";
+import TimerButtons from "../organisms/timerButtons";
 import "react-toastify/dist/ReactToastify.css";
 import {
   notifyMe,
@@ -16,48 +16,61 @@ import {
   returnActivity,
   returnFavicon,
   toastTomato,
-} from "../../accessories/notify";
+} from "../../libs/notify";
 
-type Props = {
-  workTime: number;
-  restTime: number;
-  maxCount: number;
-};
 
-const TIMER_DELAY_TIME = 3;
+const PROD_WORK_TIME = 25 * 60;
+const PROD_REST_TIME = 5 * 60;
+const PROD_DELAY_TIME = 3;
+const PROD_SOUND_PATH = "zihou1.mp3";
 
-const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
+const TEST_WORK_TIME = 5;
+const TEST_REST_TIME = 3;
+const TEST_DELAY_TIME = 1;
+const TEST_SOUND_PATH = "test1.mp3"
+
+const INTERVAL = 1;
+
+
+const Timer: React.VFC = () => {
   const { volume } = useContext(VolumeContext);
-  const INTERVAL = 1;
-  const { timer, displayTime, state, isRunning } = useIntervalTimer(
-    workTime,
-    restTime,
-    INTERVAL,
-    volume,
-    maxCount,
-    TIMER_DELAY_TIME,
-    "zihou1.mp3"
-  );
+  const workTime = process.env.isProd ? PROD_WORK_TIME : TEST_WORK_TIME;
+  const restTime = process.env.isProd ? PROD_REST_TIME : TEST_REST_TIME;
+  const delayTime = process.env.isProd ? PROD_DELAY_TIME : TEST_DELAY_TIME;
+  const soundPath = process.env.isProd ? PROD_SOUND_PATH : TEST_SOUND_PATH;
+  
+  const { timer, displayTime, activity, count, status, isRunning } =
+    useIntervalTimer(
+      workTime,
+      restTime,
+      INTERVAL,
+      volume,
+      delayTime,
+      soundPath
+    );
 
   const [digitalTime, setDigitalTime] = useState(workTime);
   useEffect(() => {
-    if (state.activity === "NextRest" || state.activity === "NextWork") {
-      notifyMe(makeNotifyMessage(state.count, maxCount, state.activity));
+    if (activity === "NextRest" || activity === "NextWork") {
+      notifyMe(makeNotifyMessage(count, activity));
       setDigitalTime(0);
-    } else if (state.activity === "Rest" || state.activity === "Work") {
+    } else if (activity === "Rest" || activity === "Work") {
       setDigitalTime(displayTime);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.count, maxCount, state.activity]);
+  }, [count, activity]);
 
   useEffect(() => {
     setDigitalTime(displayTime);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [useWindowFocused().isFocused, state.status]);
+  }, [useWindowFocused().isFocused, status]);
 
   useEffect(() => {
     toastTomato();
   }, []);
+
+  //TODOactivityが切り替わるタイミングでサウンドの調整
+
   return (
     <>
       <Head>
@@ -65,21 +78,15 @@ const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={
-            "/favicons/favicon-32x32" + returnFavicon(state.activity) + ".png"
-          }
+          href={"/favicons/favicon-32x32" + returnFavicon(activity) + ".png"}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={
-            "/favicons/favicon-16x16" + returnFavicon(state.activity) + ".png"
-          }
+          href={"/favicons/favicon-16x16" + returnFavicon(activity) + ".png"}
         />
-        <title>
-          {returnActivity(state.activity, state.count, maxCount, state.status)}
-        </title>
+        <title>{returnActivity(status, count, activity)}</title>
       </Head>
       <ToastContainer
         className={styles.toast}
@@ -89,25 +96,17 @@ const Timer: React.VFC<Props> = ({ workTime, restTime, maxCount }) => {
         transition={Zoom}
       />
       <div className={styles.container}>
-        <Digit
-          seconds={digitalTime}
-          key={state.activity + digitalTime.toString()}
-        />
-        <TimerButtons
-          timer={timer}
-          isRunning={isRunning}
-         />
+        <TimerButtons timer={timer} isRunning={isRunning} status={status} />
+        <Digit seconds={digitalTime} key={activity + digitalTime.toString()} />
         <TomatoSlider
           maxTime={
-            state.activity === "Work" || state.activity === "None"
-              ? workTime
-              : restTime
+            activity === "Work" || activity === "None" ? workTime : restTime
           }
           secondsLeft={displayTime}
-          status={state.status}
+          status={status}
           timer={timer}
           isRunning={isRunning}
-          key={state.activity + "-slider"}
+          key={activity + "-slider"}
         />
       </div>
     </>

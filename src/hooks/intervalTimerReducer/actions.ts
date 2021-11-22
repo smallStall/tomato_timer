@@ -2,12 +2,10 @@ import { createActionType } from './helper';
 
 const PAUSE = () => createActionType('pause');
 const SETTIME = () => createActionType('setTime');
-const START = (maxCount:number) => createActionType('start', {maxCount});
+const START = () => createActionType('start');
 const STOP = () => createActionType('stop');
 const RESUME = () => createActionType('resume');
-const RETRY = () => createActionType('retry');
-const JUMP = () => createActionType('jump');
-const ADD = (seconds: number) => createActionType('add', { seconds });
+const ADVANCE = (seconds: number) => createActionType('advance', { seconds });
 
 
 
@@ -17,7 +15,5 @@ export type TimerActionsType = ReturnType<
   | typeof START
   | typeof STOP
   | typeof RESUME
-  | typeof RETRY
-  | typeof JUMP
-  | typeof ADD
+  | typeof ADVANCE
 >;

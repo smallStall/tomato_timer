@@ -4,17 +4,18 @@
   justify-content: center;
 }
 
-@mixin basaeButton($color: black) {
+@mixin baseButton($color: black) {
   font-size: 2.7em;
   border: 0.07em solid;
   border-radius: 50%;
+  margin-bottom: 12%;
   color: $color; 
 }
 
 .playButton{
-  @include basaeButton(var(--primary));
+  @include baseButton(var(--primary));
 }
 
 .pauseButton{
-  @include basaeButton(var(--pale));
+  @include baseButton(var(--pale));
 }

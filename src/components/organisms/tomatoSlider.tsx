@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import { Slider } from "@mui/material";
-import { Timer } from "../../types/intervalTimer";
+import { Timer, Status } from "../../types/intervalTimer";
 import styles from "./tomatoSlider.module.scss";
-import { delay } from "../../accessories/functions"
+import { delay } from "../../libs/accesories"
+
 
 const SLIDER_MARK_NUM = 5
 
@@ -38,7 +39,7 @@ function createSliderMarks(maxTime: number, round: number, status: string) {
 type Props = {
   maxTime: number;
   secondsLeft: number;
-  status: string;
+  status: Status;
   timer: Timer;
   isRunning: boolean
 };
@@ -65,7 +66,7 @@ const TomatoSlider: React.VFC<Props> = ({
     }
   }, [secondsLeft, isRunning]);
   const onChangeSlider = (event: any, value: number | number[]) => {
-    if (status !== "RUNNING" && "number" === typeof value) {
+    if (status === 'PAUSED' && typeof value === "number") {
       if (value <= 0) {
         setSliderVal(value);
       }
@@ -74,18 +75,11 @@ const TomatoSlider: React.VFC<Props> = ({
 
 
   const onCommitedSlider = (event: any, value: number | number[]) => {
-    if (value > 0 || "number" !== typeof value) {
+    if (value > 0 || typeof value !== "number") {
       return;
     }
-    if (status === "STOPPED") {
-      setSliderVal(-maxTime / 60);
-      delay(timer.start, 250);
-
-    } else if (status === "RUNNING" || status === "RESUME") {
-      setPausedVal(value);
-      timer.pause();
-    } else if (status === "PAUSED") {
-      timer.add((pausedVal - sliderVal) * 60);
+    if (status === "PAUSED") {
+      timer.advance((pausedVal - value) * 60);
       timer.resume();
     }
   };

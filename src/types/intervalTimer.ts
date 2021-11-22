@@ -5,15 +5,14 @@ export type Activity = "None" | "Work" | "NextRest" | "Rest" | "NextWork";
 
 export interface State {
   readonly status: Status;
-  readonly leftTime: number;
-  readonly endTime: number;
+  readonly elapsedTime: number;
+  readonly initialTime: number;
   readonly pausedTime: number;
   readonly displayTime: number;
   readonly count: number;
   readonly activity: Activity;
   readonly workTime: number;
   readonly restTime: number;
-  readonly maxTime:number;
   readonly delayTime:number;
 }
 
@@ -22,19 +21,15 @@ export interface Timer {
   pause: () => void;
   resume: () => void;
   stop: () => void;
-  retry: () => void;
-  jump: () => void;
-  add: (seconds: number) => void;
-  /*
-  add: (seconds: number) => void;
-  reduce: (seconds: number) => void;
-  */
+  advance: (seconds: number) => void;
 }
 
 export type UseIntervalTimerReturn = {
   timer: Timer;
   displayTime: number;
-  state: State;
+  activity: Activity;
+  count: number;
+  status: Status;
   isRunning: boolean;
 }
 
@@ -43,7 +38,6 @@ export type UseIntervalTimerProps = {
   restTime: number;
   interval: number;
   volume: number;
-  maxCount: number;
   delayTime: number;
   soundPath: string;
 }
