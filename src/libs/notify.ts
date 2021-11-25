@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { Activity } from 'types/intervalTimer';
+import { Activity, Status, StatusValues } from 'types/intervalTimer';
 
 export function toastTomato() {
   if (isToast()) {
@@ -55,39 +55,33 @@ function pomodoroNotification(message: string) {
       tag: 'pomodoro-timer',
       renotify: true,
     });
-    //renotifyがFireFoxでどうなるか確認
+  //renotifyがFireFoxでどうなるか確認
 }
 
 
-export function makeNotifyMessage(count: number, maxCount: number, activity: Activity) {
+export function makeNotifyMessage(count: number, activity: Activity) {
 
-  if (maxCount === 1) {
-    return activity === "NextRest" ?
-      "お休みに移ります。" : "お休みが終わりました。";
+  if (activity === "NextRest") {
+    return (count + 1).toString() + "回ポモドーロが終わりました。お休みに移ります。";
   } else {
-    return activity === "NextRest" ?
-      maxCount.toString() +
-      "回中" +
-      (count + 1).toString() +
-      "回ポモドーロが終わりました。お休みに移ります。"
-      : "お休みが終わりました。";
+    return "お休みが終わりました。";
   }
 }
 
-export const returnActivity = (activity: Activity, count: number, maxCount: number, status: string) => {
-  const countPerMax = maxCount === 1 ? "" : "(" + count + "/" + maxCount.toFixed() + ")"
-  if (status === "STOPPED") {
-    return "ポモドーロタイマー"
+export const returnActivity = (status: Status, count: number, activity: Activity) => {
+  if (status === StatusValues.stopped) {
+    return "ポモドーロ・テクニック タイマー"
   }
+  const countStr: string = "(" + (count + 1).toString() + "回目)"
   switch (activity) {
     case "NextRest":
-      return "準備中" + countPerMax;
+      return "準備中" + countStr;
     case "NextWork":
-      return "準備中" + countPerMax;
+      return "準備中" + countStr;
     case "Work":
-      return "作業中" + countPerMax;
+      return "作業中" + countStr;
     case "Rest":
-      return "休憩中" + countPerMax;
+      return "休憩中" + countStr;
   }
 };
 

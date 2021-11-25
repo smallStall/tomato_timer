@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
+
+//at building
+const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = {
+  env: {
+    isProd: isProd,
+  },
   reactStrictMode: true,
   webpack(config, { isServer }) {
     config.module.rules.push({

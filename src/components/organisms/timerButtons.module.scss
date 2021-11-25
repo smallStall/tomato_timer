@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin baseButton($color: black) {
+  font-size: 2.7em;
+  border: 0.07em solid;
+  border-radius: 50%;
+  margin-bottom: 12%;
+  color: $color; 
+}
+
+.playButton{
+  @include baseButton(var(--primary));
+}
+
+.pauseButton{
+  @include baseButton(var(--pale));
+}

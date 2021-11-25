@@ -6,7 +6,7 @@ export default function Title() {
   return (
     <section className={styles.titleBar}>
       <Typography variant="h4" className={styles.title}>
-        Pomodoro Timer
+        ポモドーロ・テクニック タイマー
       </Typography>
     </section>
   );
