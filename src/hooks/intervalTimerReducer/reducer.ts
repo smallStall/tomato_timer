@@ -1,5 +1,5 @@
 import { TimerActionsType } from './actions';
-import { State } from "../../types/intervalTimer"
+import { State, StatusValues } from "../../types/intervalTimer"
 
 /*1 count is 
   workTime -> delayTime -> restTime -> delayTime
@@ -12,7 +12,7 @@ function minusToZero(time: number) {
 export const getPrevCountTime = (st: State) => (st.workTime + st.restTime + st.delayTime * 2) * st.count 
 
 function calcActivity(st: State) {
-  if (st.status === 'STOPPED' || st.elapsedTime < st.delayTime) {
+  if (st.status === StatusValues.stopped || st.elapsedTime < st.delayTime) {
     return "None";
   }
   const previousCountTime = getPrevCountTime(st);
@@ -50,7 +50,7 @@ export function reducer(state: State, action: TimerActionsType): State {
   switch (action.type) {
 
     case 'setTime': {
-      const thisElapsedTime = state.status === 'RESUME' || state.status === 'RUNNING' ? 
+      const thisElapsedTime = state.status === StatusValues.resume || state.status === StatusValues.running ? 
         Date.now() / 1000  - state.initialTime: state.elapsedTime;
 
       const count = calcCount({ ...state, elapsedTime: thisElapsedTime });
@@ -66,7 +66,7 @@ export function reducer(state: State, action: TimerActionsType): State {
       document.documentElement.setAttribute('animation', 'paused')
       return {
         ...state,
-        status: 'PAUSED',
+        status: StatusValues.paused,
         pausedTime: Date.now() / 1000,
         elapsedTime: state.elapsedTime,
         displayTime: state.displayTime,
@@ -77,7 +77,7 @@ export function reducer(state: State, action: TimerActionsType): State {
       const diff = state.pausedTime > 0 ? Date.now() / 1000 - state.pausedTime : 0;
       return {
         ...state,
-        status: 'RESUME',
+        status: StatusValues.resume,
         initialTime: state.initialTime + diff,
         pausedTime: 0,
       }
@@ -90,7 +90,7 @@ export function reducer(state: State, action: TimerActionsType): State {
         displayTime: state.workTime,
         initialTime: Date.now() / 1000,
         activity: 'Work',
-        status: 'RUNNING',
+        status: StatusValues.running,
       }
     }
     case 'stop': {
@@ -101,7 +101,7 @@ export function reducer(state: State, action: TimerActionsType): State {
         displayTime: 0,
         elapsedTime: 0,
         count: 0,
-        status: 'STOPPED',
+        status: StatusValues.stopped,
       }
     }
     case 'advance': {

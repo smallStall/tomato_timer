@@ -3,11 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Slider } from "@mui/material";
 import { Timer, Status } from "../../types/intervalTimer";
 import styles from "./tomatoSlider.module.scss";
-import { delay } from "../../libs/accesories"
+import { delay } from "../../libs/accesories";
+import { StatusValues } from "../../types/intervalTimer";
 
-
-const SLIDER_MARK_NUM = 5
-
+const SLIDER_MARK_NUM = 5;
 
 function roundDigit(num: number, digit: number) {
   if (digit >= 0) {
@@ -25,13 +24,13 @@ function createSliderMarks(maxTime: number, round: number, status: string) {
   const oneMarkMinutes = maxTime / SLIDER_MARK_NUM / 60;
   for (let step = 1; step <= SLIDER_MARK_NUM; step++) {
     arr.push({
-      value: (-oneMarkMinutes) * step * 0.9999,
+      value: -oneMarkMinutes * step * 0.9999,
       label: roundDigit(oneMarkMinutes * step, round).toString(),
     });
   }
   arr.push({
     value: 0,
-    label: status === "STOPPED" ? "👈" : "👍",
+    label: status === StatusValues.stopped ? "👈" : "👍",
   });
   return arr;
 }
@@ -41,7 +40,7 @@ type Props = {
   secondsLeft: number;
   status: Status;
   timer: Timer;
-  isRunning: boolean
+  isRunning: boolean;
 };
 
 const TomatoSlider: React.VFC<Props> = ({
@@ -52,35 +51,31 @@ const TomatoSlider: React.VFC<Props> = ({
   isRunning,
 }) => {
   const [sliderVal, setSliderVal] = useState(-secondsLeft / 60);
-  const [pausedVal, setPausedVal] = useState(0);
   useEffect(() => {
-    if(!isRunning){
+    if (!isRunning) {
       return;
     }
-    if (secondsLeft < 0.5) {
-      setSliderVal(0);
-    } else {
-      setSliderVal(-secondsLeft / 60);
-      const tomato = Math.round(secondsLeft) % 2 === 0 ? "running1" : "running2";
-      document.documentElement.setAttribute("animation", tomato);
-    }
+    setSliderVal(-secondsLeft / 60);
+    const tomato = Math.round(secondsLeft) % 2 === 0 ? "running1" : "running2";
+    document.documentElement.setAttribute("animation", tomato);
   }, [secondsLeft, isRunning]);
-  const onChangeSlider = (event: any, value: number | number[]) => {
-    if (status === 'PAUSED' && typeof value === "number") {
-      if (value <= 0) {
-        setSliderVal(value);
-      }
+
+  const onChangeSlider = (_event: any, value: number | number[]) => {
+    if (status === StatusValues.stopped && typeof value === "number") {
+      setSliderVal(value);
     }
   };
 
-
-  const onCommitedSlider = (event: any, value: number | number[]) => {
+  const onCommitedSlider = (_event: any, value: number | number[]) => {
     if (value > 0 || typeof value !== "number") {
       return;
     }
-    if (status === "PAUSED") {
-      timer.advance((pausedVal - value) * 60);
+    if (status === StatusValues.paused) {
       timer.resume();
+    } else if (status === StatusValues.stopped) {
+      delay(timer.start, 200);
+    } else if (isRunning) {
+      timer.pause();
     }
   };
 
@@ -102,7 +97,7 @@ const TomatoSlider: React.VFC<Props> = ({
       min={-maxTime / 60}
       max={maxTime / 60 / 9} //トマトのhover判定を長めに取るために余分に長くする
       marks={createSliderMarks(maxTime, 3, status)}
-      step={1}
+      step={0.01}
       valueLabelDisplay="off"
       onChange={onChangeSlider}
       onChangeCommitted={onCommitedSlider}

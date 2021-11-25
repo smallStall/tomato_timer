@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { Activity, Status } from 'types/intervalTimer';
+import { Activity, Status, StatusValues } from 'types/intervalTimer';
 
 export function toastTomato() {
   if (isToast()) {
@@ -55,24 +55,24 @@ function pomodoroNotification(message: string) {
       tag: 'pomodoro-timer',
       renotify: true,
     });
-    //renotifyがFireFoxでどうなるか確認
+  //renotifyがFireFoxでどうなるか確認
 }
 
 
 export function makeNotifyMessage(count: number, activity: Activity) {
 
-    if(activity === "NextRest"){
-      return (count + 1).toString() + "回ポモドーロが終わりました。お休みに移ります。";
-    }else{
-      return "お休みが終わりました。";
-    }
+  if (activity === "NextRest") {
+    return (count + 1).toString() + "回ポモドーロが終わりました。お休みに移ります。";
+  } else {
+    return "お休みが終わりました。";
+  }
 }
 
-export const returnActivity = (status:Status, count: number, activity: Activity) => {
-  if (status === "STOPPED") {
-    return "ポモドーロタイマー"
-  } 
-  const countStr : string = "(" + (count + 1).toString() + "回目)"
+export const returnActivity = (status: Status, count: number, activity: Activity) => {
+  if (status === StatusValues.stopped) {
+    return "ポモドーロ・テクニック タイマー"
+  }
+  const countStr: string = "(" + (count + 1).toString() + "回目)"
   switch (activity) {
     case "NextRest":
       return "準備中" + countStr;

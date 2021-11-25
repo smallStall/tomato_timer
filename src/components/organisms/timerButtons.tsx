@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Timer, Status } from "../../types/intervalTimer";
+import { Timer, Status, StatusValues } from "../../types/intervalTimer";
 import styles from "./timerButtons.module.scss";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import IconButton from "@mui/material/IconButton";
@@ -23,11 +23,11 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
     );
   };
   const onClick = (status: Status) => {
-    if (status === "RUNNING" || status === "RESUME") {
+    if (isRunning) {
       timer.pause();
-    } else if (status === "STOPPED") {
+    } else if (status === StatusValues.stopped) {
       timer.start();
-    } else if (status === "PAUSED") {
+    } else if (status === StatusValues.paused) {
       timer.resume();
     }
   };

@@ -1,4 +1,11 @@
-export type Status = "STOPPED" | "RUNNING" | "PAUSED" | "RESUME" | "FINISHED";
+export type Status = "STOPPED" | "RUNNING" | "PAUSED" | "RESUME";
+
+export const StatusValues: { [key: string]: Status } = {
+  stopped: "STOPPED",
+  running: "RUNNING",
+  paused: "PAUSED",
+  resume: "RESUME",
+} as const;
 
 export type Activity = "None" | "Work" | "NextRest" | "Rest" | "NextWork";
 // None -> Work -> NextRest(delayTime) -> Rest -> NextWork(delayTime) -> ...

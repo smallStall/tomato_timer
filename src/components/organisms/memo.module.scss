@@ -1,8 +1,8 @@
 .root {
   color: var(--primary);
-  margin-bottom: 4%;
+  margin-bottom: 0;
   background-color: var(--background);
-  min-width: 25em;
+  min-width: 19em;
   height: 8em;
   @media screen and (max-width:576px) {
     min-width: 80vw;

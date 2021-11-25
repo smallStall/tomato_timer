@@ -13,6 +13,7 @@ import {
   UseIntervalTimerProps,
   UseIntervalTimerReturn,
 } from "../src/types/intervalTimer";
+import { StatusValues } from "../src/types/intervalTimer";
 
 const advanceSeconds = (seconds: number) => {
   act(() => {
@@ -33,7 +34,7 @@ describe("**useIntervalTimer**", () => {
     result = hookResult.result;
   });
   it("開始前はSTOPPED", () => {
-    expect(result.current.status).toBe("STOPPED");
+    expect(result.current.status).toBe(StatusValues.stopped);
   });
 
   advanceSeconds(0.1);
@@ -43,7 +44,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed()).toBe("3");
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
   });
 
@@ -56,7 +57,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed(1)).toBe("3.0");
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
   });
 
@@ -67,7 +68,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed()).toBe("0");
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("NextRest");
   });
 
@@ -78,7 +79,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed()).toBe("2");
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Rest");
   });
 
@@ -90,7 +91,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(1);
     expect(result.current.displayTime.toFixed()).toBe("3");
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
   });
   
@@ -101,7 +102,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(1);
     expect(result.current.displayTime.toFixed()).toBe("1");
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
   });
 
@@ -112,7 +113,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(2);
     expect(result.current.displayTime.toFixed(1)).toBe("2.0");
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
   });
 
@@ -125,7 +126,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed(1)).toBe("3.0");
-    expect(result.current.status).toBe("PAUSED");
+    expect(result.current.status).toBe(StatusValues.paused);
     expect(result.current.activity).toBe("None");
   });
 
@@ -140,7 +141,7 @@ describe("**useIntervalTimer**", () => {
     });
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed(1)).toBe("0.9");
-    expect(result.current.status).toBe("RESUME");
+    expect(result.current.status).toBe(StatusValues.resume);
     expect(result.current.activity).toBe("Work");
   });
 
@@ -152,7 +153,7 @@ describe("**useIntervalTimer**", () => {
       jest.advanceTimersByTime(2500);
       result.current.timer.advance(-2);
     });
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Rest");
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed(1)).toBe("1.5");
@@ -165,7 +166,7 @@ describe("**useIntervalTimer**", () => {
       result.current.timer.advance(-2);
       jest.advanceTimersByTime(2010);
     });
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("NextWork");
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed(1)).toBe("0.0");
@@ -177,7 +178,7 @@ describe("**useIntervalTimer**", () => {
       jest.advanceTimersByTime(5010);
       result.current.timer.advance(3);
     });
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed(1)).toBe("1.0");
@@ -191,7 +192,7 @@ describe("**useIntervalTimer**", () => {
       result.current.timer.advance(3);
       jest.advanceTimersByTime(5010);
     });
-    expect(result.current.status).toBe("RUNNING");
+    expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
     expect(result.current.count).toBe(1);
     expect(result.current.displayTime.toFixed(1)).toBe("3.0");
@@ -205,7 +206,7 @@ describe("**useIntervalTimer**", () => {
       result.current.timer.stop();
     });
     expect(result.current.displayTime.toFixed(1)).toBe("0.0");
-    expect(result.current.status).toBe("STOPPED");
+    expect(result.current.status).toBe(StatusValues.stopped);
     expect(result.current.activity).toBe("None");
     expect(result.current.count).toBe(0);
   });

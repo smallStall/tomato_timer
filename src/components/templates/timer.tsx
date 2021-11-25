@@ -18,7 +18,6 @@ import {
   toastTomato,
 } from "../../libs/notify";
 
-
 const PROD_WORK_TIME = 25 * 60;
 const PROD_REST_TIME = 5 * 60;
 const PROD_DELAY_TIME = 3;
@@ -27,10 +26,9 @@ const PROD_SOUND_PATH = "zihou1.mp3";
 const TEST_WORK_TIME = 5;
 const TEST_REST_TIME = 3;
 const TEST_DELAY_TIME = 1;
-const TEST_SOUND_PATH = "test1.mp3"
+const TEST_SOUND_PATH = "test1.mp3";
 
 const INTERVAL = 1;
-
 
 const Timer: React.VFC = () => {
   const { volume } = useContext(VolumeContext);
@@ -38,7 +36,7 @@ const Timer: React.VFC = () => {
   const restTime = process.env.isProd ? PROD_REST_TIME : TEST_REST_TIME;
   const delayTime = process.env.isProd ? PROD_DELAY_TIME : TEST_DELAY_TIME;
   const soundPath = process.env.isProd ? PROD_SOUND_PATH : TEST_SOUND_PATH;
-  
+
   const { timer, displayTime, activity, count, status, isRunning } =
     useIntervalTimer(
       workTime,
@@ -100,7 +98,9 @@ const Timer: React.VFC = () => {
         <Digit seconds={digitalTime} key={activity + digitalTime.toString()} />
         <TomatoSlider
           maxTime={
-            activity === "Work" || activity === "None" ? workTime : restTime
+            activity === "Work" || activity === "None"
+              ? workTime
+              : restTime
           }
           secondsLeft={displayTime}
           status={status}

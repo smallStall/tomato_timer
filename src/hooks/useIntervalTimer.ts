@@ -5,8 +5,9 @@ import {
   useReducer,
   useCallback,
 } from "react";
-import {reducer, getPrevCountTime} from "./intervalTimerReducer/reducer";
+import { reducer, getPrevCountTime } from "./intervalTimerReducer/reducer";
 import { Howl } from "howler";
+import { StatusValues } from "../types/intervalTimer";
 export default Timer;
 
 
@@ -19,7 +20,7 @@ export const useIntervalTimer = (
   soundPath: string = "",
 ): UseIntervalTimerReturn => {
   const [state, dispatch] = useReducer(reducer, {
-    status: 'STOPPED',
+    status: StatusValues.stopped,
     elapsedTime: 0,
     initialTime: Date.now() / 1000,
     pausedTime: 0,
@@ -30,7 +31,7 @@ export const useIntervalTimer = (
     restTime: restTime,
     displayTime: 0
   });
-  const { status, elapsedTime, initialTime } = state;
+  const { status, elapsedTime } = state;
   const soundRef = useRef<Howl>();
   const start = useCallback(() => {
     dispatch({ type: 'start' })
@@ -51,35 +52,40 @@ export const useIntervalTimer = (
   const advance = useCallback((seconds: number) => {
     dispatch({ type: 'advance', payload: { seconds } });
   }, []);
-  
+
 
   useEffect(() => {
-    const sound = soundRef.current;
-    if (status === 'RUNNING' && soundPath.length > 0) {
+
+
+    if (status === StatusValues.running && soundPath.length > 0 && soundRef.current == null) {
       soundRef.current = new Howl({
         src: [soundPath],
-        volume: volume / 100,
         html5: true,
         preload: false,
-        loop: true,
       });
-      const sound = soundRef.current;
-      sound.load();
-      sound.once("load", () => {
-        if (volume > 0) {
-          sound.play();
+      //onplayerror: () => alert('error'),
+      //onloaderror: () => alert('load error'),
+      soundRef.current.load();
+      soundRef.current.once("load", () => {
+        if (soundRef.current != null) {
+          soundRef.current.play();
+          soundRef.current.volume(volume / 100);
         }
       });
-    } else if (status === 'PAUSED') {
-      sound?.pause();
-    } else if (status === 'RESUME') {
-      sound?.play();
-      const previousCountTime = (state.workTime + state.restTime + state.delayTime * 2) * state.count
-      sound?.seek(state.elapsedTime - getPrevCountTime(state));
-    } else if (status === 'STOPPED') {
-      sound?.unload();
     }
-    return () => { if (sound?.state() === "loaded") { sound.unload() } };
+    if (soundRef.current == null) {
+      return;
+    }
+    const sound: Howl = soundRef.current;
+    if (status === StatusValues.pause) {
+      sound.pause();
+    } else if (status === StatusValues.resume) {
+      sound.play();
+      sound.seek(state.elapsedTime - getPrevCountTime(state));
+    } else if (status === StatusValues.stopped) {
+      sound.unload();
+    }
+    return () => { if (sound.state() === "loaded") { sound.unload() } };
   },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [status]);
@@ -89,7 +95,7 @@ export const useIntervalTimer = (
     function timer(ms: number) {
       return new Promise((resolve) => {
         const timer = setTimeout(() => {
-          if (status === "RUNNING" || status === "RESUME") {
+          if (status === StatusValues.running || status === StatusValues.resume) {
             setTime();
           }
           resolve(timer);
