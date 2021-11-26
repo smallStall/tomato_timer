@@ -47,21 +47,18 @@ const Timer: React.VFC = () => {
       soundPath
     );
 
-  const [digitalTime, setDigitalTime] = useState(workTime);
   useEffect(() => {
     if (activity === "NextRest" || activity === "NextWork") {
       notifyMe(makeNotifyMessage(count, activity));
-      setDigitalTime(0);
-    } else if (activity === "Rest" || activity === "Work") {
-      setDigitalTime(displayTime);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, activity]);
 
+  /*
   useEffect(() => {
     setDigitalTime(displayTime);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useWindowFocused().isFocused, status]);
+  */
 
   useEffect(() => {
     toastTomato();
@@ -95,7 +92,7 @@ const Timer: React.VFC = () => {
       />
       <div className={styles.container}>
         <TimerButtons timer={timer} isRunning={isRunning} status={status} />
-        <Digit seconds={digitalTime} key={activity + digitalTime.toString()} />
+        <Digit seconds={displayTime} />
         <TomatoSlider
           maxTime={
             activity === "Work" || activity === "None"

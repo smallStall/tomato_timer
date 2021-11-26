@@ -17,7 +17,7 @@ const Digit: React.VFC<Props> = ({ seconds }) => {
   return (
     <>
       <Typography align={"center"} className={styles.root} style={style}>
-        :
+        {min + ":" + (sec < 10 ? "0" : "") + sec}
       </Typography>
     </>
   );

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Slider, Typography } from "@mui/material";
-import VolumeDownIcon from "@mui/icons-material/VolumeDown";
+import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { VolumeContext } from "../../pages/theme";
 import Timer2 from "../../../public/zihou1.mp3";
@@ -8,7 +8,7 @@ import { Howl } from "howler";
 import { MobileContext } from "../../pages/theme";
 import styles from "./soundSlider.module.scss";
 
-const DEFAULT_VOLUME = 100;
+const DEFAULT_VOLUME = 1;
 
 export default function ContinuousSlider() {
   const { volume, setVolume } = useContext(VolumeContext);
@@ -35,7 +35,7 @@ export default function ContinuousSlider() {
       localStorage.setItem("volume", newValue.toString());
       const sound = new Howl({
         src: [Timer2],
-        volume: newValue / 100,
+        volume: newValue,
         html5: true,
         sprite: {
           pi: [1800000, 2800],
@@ -47,7 +47,7 @@ export default function ContinuousSlider() {
       }
       sound.once("load", () => {
         sound.play("pi");
-        sound.volume(newValue / 100);
+        sound.volume(newValue);
       });
     }
   };
@@ -55,7 +55,7 @@ export default function ContinuousSlider() {
   return (
     <div className={styles.root}>
       <Typography>Sound</Typography>
-      <VolumeDownIcon />
+      <VolumeMuteIcon />
       <Slider
         classes={{
           root: styles.slider,
@@ -65,9 +65,11 @@ export default function ContinuousSlider() {
         }}
         aria-label="Volume"
         value={value}
+        max={1}
+        min={0}
         onChange={handleOnChange}
         onChangeCommitted={handleOnCommit}
-        step={useContext(MobileContext).isMobile ? 100 : 1}
+        step={useContext(MobileContext).isMobile ? 1 : 0.01}
       />
       <VolumeUpIcon className={styles.volumeUp} />
     </div>

@@ -1,13 +1,13 @@
 import { Timer, UseIntervalTimerReturn } from "../types/intervalTimer"
 import {
-  useRef,
   useEffect,
   useReducer,
   useCallback,
 } from "react";
-import { reducer, getPrevCountTime } from "./intervalTimerReducer/reducer";
-import { Howl } from "howler";
+import { reducer } from "./intervalTimerReducer/reducer";
 import { StatusValues } from "../types/intervalTimer";
+import { useSound } from "./useSound";
+
 export default Timer;
 
 
@@ -19,6 +19,7 @@ export const useIntervalTimer = (
   delayTime = 3,
   soundPath: string = "",
 ): UseIntervalTimerReturn => {
+  const {playSound, pauseSound, resumeSound, stopSound} = useSound(soundPath, volume);
   const [state, dispatch] = useReducer(reducer, {
     status: StatusValues.stopped,
     elapsedTime: 0,
@@ -32,63 +33,30 @@ export const useIntervalTimer = (
     displayTime: 0
   });
   const { status, elapsedTime } = state;
-  const soundRef = useRef<Howl>();
   const start = useCallback(() => {
     dispatch({ type: 'start' })
-  }, []);
+    playSound();
+  }, [playSound]);
 
   const pause = useCallback(() => {
     dispatch({ type: 'pause' });
-  }, []);
+    pauseSound();
+  }, [pauseSound]);
   const setTime = useCallback(() => {
     dispatch({ type: 'setTime' });
   }, []);
   const resume = useCallback(() => {
     dispatch({ type: 'resume' });
-  }, []);
+    resumeSound();
+  }, [resumeSound]);
   const stop = useCallback(() => {
     dispatch({ type: 'stop' });
-  }, []);
+    stopSound();
+  }, [stopSound]);
   const advance = useCallback((seconds: number) => {
     dispatch({ type: 'advance', payload: { seconds } });
   }, []);
 
-
-  useEffect(() => {
-
-
-    if (status === StatusValues.running && soundPath.length > 0 && soundRef.current == null) {
-      soundRef.current = new Howl({
-        src: [soundPath],
-        html5: true,
-        preload: false,
-      });
-      //onplayerror: () => alert('error'),
-      //onloaderror: () => alert('load error'),
-      soundRef.current.load();
-      soundRef.current.once("load", () => {
-        if (soundRef.current != null) {
-          soundRef.current.play();
-          soundRef.current.volume(volume / 100);
-        }
-      });
-    }
-    if (soundRef.current == null) {
-      return;
-    }
-    const sound: Howl = soundRef.current;
-    if (status === StatusValues.pause) {
-      sound.pause();
-    } else if (status === StatusValues.resume) {
-      sound.play();
-      sound.seek(state.elapsedTime - getPrevCountTime(state));
-    } else if (status === StatusValues.stopped) {
-      sound.unload();
-    }
-    return () => { if (sound.state() === "loaded") { sound.unload() } };
-  },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [status]);
 
 
   useEffect(() => {

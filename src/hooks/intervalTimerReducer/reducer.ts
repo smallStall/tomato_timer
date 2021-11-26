@@ -1,6 +1,5 @@
 import { TimerActionsType } from './actions';
-import { State, StatusValues } from "../../types/intervalTimer"
-
+import { State, StatusValues } from "../../types/intervalTimer";
 /*1 count is 
   workTime -> delayTime -> restTime -> delayTime
 */
@@ -9,7 +8,7 @@ function minusToZero(time: number) {
   return time < 0 ? 0 : time;
 }
 
-export const getPrevCountTime = (st: State) => (st.workTime + st.restTime + st.delayTime * 2) * st.count 
+const getPrevCountTime = (st: State) => (st.workTime + st.restTime + st.delayTime * 2) * st.count 
 
 function calcActivity(st: State) {
   if (st.status === StatusValues.stopped || st.elapsedTime < st.delayTime) {
@@ -83,7 +82,7 @@ export function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'start': {
-      document.documentElement.setAttribute('animation', 'running') 
+      document.documentElement.setAttribute('animation', 'running')
       return {
         ...state,
         elapsedTime: 0,
