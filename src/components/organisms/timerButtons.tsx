@@ -4,6 +4,7 @@ import styles from "./timerButtons.module.scss";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import IconButton from "@mui/material/IconButton";
 import SvgIcon from "@mui/material/SvgIcon";
+import { useSound } from "../../hooks/useSound";
 
 type Props = {
   isRunning: boolean;
