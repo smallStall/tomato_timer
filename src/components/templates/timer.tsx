@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useContext, useCallback, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import TomatoSlider from "../organisms/tomatoSlider";
 import { useIntervalTimer } from "../../hooks/useIntervalTimer";
 import { VolumeContext } from "../../pages/theme";
+import { CountContext } from "../../pages/theme";
 import Head from "next/head";
 import Digit from "../molecules/digit";
 import styles from "./timer.module.scss";
 import { ToastContainer, Zoom } from "react-toastify";
-import { useWindowFocused } from "../../hooks/useWindowFocused";
 import TimerButtons from "../organisms/timerButtons";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -32,6 +32,7 @@ const INTERVAL = 1;
 
 const Timer: React.VFC = () => {
   const { volume } = useContext(VolumeContext);
+  const { setCount } = useContext(CountContext);
   const workTime = process.env.isProd ? PROD_WORK_TIME : TEST_WORK_TIME;
   const restTime = process.env.isProd ? PROD_REST_TIME : TEST_REST_TIME;
   const delayTime = process.env.isProd ? PROD_DELAY_TIME : TEST_DELAY_TIME;
@@ -46,7 +47,7 @@ const Timer: React.VFC = () => {
       delayTime,
       soundPath
     );
-
+  useEffect(() => {setCount(count)}, [count, setCount]);
   useEffect(() => {
     if (activity === "NextRest" || activity === "NextWork") {
       notifyMe(makeNotifyMessage(count, activity));
@@ -95,9 +96,7 @@ const Timer: React.VFC = () => {
         <Digit seconds={displayTime} />
         <TomatoSlider
           maxTime={
-            activity === "Work" || activity === "None"
-              ? workTime
-              : restTime
+            activity === "Work" || activity === "None" ? workTime : restTime
           }
           secondsLeft={displayTime}
           status={status}

@@ -1,32 +1,20 @@
 .root {
   display: flex;
   align-items: center;
-  width: 150px;
-  @media screen and (max-width:576px) {
-    width: 130px;
-  }
 }
 
-.slider{
-  margin-right: 9px;
-  margin-left: 4px;
-}
-
-.thumb {
-  color: var(--contrast);
-}
-
-
-.rail {
-  color: var(--contrast);
-}
-
-.track{
-  color: var(--contrast);
+.root :hover{
+  cursor: pointer;
 }
 
 .volumeUp{
+  margin-left: 0.1em;
   animation: inflation 1s steps(1, end) 0s 8;
+  border-radius: 50%;
+  border: 0.1em solid;
+  width: 1.2em;
+  height: 1.2em;
+  color: var(--contrast);
 }
 
 @keyframes inflation {

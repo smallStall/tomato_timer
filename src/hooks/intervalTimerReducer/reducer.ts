@@ -1,12 +1,9 @@
 import { TimerActionsType } from './actions';
 import { State, StatusValues } from "../../types/intervalTimer";
+import { minusToZero } from "../../libs/accesories"
 /*1 count is 
   workTime -> delayTime -> restTime -> delayTime
 */
-
-function minusToZero(time: number) {
-  return time < 0 ? 0 : time;
-}
 
 const getPrevCountTime = (st: State) => (st.workTime + st.restTime + st.delayTime * 2) * st.count 
 

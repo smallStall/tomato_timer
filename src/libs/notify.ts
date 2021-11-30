@@ -3,7 +3,7 @@ import { Activity, Status, StatusValues } from 'types/intervalTimer';
 
 export function toastTomato() {
   if (isToast()) {
-    toast('音が鳴るので気をつけてください', { icon: '🔊' });
+    toast('ポモドーロ・テクニック用のタイマーです。音が鳴るので気をつけてください。', { icon: '🔊', autoClose: 9000 });
   }
 }
 
@@ -62,7 +62,7 @@ function pomodoroNotification(message: string) {
 export function makeNotifyMessage(count: number, activity: Activity) {
 
   if (activity === "NextRest") {
-    return (count + 1).toString() + "回ポモドーロが終わりました。お休みに移ります。";
+    return (count + 1).toString() + "個ポモドーロが終わりました。お休みに移ります。";
   } else {
     return "お休みが終わりました。";
   }
@@ -70,9 +70,9 @@ export function makeNotifyMessage(count: number, activity: Activity) {
 
 export const returnActivity = (status: Status, count: number, activity: Activity) => {
   if (status === StatusValues.stopped) {
-    return "ポモドーロ・テクニック タイマー"
+    return "ポモドーロ・タイマー"
   }
-  const countStr: string = "(" + (count + 1).toString() + "回目)"
+  const countStr: string = "(" + (count + 1).toString() + "コ目)"
   switch (activity) {
     case "NextRest":
       return "準備中" + countStr;
