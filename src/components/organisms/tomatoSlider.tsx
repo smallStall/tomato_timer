@@ -17,11 +17,12 @@ function roundDigit(num: number, digit: number) {
   }
 }
 
-function createSliderMarks(maxTime: number, round: number, status: string) {
+function createSliderMarks(maxTime: number, status: string) {
   type SliderLabel = { value: number; label: string };
   let arr: SliderLabel[];
   arr = [];
   const oneMarkMinutes = maxTime / SLIDER_MARK_NUM / 60;
+  const round  = oneMarkMinutes < 1 ? 3 : 1
   for (let step = 1; step <= SLIDER_MARK_NUM; step++) {
     arr.push({
       value: -oneMarkMinutes * step * 0.9999,
@@ -96,7 +97,7 @@ const TomatoSlider: React.VFC<Props> = ({
       aria-labelledby="discrete-slider-always"
       min={-maxTime / 60}
       max={maxTime / 60 / 9} //トマトのhover判定を長めに取るために余分に長くする
-      marks={createSliderMarks(maxTime, 3, status)}
+      marks={createSliderMarks(maxTime, status)}
       step={0.01}
       valueLabelDisplay="off"
       onChange={onChangeSlider}
