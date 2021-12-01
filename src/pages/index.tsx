@@ -1,18 +1,18 @@
 import type { NextPage } from "next";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React from "react";
 import Timer from "../components/templates/timer";
 import Memo from "../components/organisms/memo";
 import Footer from "../components/organisms/footer";
 import styles from "./index.module.scss";
 import Title from "../components/molecules/title";
 import Theme from "./theme";
-import Menu from "../components/organisms/menu";
+import Menu from "../components/templates/menu";
 
 const Home: NextPage = () => {
   return (
     <Theme>
-      <Title />
+      <Title title={"ポモドーロタイマー"} />
       <section className={styles.main}>
         <section className={styles.sideBarTopBar}>
           <Menu />

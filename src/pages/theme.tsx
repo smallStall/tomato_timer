@@ -25,21 +25,21 @@ const theme = createTheme({
     MuiSwitch: {
       styleOverrides: {
         root: {
-          ".Mui-checked+.MuiSwitch-track" :{
-            backgroundColor: "var(--contrast)",           
-          }
+          ".Mui-checked+.MuiSwitch-track": {
+            backgroundColor: "var(--contrast)",
+          },
         },
         track: {
           backgroundColor: "var(--contrast) !important", //TODO!important後で外す
         },
       },
     },
-    MuiOutlinedInput:{
-      styleOverrides:{
-        input:{
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: {
           border: "none",
-        }
-      }
+        },
+      },
     },
     MuiInput: {
       styleOverrides: {
@@ -69,8 +69,14 @@ export const MobileContext = createContext<{
   isMobile: boolean;
 }>({ setMobile: () => {}, isMobile: false });
 
+export const CountContext = createContext<{
+  setCount: Dispatch<SetStateAction<number>>;
+  count: number;
+}>({ setCount: () => {}, count: 0 });
+
 export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(100);
+  const [count, setCount] = useState(0);
   const [isMobile, setMobile] = useState(false);
   useEffect(() => {
     setMobile(
@@ -85,7 +91,9 @@ export default function Theme({ children }: Props) {
       <ThemeProvider theme={theme}>
         <VolumeContext.Provider value={{ setVolume, volume }}>
           <MobileContext.Provider value={{ setMobile, isMobile }}>
-            {children}
+            <CountContext.Provider value={{ setCount, count }}>
+              {children}
+            </CountContext.Provider>
           </MobileContext.Provider>
         </VolumeContext.Provider>
       </ThemeProvider>

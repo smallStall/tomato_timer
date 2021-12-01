@@ -1,0 +1,31 @@
+//flexbox holy albatross
+.iconBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  align-items: center;
+  color: var(--contrast);
+  background-color: var(--secondary);
+  height: 5.5%;
+  margin: 0 0 3% 4%;
+}
+
+.iconBar * {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+
+.iconBar > * {
+  flex-grow: 1;
+  flex-basis: calc((22em - 100%) * 999);
+}
+
+.iconBar > :first-child {
+  flex-grow: 0.5;
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
+
+.iconBar > :nth-child(2) {
+  flex-grow: 0.7;
+}
+

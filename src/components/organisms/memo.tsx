@@ -22,7 +22,7 @@ export const Memo: React.VFC<Prop> = () => {
   return (
     <TextField
       className={styles.root}
-      label="Memo"
+      label="メモ"
       InputProps={{
         id: ID,
         classes: {
