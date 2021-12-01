@@ -18,9 +18,9 @@ import {
   toastTomato,
 } from "../../libs/notify";
 
-const PROD_WORK_TIME = 25 * 60;
+const PROD_WORK_TIME = 25 * 60 + 2;
 const PROD_REST_TIME = 5 * 60;
-const PROD_DELAY_TIME = 3;
+const PROD_DELAY_TIME = 2;
 const PROD_SOUND_PATH = "zihou1.mp3";
 
 const TEST_WORK_TIME = 5;
