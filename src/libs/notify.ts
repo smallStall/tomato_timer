@@ -74,7 +74,7 @@ export const returnActivity = (status: Status, count: number, activity: Activity
   }
   const min = Math.floor(displayTime / 60);
   const minStr = min === 0 ? Math.floor(displayTime / 10) * 10 + "秒" : min + "分";
-  const countStr: string = "・残り" + minStr + "・🍅" + (count + 1).toString() + "コ目";
+  const countStr: string = (minStr === "0秒" ? "・まもなく" : "・残り" + minStr) + "・🍅" + (count + 1).toString() + "コ目";
   switch (activity) {
     case "NextRest":
       return "準備中" + countStr;
