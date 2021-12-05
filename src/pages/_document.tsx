@@ -22,7 +22,7 @@ export default class MyDocument extends Document {
           <link rel="manifest" href="/favicons/site.webmanifest" />
           <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#000000" />
           <link href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Zen+Kaku+Gothic+New:wght@500&display=swap" rel="stylesheet" />
-          <meta name="keywords" content="Pomodoro Technique,ポモドーロテクニック,Timer,タイマー" />
+          <meta name="description" content="ポモドーロ・テクニック用のタイマーです。スタートして25分後にタイマーが鳴り、その5分後にまたタイマーが鳴ります。" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta name="msapplication-config" content="/favicons/browserconfig.xml" />
         </Head>

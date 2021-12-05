@@ -82,11 +82,11 @@ const Timer: React.VFC = () => {
           sizes="16x16"
           href={"/favicons/favicon-16x16" + returnFavicon(activity) + ".png"}
         />
-        <title>{returnActivity(status, count, activity)}</title>
+        <title>{returnActivity(status, count, activity, displayTime)}</title>
       </Head>
       <ToastContainer
         className={styles.toast}
-        autoClose={6000}
+        autoClose={9000}
         hideProgressBar={true}
         position={"bottom-right"}
         transition={Zoom}

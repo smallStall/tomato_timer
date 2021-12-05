@@ -3,7 +3,7 @@ import { Activity, Status, StatusValues } from 'types/intervalTimer';
 
 export function toastTomato() {
   if (isToast()) {
-    toast('ポモドーロ・テクニック用のタイマーです。音が鳴るので気をつけてください。', { icon: '🔊', autoClose: 9000 });
+    toast('ポモドーロ・テクニック用のタイマーです。音が鳴るので気をつけてください。', { icon: '🔊', autoClose: 10000 });
   }
 }
 
@@ -68,11 +68,13 @@ export function makeNotifyMessage(count: number, activity: Activity) {
   }
 }
 
-export const returnActivity = (status: Status, count: number, activity: Activity) => {
+export const returnActivity = (status: Status, count: number, activity: Activity, displayTime: number) => {
   if (status === StatusValues.stopped) {
     return "ポモドーロ・タイマー"
   }
-  const countStr: string = "(" + (count + 1).toString() + "コ目)"
+  const min = Math.floor(displayTime / 60);
+  const minStr = min === 0 ? Math.floor(displayTime / 10) * 10 + "秒" : min + "分";
+  const countStr: string = "・🍅" + (count + 1).toString() + "コ目・残り" + minStr;
   switch (activity) {
     case "NextRest":
       return "準備中" + countStr;
