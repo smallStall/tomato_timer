@@ -14,7 +14,6 @@
 
 .restartButton{
   @include baseButton(var(--pale), 1.5em);
-  padding-bottom: 0.05em;
 }
 
 .playButton{

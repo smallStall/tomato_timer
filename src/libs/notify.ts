@@ -74,7 +74,7 @@ export const returnActivity = (status: Status, count: number, activity: Activity
   }
   const min = Math.floor(displayTime / 60);
   const minStr = min === 0 ? Math.floor(displayTime / 10) * 10 + "秒" : min + "分";
-  const countStr: string = "・🍅" + (count + 1).toString() + "コ目・残り" + minStr;
+  const countStr: string = "・残り" + minStr + "・🍅" + (count + 1).toString() + "コ目";
   switch (activity) {
     case "NextRest":
       return "準備中" + countStr;
@@ -86,14 +86,3 @@ export const returnActivity = (status: Status, count: number, activity: Activity
       return "休憩中" + countStr;
   }
 };
-
-export const returnFavicon = (activity: Activity) => {
-  if (activity === "None") {
-    return "";
-  } else if (activity === "Work") {
-    return "-work";
-  } else {
-    return "-rest";
-  }
-};
-

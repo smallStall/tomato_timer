@@ -14,7 +14,6 @@ import {
   notifyMe,
   makeNotifyMessage,
   returnActivity,
-  returnFavicon,
   toastTomato,
 } from "../../libs/notify";
 
@@ -70,18 +69,6 @@ const Timer: React.VFC = () => {
   return (
     <>
       <Head>
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href={"/favicons/favicon-32x32" + returnFavicon(activity) + ".png"}
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href={"/favicons/favicon-16x16" + returnFavicon(activity) + ".png"}
-        />
         <title>{returnActivity(status, count, activity, displayTime)}</title>
       </Head>
       <ToastContainer

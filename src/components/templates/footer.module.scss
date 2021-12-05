@@ -4,25 +4,34 @@
   bottom: 0;
   position: absolute;
   background: var(--footer-header);
+  color: var(--contrast);
   @media screen and (max-width:576px) {
     height: 3%
   }
-  @media screen and (max-height:400px) {
+  @media screen and (max-height:450px) {
     display: none;
   }
+}
+
+.contact{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 0.1em;
+  bottom: 1.5em;
 }
 
 .empty{
   display: none
 }
 
-.credit{
-  color: var(--contrast);
-  margin: 0 20px 5px 0;
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  font-size: 0.8em;
+.label{
+  font-size: 0.85em;
 }
-
-
+.credit{
+  position: absolute;
+  bottom: 0.1em;
+  right: 0.1em;
+  margin: 0 1em 0.5em auto;
+  font-size: 0.85em;
+}

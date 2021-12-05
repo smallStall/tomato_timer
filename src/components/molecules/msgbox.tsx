@@ -38,7 +38,6 @@ const MsgBox: React.VFC<Props> = ({ msg, open, onClose }) => {
           >
             キャンセル
           </Button>
-
         </DialogActions>
       </Dialog>
     </div>

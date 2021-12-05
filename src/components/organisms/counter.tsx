@@ -15,7 +15,8 @@ const Counter = () => {
   return (
     <div>
       <Typography className={styles.root}>
-        <span className={styles.number}> {"🍅" + zenkakuToHankaku((count + 1) % 100)}</span>
+        <span className={styles.tomato}>{"🍅"}</span>
+        <span className={styles.number}> {zenkakuToHankaku((count + 1) % 100)}</span>
         <span className={styles.kome}>{"コ目"}</span>
       </Typography>
     </div>
