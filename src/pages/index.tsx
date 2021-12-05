@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import React from "react";
 import Timer from "../components/templates/timer";
 import Memo from "../components/organisms/memo";
-import Footer from "../components/organisms/footer";
+import Footer from "../components/templates/footer";
 import styles from "./index.module.scss";
 import Title from "../components/molecules/title";
 import Theme from "./theme";
