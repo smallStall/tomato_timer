@@ -70,13 +70,13 @@ export const MobileContext = createContext<{
 }>({ setMobile: () => {}, isMobile: false });
 
 export const CountContext = createContext<{
-  setCount: Dispatch<SetStateAction<number>>;
-  count: number;
-}>({ setCount: () => {}, count: 0 });
+  setCount: Dispatch<SetStateAction<string>>;
+  count: string;
+}>({ setCount: () => {}, count: "" });
 
 export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(100);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState("1コ目");
   const [isMobile, setMobile] = useState(false);
   useEffect(() => {
     setMobile(

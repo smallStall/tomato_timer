@@ -31,7 +31,7 @@ const INTERVAL = 1;
 
 const Timer: React.VFC = () => {
   const { volume } = useContext(VolumeContext);
-  const { setCount } = useContext(CountContext);
+  const { count : contextCount, setCount } = useContext(CountContext);
   const workTime = process.env.isProd ? PROD_WORK_TIME : TEST_WORK_TIME;
   const restTime = process.env.isProd ? PROD_REST_TIME : TEST_REST_TIME;
   const delayTime = process.env.isProd ? PROD_DELAY_TIME : TEST_DELAY_TIME;
@@ -46,19 +46,16 @@ const Timer: React.VFC = () => {
       delayTime,
       soundPath
     );
-  useEffect(() => {setCount(count)}, [count, setCount]);
+
+  useEffect(() => {
+    const counterStop = ((count + 1) % 100).toString();
+    setCount(counterStop + (activity === "Work" || activity === "None" ? "コ目" : "コ　"));
+  }, [activity, count, setCount]);
   useEffect(() => {
     if (activity === "NextRest" || activity === "NextWork") {
       notifyMe(makeNotifyMessage(count, activity));
     }
   }, [count, activity]);
-
-  /*
-  useEffect(() => {
-    setDigitalTime(displayTime);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [useWindowFocused().isFocused, status]);
-  */
 
   useEffect(() => {
     toastTomato();
@@ -69,7 +66,7 @@ const Timer: React.VFC = () => {
   return (
     <>
       <Head>
-        <title>{returnActivity(status, count, activity, displayTime)}</title>
+        <title>{returnActivity(status, contextCount, activity, displayTime)}</title>
       </Head>
       <ToastContainer
         className={styles.toast}

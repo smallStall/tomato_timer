@@ -1,2 +1,2 @@
 
-This is timer for Pomodoro Technique using Next.js.
+This is unofficial timer for Pomodoro(R) Technique.
