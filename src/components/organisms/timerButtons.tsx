@@ -4,7 +4,7 @@ import styles from "./timerButton.module.scss";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import IconButton from "@mui/material/IconButton";
 import SvgIcon from "@mui/material/SvgIcon";
-import StopIcon from "@mui/icons-material/Stop";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import MsgBox from "../molecules/msgbox";
 
 type Props = {
@@ -31,7 +31,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
   const getIconRestart = useCallback((isRunning: boolean, status: Status) => {
     return isRunning || status === StatusValues.stopped ? null : (
       <IconButton aria-label="stop" onClick={onClickRestart}>
-        <StopIcon className={styles.restartButton} />
+        <RestartAltIcon className={styles.restartButton} />
       </IconButton>
     );
   }, []);
@@ -51,6 +51,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
     setMsgBoxOpen(false);
     if (isOK) {
       timer.stop();
+      timer.start();
     }
   };
   return (
@@ -60,7 +61,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
       </IconButton>
       {getIconRestart(isRunning, status)}
       <MsgBox
-        msg="タイマーをリセットしますか？"
+        msg="タイマーをリセットして始めますか？"
         open={isMsgBoxOpen}
         onClose={onClose}
       />

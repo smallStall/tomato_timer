@@ -68,21 +68,23 @@ export function makeNotifyMessage(count: number, activity: Activity) {
   }
 }
 
-export const returnActivity = (status: Status, count: number, activity: Activity, displayTime: number) => {
+export const returnActivity = (status: Status, count: string, activity: Activity, displayTime: number) => {
   if (status === StatusValues.stopped) {
-    return "ポモドーロ・タイマー"
+    return "ポモドーロタイマー"
   }
   const min = Math.floor(displayTime / 60);
   const minStr = min === 0 ? Math.floor(displayTime / 10) * 10 + "秒" : min + "分";
-  const countStr: string = (minStr === "0秒" ? "・まもなく" : "・残り" + minStr) + "・🍅" + (count + 1).toString() + "コ目";
+  const minSecStr: string = (minStr === "0秒" ? "まもなく" : "残り" + minStr);
+  const countStr = "🍅" + count;
+  const minSecCount = minSecStr + "・" + countStr
   switch (activity) {
     case "NextRest":
-      return "準備中" + countStr;
+      return minSecCount + "・準備中";
     case "NextWork":
-      return "準備中" + countStr;
+      return minSecCount + "・準備中";
     case "Work":
-      return "作業中" + countStr;
+      return minSecCount + "・作業中";
     case "Rest":
-      return "休憩中" + countStr;
+      return minSecCount + "・休憩中";
   }
 };

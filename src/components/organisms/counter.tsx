@@ -4,20 +4,17 @@ import { CountContext } from "../../pages/theme";
 import styles from "./counter.module.scss";
 
 
-function zenkakuToHankaku(num: number) {
-  return num.toString().replace(/[0-9]/g, function (s) {
-    return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
-  });
-}
-
 const Counter = () => {
   const {count} = useContext(CountContext);
+  const koPosition = count.indexOf("コ");
+  const number = count.slice(0, koPosition);
+  const ko = count.slice(koPosition, count.length);
   return (
     <div>
       <Typography className={styles.root}>
-        <span className={styles.tomato}>{"🍅"}</span>
-        <span className={styles.number}> {zenkakuToHankaku((count + 1) % 100)}</span>
-        <span className={styles.kome}>{"コ目"}</span>
+        <span>{"🍅"}</span>
+        <span className={styles.number}> {number}</span>
+        <span className={styles.kome}> {ko}</span>
       </Typography>
     </div>
   );

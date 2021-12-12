@@ -15,17 +15,18 @@
 }
 
 .iconBar > * {
-  flex-grow: 1;
+  flex-grow: 0.7;
   flex-basis: calc((22em - 100%) * 999);
 }
 
 .iconBar > :first-child {
-  flex-grow: 0.5;
+  flex-grow: 0.4;
   margin-top: 9px;
+  margin-left: 3px;
   margin-bottom: 9px;
 }
 
 .iconBar > :nth-child(2) {
-  flex-grow: 0.7;
+  flex-grow: 0.6;
 }
 
