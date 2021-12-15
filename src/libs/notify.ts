@@ -2,52 +2,34 @@ import { toast } from 'react-toastify';
 import { Activity, Status, StatusValues } from 'types/intervalTimer';
 
 export function toastTomato() {
-  if (isToast()) {
-    toast('ポモドーロ・テクニック用のタイマーです。音が鳴るので気をつけてください。', { icon: '🔊', autoClose: 10000 });
+  const count = getVisitedCount();
+  if (count < 2) {
+    toast('ポモドーロ・テクニック用のタイマーです。音が鳴るので気をつけてください。', { icon: '🔊', autoClose: 10000, position: "bottom-right" });
   }
+  plusVititedCount();
 }
 
-function isToast() {
-  const toastCount = localStorage.getItem('toast');
-  if (toastCount === '1') {
-    return false;
-  } else if (toastCount === '0') {
-    localStorage.setItem('toast', '1')
-    return true;
-  } else if (toastCount == null) {
-    localStorage.setItem('toast', '0');
-    return true;
-  }
+export function getVisitedCount() {
+  const toastCount = localStorage.getItem('visited');
+  const count : number = toastCount == null ? 0 : Number(toastCount.toString());
+  return count;
 }
 
+function plusVititedCount(){
+  const count : number = getVisitedCount();
+  localStorage.setItem('visited', (count + 1).toString());
+}
 
 export function notifyMe(message: string) {
-  // Let's check if the browser supports notifications
-  if (!("Notification" in window)) {
-    //toast('デスクトップ通知が有効になっていません。有効にするには通知設定をご確認ください。');
-  }
-
-  // Let's check whether notification permissions have already been granted
-  else if (Notification.permission === "granted") {
-    // If it's okay let's create a notification
+  if (Notification.permission === "granted") {
     pomodoroNotification(message);
+  } else {
+    toast(message, { icon: '🍅', autoClose: 5000, position: "bottom-right" })
   }
 
-  // Otherwise, we need to ask the user for permission
-  else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(function (permission) {
-      // If the user accepts, let's create a notification
-      if (permission === "granted") {
-        pomodoroNotification(message);
-      }
-    });
-  }
-
-  // At last, if the user has denied notifications, and you
-  // want to be respectful there is no need to bother them any more.
 }
 
-function pomodoroNotification(message: string) {
+export function pomodoroNotification(message: string) {
   const notification = new Notification(
     'ポモドーロタイマー',
     {
@@ -62,20 +44,18 @@ function pomodoroNotification(message: string) {
 export function makeNotifyMessage(count: number, activity: Activity) {
 
   if (activity === "NextRest") {
-    return (count + 1).toString() + "個ポモドーロが終わりました。お休みに移ります。";
+    return (count + 1).toString() + "個ポモドーロを達成しました。リフレッシュしましょう。";
   } else {
-    return "お休みが終わりました。";
+    return "リフレッシュが終わりました。作業に移ります。";
   }
 }
 
 export const returnActivity = (status: Status, count: string, activity: Activity, displayTime: number) => {
-  if (status === StatusValues.stopped) {
-    return "ポモドーロタイマー"
-  }
+
   const min = Math.floor(displayTime / 60);
   const minStr = min === 0 ? Math.floor(displayTime / 10) * 10 + "秒" : min + "分";
-  const minSecStr: string = (minStr === "0秒" ? "まもなく" : "残り" + minStr);
-  const countStr = "🍅" + count;
+  const minSecStr: string = (minStr === "0秒" ? "まもなく" : minStr);
+  const countStr = "🍅" + count.replace("　", "");
   const minSecCount = minSecStr + "・" + countStr
   switch (activity) {
     case "NextRest":
@@ -85,6 +65,9 @@ export const returnActivity = (status: Status, count: string, activity: Activity
     case "Work":
       return minSecCount + "・作業中";
     case "Rest":
-      return minSecCount + "・休憩中";
+      return minSecCount + "・リフレッシュ中";
+    default:
+      return "ポモドーロタイマー"
+
   }
 };
