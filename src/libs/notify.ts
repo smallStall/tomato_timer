@@ -28,6 +28,7 @@ export function notifyMe(message: string) {
   */
     toast(message, { icon: '🍅', autoClose: 5000, position: "bottom-right" })
   //}
+
 }
 
 export function pomodoroNotification(message: string) {
@@ -64,17 +65,16 @@ export const returnActivity = (status: Status, count: string, activity: Activity
   const min = Math.floor(displayTime / 60);
   const minStr = min === 0 ? Math.floor(displayTime / 10) * 10 + "秒" : min + "分";
   const minSecStr: string = (minStr === "0秒" ? "まもなく" : minStr);
-  const countStr = count.replace("　", "");
-  const minSecCount = minSecStr + "・" + countStr
+  const countStr = "・🍅" + count.replace("　", "");
   switch (activity) {
     case "NextRest":
-      return minSecCount + "・準備中";
+      return minSecStr + "・準備中" + countStr;
     case "NextWork":
-      return minSecCount + "・準備中";
+      return minSecStr + "・準備中" + countStr;
     case "Work":
-      return minSecCount + "・作業中";
+      return minSecStr + "・作業中" + countStr;
     case "Rest":
-      return minSecCount + "・リフレッシュ中";
+      return minSecStr + "・リフレッシュ中" + countStr;
     default:
       return "ポモドーロタイマー"
 
