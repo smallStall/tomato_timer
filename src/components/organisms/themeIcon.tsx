@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FormControlLabel, Switch } from "@mui/material";
 import styles from "./themeIcon.module.scss";
 
+type Props = { label: string };
 
-type Props = {label: string}
-
-const ThemeIcon : React.VFC<Props> = ({label}) => {
+const ThemeIcon: React.VFC<Props> = ({ label }) => {
   const [isDarkMode, setDarkMode] = useState(false); //string -> boolean
 
   useEffect(() => {
@@ -29,7 +28,6 @@ const ThemeIcon : React.VFC<Props> = ({label}) => {
   return (
     <div>
       <FormControlLabel
-        className={styles.root}
         label={label}
         classes={{
           label: styles.label,

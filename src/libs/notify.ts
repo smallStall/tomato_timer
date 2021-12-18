@@ -21,12 +21,13 @@ function plusVititedCount() {
 }
 
 export function notifyMe(message: string) {
+  /*
   if (Notification.permission === "granted" && localStorage.getItem("isNotified") == "true") {
     pomodoroNotification(message);
   } else {
+  */
     toast(message, { icon: '🍅', autoClose: 5000, position: "bottom-right" })
-  }
-
+  //}
 }
 
 export function pomodoroNotification(message: string) {
@@ -63,7 +64,7 @@ export const returnActivity = (status: Status, count: string, activity: Activity
   const min = Math.floor(displayTime / 60);
   const minStr = min === 0 ? Math.floor(displayTime / 10) * 10 + "秒" : min + "分";
   const minSecStr: string = (minStr === "0秒" ? "まもなく" : minStr);
-  const countStr = "🍅" + count.replace("　", "");
+  const countStr = count.replace("　", "");
   const minSecCount = minSecStr + "・" + countStr
   switch (activity) {
     case "NextRest":
