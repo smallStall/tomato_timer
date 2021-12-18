@@ -75,7 +75,7 @@ export const CountContext = createContext<{
 }>({ setCount: () => {}, count: "" });
 
 export default function Theme({ children }: Props) {
-  const [volume, setVolume] = useState(100);
+  const [volume, setVolume] = useState(1);
   const [count, setCount] = useState("1コ目");
   const [isMobile, setMobile] = useState(false);
   useEffect(() => {

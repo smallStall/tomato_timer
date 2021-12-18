@@ -8,7 +8,7 @@ import styles from "./index.module.scss";
 import Title from "../components/molecules/title";
 import Theme from "./theme";
 import Menu from "../components/templates/menu";
-import NotificationToast from "components/organisms/notificationIcon";
+
 
 const Home: NextPage = () => {
   return (

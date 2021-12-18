@@ -6,9 +6,8 @@ export const useSound = (soundPath: string, volume: number): Sound => {
   const soundRef = useRef<Howl>();
   const pausedTimeRef = useRef(0);
   if (volume < 0 || volume > 1) {
-    //throw new Error("volume error")
+    throw new Error("volume error")
   }
-
   const play = useCallback(() => {
     soundRef.current = new Howl({
       src: [soundPath],
@@ -51,11 +50,17 @@ export const useSound = (soundPath: string, volume: number): Sound => {
     soundRef.current.stop();
     soundRef.current.unload();
   }, []);
+  const adjust = useCallback((position: number) => {
+    if(soundRef.current == null){
+      return;
+    }
+    soundRef.current.seek(position);
+  }, [])
 
   useEffect(() => {
     if (soundRef.current != null) {
       soundRef.current.volume(volume);
     }
   }, [volume])
-  return { playSound: play, pauseSound: pause, resumeSound: resume, stopSound: stop }
+  return { playSound: play, pauseSound: pause, resumeSound: resume, adjustSound:adjust, stopSound: stop }
 }

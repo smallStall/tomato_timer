@@ -6,8 +6,8 @@
   align-items: center;
   color: var(--contrast);
   background-color: var(--secondary);
-  height: 8%;
-  margin: 0 0 3% 4%;
+  height: 2.2em;
+  margin: 0 0 1em 4%;
 }
 
 .iconBar * {
@@ -15,8 +15,8 @@
 }
 
 .iconBar > * {
-  flex-grow: 0.7;
-  flex-basis: calc((22em - 100%) * 999);
+  flex-grow: 0.5;
+  flex-basis: calc((24em - 100%) * 999);
 }
 
 .iconBar > :first-child {
@@ -28,5 +28,6 @@
 
 .iconBar > :nth-child(2) {
   flex-grow: 0.6;
+  margin-bottom: 5px;
 }
 

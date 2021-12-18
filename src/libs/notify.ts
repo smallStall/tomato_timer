@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { Activity, Status, StatusValues } from 'types/intervalTimer';
+import { Activity, Status } from 'types/intervalTimer';
 
 export function toastTomato() {
   const count = getVisitedCount();
@@ -11,17 +11,17 @@ export function toastTomato() {
 
 export function getVisitedCount() {
   const toastCount = localStorage.getItem('visited');
-  const count : number = toastCount == null ? 0 : Number(toastCount.toString());
+  const count: number = toastCount == null ? 0 : Number(toastCount.toString());
   return count;
 }
 
-function plusVititedCount(){
-  const count : number = getVisitedCount();
+function plusVititedCount() {
+  const count: number = getVisitedCount();
   localStorage.setItem('visited', (count + 1).toString());
 }
 
 export function notifyMe(message: string) {
-  if (Notification.permission === "granted") {
+  if (Notification.permission === "granted" && localStorage.getItem("isNotified") == "true") {
     pomodoroNotification(message);
   } else {
     toast(message, { icon: '🍅', autoClose: 5000, position: "bottom-right" })
@@ -40,6 +40,14 @@ export function pomodoroNotification(message: string) {
   //renotifyがFireFoxでどうなるか確認
 }
 
+export function getPermission() {
+  if (!("Notification" in window)) {
+    return 'none';
+  }
+  else {
+    return Notification.permission;
+  }
+}
 
 export function makeNotifyMessage(count: number, activity: Activity) {
 
