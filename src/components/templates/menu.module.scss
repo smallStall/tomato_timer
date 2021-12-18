@@ -4,10 +4,11 @@
   flex-wrap: wrap;
   gap: 0.5em;
   align-items: center;
+  justify-content: center;
   color: var(--contrast);
   background-color: var(--secondary);
-  height: 5.5%;
-  margin: 0 0 3% 4%;
+  height: 2em;
+  margin: 0 0 1em 4%;
 }
 
 .iconBar * {
@@ -15,18 +16,18 @@
 }
 
 .iconBar > * {
-  flex-grow: 0.7;
+  flex-grow: 0.5;
   flex-basis: calc((22em - 100%) * 999);
 }
 
 .iconBar > :first-child {
-  flex-grow: 0.4;
-  margin-top: 9px;
+  flex-grow: 0.35;
+  margin-top: 6px;
   margin-left: 3px;
-  margin-bottom: 9px;
+  margin-bottom: 6px;
 }
 
 .iconBar > :nth-child(2) {
-  flex-grow: 0.6;
+  flex-grow: 0.5;
 }
 

@@ -3,11 +3,11 @@ import { Typography, IconButton } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import Timer2 from "../../../public/test.mp3";
 import { Howl } from "howler";
-import styles from "./soundButton.module.scss";
+import styles from "./soundIcon.module.scss";
 
 const DEFAULT_VOLUME = 1;
 
-const SoundButton = ({ label }: { label: string }) => {
+const SoundIcon = ({ label }: { label: string }) => {
   const onClick = () => {
     const sound = new Howl({
       src: [Timer2],
@@ -35,4 +35,4 @@ const SoundButton = ({ label }: { label: string }) => {
   );
 };
 
-export default SoundButton;
+export default SoundIcon;

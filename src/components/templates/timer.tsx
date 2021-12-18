@@ -72,7 +72,6 @@ const Timer: React.VFC = () => {
         className={styles.toast}
         autoClose={9000}
         hideProgressBar={true}
-        position={"bottom-right"}
         transition={Zoom}
       />
       <div className={styles.container}>

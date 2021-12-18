@@ -15,11 +15,11 @@ export const useIntervalTimer = (
   workTime: number,
   restTime: number,
   interval = 1,
-  volume: number,
+  volume = 1,
   delayTime = 3,
   soundPath: string = "",
 ): UseIntervalTimerReturn => {
-  const {playSound, pauseSound, resumeSound, stopSound} = useSound(soundPath, volume);
+  const { playSound, pauseSound, resumeSound, adjustSound, stopSound } = useSound(soundPath, volume);
   const [state, dispatch] = useReducer(reducer, {
     status: StatusValues.stopped,
     elapsedTime: 0,
@@ -32,7 +32,7 @@ export const useIntervalTimer = (
     restTime: restTime,
     displayTime: 0
   });
-  const { status, elapsedTime } = state;
+  const { status, elapsedTime, count } = state;
   const start = useCallback(() => {
     dispatch({ type: 'start' })
     playSound();
@@ -65,12 +65,16 @@ export const useIntervalTimer = (
         const timer = setTimeout(() => {
           if (status === StatusValues.running || status === StatusValues.resume) {
             setTime();
+            const sec = state.displayTime % 60
+            if (sec > 9.2 && sec < 10.8) { //60秒ごとに音の時間を再設定する
+              adjustSound(elapsedTime - state.count * (workTime + restTime + 2 * delayTime));
+            }
           }
           resolve(timer);
         }, ms)
       });
     }
-    timer(interval * 1000);
+    timer(elapsedTime === 0 ? interval * 900 : interval * 990);
   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     , [elapsedTime, status]);

@@ -8,6 +8,9 @@
     min-width: 80vw;
   }
 
+  @media screen and (max-height:400px) {
+    display: none;;
+  }
 }
 .input {
   color: var(--primary);

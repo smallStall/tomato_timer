@@ -9,6 +9,7 @@ import Title from "../components/molecules/title";
 import Theme from "./theme";
 import Menu from "../components/templates/menu";
 
+
 const Home: NextPage = () => {
   return (
     <Theme>
