@@ -5,7 +5,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import IconButton from "@mui/material/IconButton";
 import SvgIcon from "@mui/material/SvgIcon";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import MsgBox from "../molecules/msgbox";
+import MsgToast from "components/molecules/msgToast";
 
 type Props = {
   isRunning: boolean;
@@ -24,9 +24,11 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
       timer.resume();
     }
   };
-  const onClickRestart = () => {
+  const onClickRestart = useCallback(() => {
+    timer.stop();
+    timer.start();
     setMsgBoxOpen(true);
-  };
+  }, [timer]);
 
   const getIconRestart = useCallback((isRunning: boolean, status: Status) => {
     return isRunning || status === StatusValues.stopped ? null : (
@@ -34,7 +36,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
         <RestartAltIcon className={styles.restartButton} />
       </IconButton>
     );
-  }, []);
+  }, [onClickRestart]);
 
   const getIcon = useCallback((isRunning: boolean) => {
     return isRunning ? (
@@ -50,8 +52,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
   const onClose = (isOK: boolean) => {
     setMsgBoxOpen(false);
     if (isOK) {
-      timer.stop();
-      timer.start();
+      timer.restore();
     }
   };
   return (
@@ -60,10 +61,13 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
         {getIcon(isRunning)}
       </IconButton>
       {getIconRestart(isRunning, status)}
-      <MsgBox
-        msg="タイマーをリセットして始めますか？"
+      <MsgToast
+        message="リセットボタンを間違えて押していませんか？こちらから復元できます。"
         open={isMsgBoxOpen}
-        onClose={onClose}
+        handleClose={onClose}
+        button={true}
+        vertical="bottom"
+        horizontal="right"
       />
     </div>
   );

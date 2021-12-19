@@ -56,8 +56,13 @@ export default function MsgToast({
     <div>
       <Snackbar
         open={open}
-        autoHideDuration={30000}
-        onClose={() => handleClose(false)}
+        autoHideDuration={15000}
+        onClose={(_event: React.SyntheticEvent | Event, reason?: string) => {
+          if(reason === "clickaway"){
+            return;
+          }
+          handleClose(false)}
+        }
         message={message}
         action={action}
         anchorOrigin={{ horizontal, vertical }}

@@ -24,7 +24,8 @@ export const useIntervalTimer = (
     status: StatusValues.stopped,
     elapsedTime: 0,
     initialTime: Date.now() / 1000,
-    pausedTime: 0,
+    prevInitialTime: -1,
+    pausedTime: -1,
     count: 0,
     delayTime: delayTime,
     activity: "None",
@@ -56,6 +57,10 @@ export const useIntervalTimer = (
   const advance = useCallback((seconds: number) => {
     dispatch({ type: 'advance', payload: { seconds } });
   }, []);
+  const restore = useCallback(() => {
+    dispatch({ type: 'restore' });
+  }, []);
+
 
 
 
@@ -78,5 +83,5 @@ export const useIntervalTimer = (
   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     , [elapsedTime, status]);
-  return { timer: { start, stop, pause, resume, advance }, displayTime: state.displayTime, activity: state.activity, count: state.count, status: state.status, isRunning: status === "RUNNING" || status === "RESUME" }
+  return { timer: { start, stop, pause, resume, advance, restore }, displayTime: state.displayTime, activity: state.activity, count: state.count, status: state.status, isRunning: status === "RUNNING" || status === "RESUME" }
 }
