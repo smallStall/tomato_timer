@@ -11,7 +11,7 @@ import { getPermission } from "libs/notify";
 const NotificationIcon = ({ label }: { label: string }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [isButton, setButton] = useState(false);
+  const [buttonNum, setButtonNum] = useState(0);
   const [isNotified, setNotify] = useState(false);
   const [horizontal, setHorizontal] = useState<Horizontal>("right");
   const [vertical, setVertical] = useState<Vertical>("top");
@@ -35,12 +35,12 @@ const NotificationIcon = ({ label }: { label: string }) => {
 
   const openToast = (
     message: string,
-    isButton?: boolean,
+    buttonNum: number,
     horizontal?: Horizontal,
     vertical?: Vertical
   ) => {
     setMessage(message);
-    setButton(isButton ?? false);
+    setButtonNum(buttonNum);
     setHorizontal(horizontal ?? "center");
     setVertical(vertical ?? "top");
     setOpen(true);
@@ -66,13 +66,14 @@ const NotificationIcon = ({ label }: { label: string }) => {
         `デスクトップ通知が許可されていません。
         通知を有効にするとこの画面がアクティブでなくてもタイマーの通知がディスプレイに出て来るようになります。
         通知を許可するにはブラウザにてサイトの設定をご確認ください。`,
-        false,
+        0,
         "right"
       );
     } else if (permission === "denied") {
       openToast(
         `デスクトップ通知が許可されていません。
-        通知を許可するにはブラウザにてサイトの設定をご確認ください。`
+        通知を許可するにはブラウザにてサイトの設定をご確認ください。`,
+        0
       );
     } else if (permission === "granted"){
       if (localStorage.getItem("isNotified") == null) {
@@ -105,7 +106,8 @@ const NotificationIcon = ({ label }: { label: string }) => {
         open={open}
         message={message}
         handleClose={handleClose}
-        button={isButton}
+        yesLabel="はい"
+        buttonNum={buttonNum}
         horizontal={horizontal}
         vertical={vertical}
       />

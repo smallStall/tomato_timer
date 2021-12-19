@@ -6,6 +6,7 @@ const START = () => createActionType('start');
 const STOP = () => createActionType('stop');
 const RESUME = () => createActionType('resume');
 const ADVANCE = (seconds: number) => createActionType('advance', { seconds });
+const RESTORE = () => createActionType('restore');
 
 
 
@@ -16,4 +17,5 @@ export type TimerActionsType = ReturnType<
   | typeof STOP
   | typeof RESUME
   | typeof ADVANCE
+  | typeof RESTORE
 >;

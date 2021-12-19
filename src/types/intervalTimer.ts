@@ -16,6 +16,7 @@ export interface State {
   readonly initialTime: number;
   readonly pausedTime: number;
   readonly displayTime: number;
+  readonly prevInitialTime: number;
   readonly count: number;
   readonly activity: Activity;
   readonly workTime: number;
@@ -29,6 +30,7 @@ export interface Timer {
   resume: () => void;
   stop: () => void;
   advance: (seconds: number) => void;
+  restore: () => void;
 }
 
 export type UseIntervalTimerReturn = {

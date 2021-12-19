@@ -69,13 +69,16 @@ export function reducer(state: State, action: TimerActionsType): State {
       }
     }
     case 'resume': {
-      document.documentElement.setAttribute('animation', 'running')
+      document.documentElement.setAttribute('animation', 'running');
+      if(state.pausedTime < 0){
+        return state;
+      }
       const diff = state.pausedTime > 0 ? Date.now() / 1000 - state.pausedTime : 0;
       return {
         ...state,
         status: StatusValues.resume,
         initialTime: state.initialTime + diff,
-        pausedTime: 0,
+        pausedTime: -1,
       }
     }
     case 'start': {
@@ -91,8 +94,11 @@ export function reducer(state: State, action: TimerActionsType): State {
     }
     case 'stop': {
       document.documentElement.setAttribute('animation', 'paused')
+      const diff = state.pausedTime > 0 ? Date.now() / 1000 - state.pausedTime : 0;
       return {
         ...state,
+        prevInitialTime: state.initialTime + diff,
+        pausedTime: -1,
         activity: 'None',
         displayTime: 0,
         elapsedTime: 0,
@@ -113,6 +119,19 @@ export function reducer(state: State, action: TimerActionsType): State {
         activity: calcActivity({ ...state, elapsedTime: elapsedTime, count: count }),
         displayTime: calcDisplayTime({ ...state, elapsedTime: elapsedTime, count: count}),
       }      
+    }
+    case 'restore': {
+      document.documentElement.setAttribute('animation', 'running');
+      if(state.prevInitialTime < 0){
+        return state;
+      }
+      return {
+        ...state,
+        status: StatusValues.resume,
+        initialTime: state.prevInitialTime,
+        prevInitialTime: -1,
+        pausedTime: -1,
+      }
     }
   }
 }
