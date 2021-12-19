@@ -62,10 +62,11 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
       </IconButton>
       {getIconRestart(isRunning, status)}
       <MsgToast
-        message="リセットボタンを間違えて押していませんか？こちらから復元できます。"
+        message="間違えてリセットしていた場合は、こちらから復元できます。"
         open={isMsgBoxOpen}
         handleClose={onClose}
-        button={true}
+        buttonNum={1}
+        yesLabel="復元する"
         vertical="bottom"
         horizontal="right"
       />

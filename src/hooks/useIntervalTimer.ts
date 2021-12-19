@@ -59,7 +59,8 @@ export const useIntervalTimer = (
   }, []);
   const restore = useCallback(() => {
     dispatch({ type: 'restore' });
-  }, []);
+    resumeSound();
+  }, [resumeSound]);
 
 
 

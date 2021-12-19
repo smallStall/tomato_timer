@@ -94,9 +94,11 @@ export function reducer(state: State, action: TimerActionsType): State {
     }
     case 'stop': {
       document.documentElement.setAttribute('animation', 'paused')
+      const diff = state.pausedTime > 0 ? Date.now() / 1000 - state.pausedTime : 0;
       return {
         ...state,
-        prevInitialTime: state.initialTime,
+        prevInitialTime: state.initialTime + diff,
+        pausedTime: -1,
         activity: 'None',
         displayTime: 0,
         elapsedTime: 0,
@@ -119,13 +121,14 @@ export function reducer(state: State, action: TimerActionsType): State {
       }      
     }
     case 'restore': {
+      document.documentElement.setAttribute('animation', 'running');
       if(state.prevInitialTime < 0){
         return state;
       }
-      const diff = state.pausedTime > 0 ? Date.now() / 1000 - state.pausedTime : 0;
       return {
         ...state,
-        initialTime: state.prevInitialTime + diff,
+        status: StatusValues.resume,
+        initialTime: state.prevInitialTime,
         prevInitialTime: -1,
         pausedTime: -1,
       }

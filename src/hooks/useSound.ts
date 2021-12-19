@@ -4,7 +4,7 @@ import { Sound } from "../types/sound"
 
 export const useSound = (soundPath: string, volume: number): Sound => {
   const soundRef = useRef<Howl>();
-  const pausedTimeRef = useRef(0);
+  const pausedTimeRef = useRef(-1);
   if (volume < 0 || volume > 1) {
     throw new Error("volume error")
   }
@@ -41,14 +41,17 @@ export const useSound = (soundPath: string, volume: number): Sound => {
       return;
     }
     soundRef.current.play();
-    soundRef.current.seek(pausedTimeRef.current);
+    if(pausedTimeRef.current > 0){
+      soundRef.current.seek(pausedTimeRef.current);
+      pausedTimeRef.current = -1;
+    }
   }, []);
   const stop = useCallback(() => {
     if (soundRef.current == null) {
       return;
     }
+    pausedTimeRef.current = -1;
     soundRef.current.stop();
-    soundRef.current.unload();
   }, []);
   const adjust = useCallback((position: number) => {
     if(soundRef.current == null){
