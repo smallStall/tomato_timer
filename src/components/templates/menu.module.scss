@@ -2,13 +2,13 @@
 .iconBar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5em;
+  gap: 0.1em;
   align-items: center;
   justify-content: center;
   color: var(--contrast);
   background-color: var(--secondary);
   height: 2em;
-  margin: 0 0 1em 4%;
+  margin: 0 0 1em 6%;
 }
 
 .iconBar * {
@@ -16,18 +16,17 @@
 }
 
 .iconBar > * {
-  flex-grow: 0.5;
-  flex-basis: calc((22em - 100%) * 999);
+  flex-grow: 0.45;
+  flex-basis: calc((21em - 100%) * 999);
 }
 
 .iconBar > :first-child {
-  flex-grow: 0.35;
   margin-top: 6px;
   margin-left: 3px;
   margin-bottom: 6px;
 }
 
-.iconBar > :nth-child(2) {
-  flex-grow: 0.5;
+.iconBar > :nth-child(3) {
+  flex-grow: 0.3;
 }
 

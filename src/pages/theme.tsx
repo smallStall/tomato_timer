@@ -1,11 +1,11 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import React, {
   useState,
-  useEffect,
   createContext,
   SetStateAction,
   Dispatch,
 } from "react";
+import { HistoryProvider } from "hooks/contextProvider/history";
 
 const theme = createTheme({
   palette: {
@@ -64,11 +64,6 @@ export const VolumeContext = createContext<{
   volume: number;
 }>({ setVolume: () => {}, volume: 0 });
 
-export const MobileContext = createContext<{
-  setMobile: Dispatch<SetStateAction<boolean>>;
-  isMobile: boolean;
-}>({ setMobile: () => {}, isMobile: false });
-
 export const CountContext = createContext<{
   setCount: Dispatch<SetStateAction<string>>;
   count: string;
@@ -77,24 +72,14 @@ export const CountContext = createContext<{
 export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(1);
   const [count, setCount] = useState("1コ目");
-  const [isMobile, setMobile] = useState(false);
-  useEffect(() => {
-    setMobile(
-      window.matchMedia &&
-        window.matchMedia("(max-device-width: 640px)").matches
-    );
-  }, []);
-
   return (
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <VolumeContext.Provider value={{ setVolume, volume }}>
-          <MobileContext.Provider value={{ setMobile, isMobile }}>
-            <CountContext.Provider value={{ setCount, count }}>
-              {children}
-            </CountContext.Provider>
-          </MobileContext.Provider>
+          <CountContext.Provider value={{ setCount, count }}>
+            <HistoryProvider>{children}</HistoryProvider>
+          </CountContext.Provider>
         </VolumeContext.Provider>
       </ThemeProvider>
     </>

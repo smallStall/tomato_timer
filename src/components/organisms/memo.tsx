@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import React, { useState, useEffect, useContext } from "react";
+import { isMobile } from "libs/accesories";
 import styles from "./memo.module.scss";
 
 type Prop = {};
@@ -7,8 +8,9 @@ const ID = "inputFieldId";
 
 export const Memo: React.VFC<Prop> = () => {
   const [text, setText] = useState<string | null>("");
-
+  const [mobile, setMobile] = useState(true);
   useEffect(() => {
+    setMobile(isMobile());
     if (localStorage.getItem("text") !== null) {
       setText(localStorage.getItem("text"));
     }
@@ -36,7 +38,7 @@ export const Memo: React.VFC<Prop> = () => {
       }}
       variant="outlined"
       multiline={true}
-      rows={3}
+      rows={ mobile ? 3 : 5}
       value={text}
       onChange={onWrite}
     />

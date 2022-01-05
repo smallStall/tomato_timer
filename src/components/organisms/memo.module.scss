@@ -2,10 +2,11 @@
   color: var(--primary);
   margin-bottom: 0;
   background-color: var(--background);
-  min-width: 19em;
-  height: 8em;
+  min-width: 25em;
+  height: 10em;
   @media screen and (max-width:576px) {
     min-width: 80vw;
+    height: 8em;
   }
 
   @media screen and (max-height:400px) {

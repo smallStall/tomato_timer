@@ -21,14 +21,15 @@ export interface State {
   readonly activity: Activity;
   readonly workTime: number;
   readonly restTime: number;
-  readonly delayTime:number;
+  readonly delayTime: number;
+  readonly prevCountTime: number;
 }
 
 export interface Timer {
   start: () => void;
   pause: () => void;
   resume: () => void;
-  stop: () => void;
+  restart: () => void;
   advance: (seconds: number) => void;
   restore: () => void;
 }
@@ -48,5 +49,4 @@ export type UseIntervalTimerProps = {
   interval: number;
   volume: number;
   delayTime: number;
-  soundPath: string;
 }

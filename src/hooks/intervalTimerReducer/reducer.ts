@@ -92,18 +92,13 @@ export function reducer(state: State, action: TimerActionsType): State {
         status: StatusValues.running,
       }
     }
-    case 'stop': {
-      document.documentElement.setAttribute('animation', 'paused')
-      const diff = state.pausedTime > 0 ? Date.now() / 1000 - state.pausedTime : 0;
+    case 'restart': {
+      document.documentElement.setAttribute('animation', 'running');
       return {
         ...state,
-        prevInitialTime: state.initialTime + diff,
-        pausedTime: -1,
-        activity: 'None',
-        displayTime: 0,
-        elapsedTime: 0,
-        count: 0,
-        status: StatusValues.stopped,
+        prevInitialTime: state.initialTime,
+        initialTime: Date.now() / 1000,
+        status: StatusValues.running,
       }
     }
     case 'advance': {

@@ -11,20 +11,22 @@ type Props = {
   message: string;
   open: boolean;
   handleClose: (isOk: boolean) => void;
-  buttonNum: number;
-  yesLabel: string;
-  vertical : Vertial;
-  horizontal: Horizontal;
+  buttonNum?: number;
+  yesLabel?: string;
+  vertical? : Vertial;
+  horizontal?: Horizontal;
+  duration?: number
 };
 
 export default function MsgToast({
   message,
   open,
-  handleClose,
-  buttonNum = 2,
+  handleClose = (isOk :boolean) => {open = false; return isOk;},
+  buttonNum = 0,
   yesLabel = 'はい',
   vertical = 'bottom',
   horizontal = 'right',
+  duration = 11000,
 }: Props) {
   if (buttonNum < 0 || buttonNum > 2) {
     throw new Error("buttonNum validation error");
@@ -69,7 +71,7 @@ export default function MsgToast({
     <div>
       <Snackbar
         open={open}
-        autoHideDuration={15000}
+        autoHideDuration={duration}
         onClose={(_event: React.SyntheticEvent | Event, reason?: string) => {
           if (reason === "clickaway") {
             return;
@@ -80,6 +82,7 @@ export default function MsgToast({
         action={action}
         anchorOrigin={{ horizontal, vertical }}
         sx={{ width: "37em" }}
+        disableWindowBlurListener={true}
       />
     </div>
   );
