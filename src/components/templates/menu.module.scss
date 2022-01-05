@@ -2,7 +2,6 @@
 .iconBar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.1em;
   align-items: center;
   justify-content: center;
   color: var(--contrast);
@@ -17,13 +16,14 @@
 
 .iconBar > * {
   flex-grow: 0.45;
-  flex-basis: calc((21em - 100%) * 999);
+  flex-basis: calc((21.5em - 100%) * 999);
 }
 
 .iconBar > :first-child {
   margin-top: 6px;
   margin-left: 3px;
   margin-bottom: 6px;
+  flex-grow: 0.40;
 }
 
 .iconBar > :nth-child(3) {
