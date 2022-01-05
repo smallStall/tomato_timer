@@ -18,7 +18,7 @@
   flex-grow: 0.25;
   flex-basis: calc((25em - 100%) * 999);
   @media screen and (max-width:576px) {
-    flex-basis: calc((15em - 100%) * 999);
+    flex-basis: calc((15em - 100%) * 999); // モバイルで縦並びにならないように調整
   }
 }
 
