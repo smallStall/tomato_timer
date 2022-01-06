@@ -69,28 +69,28 @@ describe("**useIntervalTimer**", () => {
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed()).toBe("0");
     expect(result.current.status).toBe(StatusValues.running);
-    expect(result.current.activity).toBe("NextRest");
+    expect(result.current.activity).toBe("Work");
   });
 
-  it("4.1s after start", () => {
+  it("4.3s after start", () => {
     act(() => {
       result.current.timer.start();
       jest.advanceTimersByTime(4100);
     });
     expect(result.current.count).toBe(0);
-    expect(result.current.displayTime.toFixed()).toBe("2");
+    expect(result.current.displayTime.toFixed()).toBe("0");
     expect(result.current.status).toBe(StatusValues.running);
-    expect(result.current.activity).toBe("Rest");
+    expect(result.current.activity).toBe("NextRest");
   });
 
 
   it("7.5s after start", () => {
     act(() => {
       result.current.timer.start();
-      jest.advanceTimersByTime(7500);
+      jest.advanceTimersByTime(8500);
     });
     expect(result.current.count).toBe(1);
-    expect(result.current.displayTime.toFixed()).toBe("3");
+    expect(result.current.displayTime.toFixed()).toBe("2");
     expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
   });
@@ -112,7 +112,7 @@ describe("**useIntervalTimer**", () => {
       jest.advanceTimersByTime(15500);
     });
     expect(result.current.count).toBe(2);
-    expect(result.current.displayTime.toFixed(1)).toBe("2.0");
+    expect(result.current.displayTime.toFixed(1)).toBe("2.2");
     expect(result.current.status).toBe(StatusValues.running);
     expect(result.current.activity).toBe("Work");
   });
@@ -127,7 +127,7 @@ describe("**useIntervalTimer**", () => {
     expect(result.current.count).toBe(0);
     expect(result.current.displayTime.toFixed(1)).toBe("3.0");
     expect(result.current.status).toBe(StatusValues.paused);
-    expect(result.current.activity).toBe("None");
+    expect(result.current.activity).toBe("Work");
   });
 
   it("Pause after 0.1s from start, resume after 1s, and after another 2s", () => {
@@ -140,7 +140,7 @@ describe("**useIntervalTimer**", () => {
       jest.advanceTimersByTime(2100);
     });
     expect(result.current.count).toBe(0);
-    expect(result.current.displayTime.toFixed(1)).toBe("0.9");
+    expect(result.current.displayTime.toFixed(1)).toBe("1.0");
     expect(result.current.status).toBe(StatusValues.resume);
     expect(result.current.activity).toBe("Work");
   });
@@ -196,18 +196,5 @@ describe("**useIntervalTimer**", () => {
     expect(result.current.activity).toBe("Work");
     expect(result.current.count).toBe(1);
     expect(result.current.displayTime.toFixed(1)).toBe("3.0");
-  });
-
-
-  it("Stop after 9.0s from start", () => {
-    act(() => {
-      result.current.timer.start();
-      jest.advanceTimersByTime(9000);
-      result.current.timer.stop();
-    });
-    expect(result.current.displayTime.toFixed(1)).toBe("0.0");
-    expect(result.current.status).toBe(StatusValues.stopped);
-    expect(result.current.activity).toBe("None");
-    expect(result.current.count).toBe(0);
   });
 });

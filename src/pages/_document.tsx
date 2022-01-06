@@ -17,6 +17,7 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           {/*<meta name="theme-color" content={theme.palette.primary.main} />*/}
+          <link rel="canonical" href="https://pomodoro-tech-timer.com" />
           <link
             rel="apple-touch-icon"
             sizes="180x180"
@@ -42,7 +43,7 @@ export default class MyDocument extends Document {
           />
 
           <link
-            href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Zen+Kaku+Gothic+New:wght@500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Syne&family=Zen+Kaku+Gothic+New:wght@500&display=swap"
             rel="stylesheet"
           />
           <meta

@@ -1,7 +1,13 @@
 .switch {
+  margin: 0.1em 0 0.1em 0;
   width: 3.7em;
   height: 2.2em;
   padding: 7px;
+  @media screen and (max-width:576px) {
+    margin-left: -15px;
+    margin-right: 0;
+  }
+
 }
 
 .switchBase {
@@ -41,4 +47,8 @@
 
 .label{
   margin-left: -15px;
+  @media screen and (max-width:576px) {
+    display: none;
+    margin: -30px;
+  }
 }

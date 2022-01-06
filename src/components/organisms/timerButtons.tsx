@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Timer, Status, StatusValues } from "../../types/intervalTimer";
 import styles from "./timerButton.module.scss";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -15,6 +15,7 @@ type Props = {
 
 const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
   const [isMsgBoxOpen, setMsgBoxOpen] = useState(false);
+  
   const onClick = (status: Status) => {
     if (isRunning) {
       timer.pause();
@@ -25,8 +26,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
     }
   };
   const onClickRestart = useCallback(() => {
-    timer.stop();
-    timer.start();
+    timer.restart();
     setMsgBoxOpen(true);
   }, [timer]);
 
@@ -55,6 +55,8 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
       timer.restore();
     }
   };
+
+  
   return (
     <div className={styles.root}>
       <IconButton onClick={() => onClick(status)} className={styles.iconButton}>
@@ -69,6 +71,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
         yesLabel="復元する"
         vertical="bottom"
         horizontal="right"
+        duration={11000}
       />
     </div>
   );

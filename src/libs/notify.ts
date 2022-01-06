@@ -19,17 +19,11 @@ function plusVititedCount() {
   const count: number = getVisitedCount();
   localStorage.setItem('visited', (count + 1).toString());
 }
-
+/*
 export function notifyMe(message: string) {
-  /*
-  if (Notification.permission === "granted" && localStorage.getItem("isNotified") == "true") {
-    pomodoroNotification(message);
-  } else {
-  */
-    toast(message, { icon: '🍅', autoClose: 5000, position: "bottom-right" })
-  //}
-
+  toast(message, { icon: '🍅', autoClose: 5000, position: "bottom-right" })
 }
+*/
 
 export function pomodoroNotification(message: string) {
   const notification = new Notification(
@@ -53,24 +47,25 @@ export function getPermission() {
 
 export function makeNotifyMessage(count: number, activity: Activity) {
 
-  if (activity === "NextRest") {
+  if (activity === "NextRest" || activity === "Rest") {
     return (count + 1).toString() + "個ポモドーロを達成しました。リフレッシュしましょう。";
-  } else {
+  } else if((activity === "NextWork" || activity === "Work")) {
     return "リフレッシュが終わりました。作業に移ります。";
+  }else{
+    return "";
   }
 }
 
-export const returnActivity = (status: Status, count: string, activity: Activity, displayTime: number) => {
+export const returnActivity = (status: Status, count: string, activity: Activity, min: number) => {
 
-  const min = Math.floor(displayTime / 60);
-  const minStr = min === 0 ? Math.floor(displayTime / 10) * 10 + "秒" : min + "分";
-  const minSecStr: string = (minStr === "0秒" ? "まもなく" : minStr);
-  const countStr = "・🍅" + count.replace("　", "");
+  const minStr = min + "分";
+  const minSecStr: string = (minStr === "0分" ? "あと少し" : minStr);
+  const countStr = "・" + count.replace("　", "") + "🍅";
   switch (activity) {
     case "NextRest":
-      return minSecStr + "・準備中" + countStr;
+      return minSecStr + countStr;
     case "NextWork":
-      return minSecStr + "・準備中" + countStr;
+      return minSecStr + countStr;
     case "Work":
       return minSecStr + "・作業中" + countStr;
     case "Rest":

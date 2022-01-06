@@ -1,0 +1,21 @@
+.rows{
+  height: 1.8em;
+}
+
+.tables{
+  display: flex;
+  align-items: flex-start;
+  padding: 0 1em 0 1em;
+}
+
+.table{
+  width: 11em;
+  margin: 0 1em 0 1em;
+}
+
+.cell{
+  padding: 5px 5px 5px 5px;
+  font-size: 1.05em;
+  color: var(--primary);
+  border-color: var(--pale);
+}

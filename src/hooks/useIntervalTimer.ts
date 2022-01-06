@@ -7,6 +7,7 @@ import {
 import { reducer } from "./intervalTimerReducer/reducer";
 import { StatusValues } from "../types/intervalTimer";
 import { useSound } from "./useSound";
+import { useHistory } from "./useHistory";
 
 export default Timer;
 
@@ -17,9 +18,8 @@ export const useIntervalTimer = (
   interval = 1,
   volume = 1,
   delayTime = 3,
-  soundPath: string = "",
 ): UseIntervalTimerReturn => {
-  const { playSound, pauseSound, resumeSound, adjustSound, stopSound } = useSound(soundPath, volume);
+  const { playSound, pauseSound, resumeSound, adjustSound } = useSound(volume);
   const [state, dispatch] = useReducer(reducer, {
     status: StatusValues.stopped,
     elapsedTime: 0,
@@ -31,8 +31,10 @@ export const useIntervalTimer = (
     activity: "None",
     workTime: workTime,
     restTime: restTime,
-    displayTime: 0
+    displayTime: 0,
+    prevCountTime: 0
   });
+  const { addHistory, restoreHistory } = useHistory();
   const { status, elapsedTime, count } = state;
   const start = useCallback(() => {
     dispatch({ type: 'start' })
@@ -50,30 +52,39 @@ export const useIntervalTimer = (
     dispatch({ type: 'resume' });
     resumeSound();
   }, [resumeSound]);
-  const stop = useCallback(() => {
-    dispatch({ type: 'stop' });
-    stopSound();
-  }, [stopSound]);
+  const restart = useCallback(() => {
+    dispatch({ type: 'restart' });
+    addHistory('RESET');
+    playSound();
+  }, [addHistory, playSound]);
   const advance = useCallback((seconds: number) => {
     dispatch({ type: 'advance', payload: { seconds } });
   }, []);
   const restore = useCallback(() => {
     dispatch({ type: 'restore' });
     resumeSound();
-  }, [resumeSound]);
+    restoreHistory();
 
-
+  }, [restoreHistory, resumeSound]);
 
 
   useEffect(() => {
+    if (state.activity === 'NextRest') {
+      addHistory(count);
+    }
+  }, [addHistory, count, state.activity])
+  useEffect(() => {
+    let unmounted = false; //メモリリークが発生しないようにするための処理
     function timer(ms: number) {
       return new Promise((resolve) => {
-        const timer = setTimeout(() => {
+        window.setTimeout(() => {
           if (status === StatusValues.running || status === StatusValues.resume) {
-            setTime();
-            const sec = state.displayTime % 60
-            if (sec > 9.2 && sec < 10.8) { //60秒ごとに音の時間を再設定する
-              adjustSound(elapsedTime - state.count * (workTime + restTime + 2 * delayTime));
+            if (!unmounted) {
+              setTime();
+              const sec = state.displayTime % 60
+              if (sec > 6.2 && sec < 7.8) { //60秒ごとに音の時間を再設定する
+                adjustSound(elapsedTime - state.count * (workTime + restTime + 2 * delayTime));
+              }
             }
           }
           resolve(timer);
@@ -81,8 +92,9 @@ export const useIntervalTimer = (
       });
     }
     timer(elapsedTime === 0 ? interval * 900 : interval * 990);
+    return () => { unmounted = true }
   }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    , [elapsedTime, status]);
-  return { timer: { start, stop, pause, resume, advance, restore }, displayTime: state.displayTime, activity: state.activity, count: state.count, status: state.status, isRunning: status === "RUNNING" || status === "RESUME" }
+    , [adjustSound, delayTime, elapsedTime, interval, restTime, setTime, state.count, state.displayTime, status, workTime]);
+
+  return { timer: { start, restart, pause, resume, advance, restore }, displayTime: state.displayTime, activity: state.activity, count: state.count, status: state.status, isRunning: status === "RUNNING" || status === "RESUME" }
 }
