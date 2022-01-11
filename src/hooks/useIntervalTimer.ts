@@ -82,7 +82,7 @@ export const useIntervalTimer = (
             if (!unmounted) {
               setTime();
               const sec = state.displayTime % 60
-              if (sec > 6.2 && sec < 7.8) { //60秒ごとに音の時間を再設定する
+              if (sec > 58.2 && sec < 59.8) { //60秒ごとに音の時間を再設定する
                 adjustSound(elapsedTime - state.count * (workTime + restTime + 2 * delayTime));
               }
             }

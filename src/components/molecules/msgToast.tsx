@@ -13,19 +13,22 @@ type Props = {
   handleClose: (isOk: boolean) => void;
   buttonNum?: number;
   yesLabel?: string;
-  vertical? : Vertial;
+  vertical?: Vertial;
   horizontal?: Horizontal;
-  duration?: number
+  duration?: number;
 };
 
 export default function MsgToast({
   message,
   open,
-  handleClose = (isOk :boolean) => {open = false; return isOk;},
+  handleClose = (isOk: boolean) => {
+    open = false;
+    return isOk;
+  },
   buttonNum = 0,
-  yesLabel = 'はい',
-  vertical = 'bottom',
-  horizontal = 'right',
+  yesLabel = "はい",
+  vertical = "bottom",
+  horizontal = "right",
   duration = 11000,
 }: Props) {
   if (buttonNum < 0 || buttonNum > 2) {
@@ -56,9 +59,7 @@ export default function MsgToast({
     buttonNum === 0 ? (
       <>{cancelIcon}</>
     ) : buttonNum === 1 ? (
-      <>
-        {yesButton}
-      </>
+      <>{yesButton}</>
     ) : (
       <>
         {cancelButton}
@@ -70,6 +71,7 @@ export default function MsgToast({
   return (
     <div>
       <Snackbar
+        onClick={() => handleClose(true)}
         open={open}
         autoHideDuration={duration}
         onClose={(_event: React.SyntheticEvent | Event, reason?: string) => {
@@ -81,7 +83,7 @@ export default function MsgToast({
         message={message}
         action={action}
         anchorOrigin={{ horizontal, vertical }}
-        sx={{ width: "37em" }}
+        sx={{ width: "37em", cursor: "pointer" }}
         disableWindowBlurListener={true}
       />
     </div>

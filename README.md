@@ -1,2 +1,2 @@
 
-This is unofficial timer for Pomodoro(R) Technique.
+This is the timer for Pomodoro Technique.
