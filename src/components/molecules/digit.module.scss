@@ -7,4 +7,10 @@
   line-height: var(--font-size);
   overflow: hidden;
   height: var(--font-size);
+  font-family: 'Roboto', sans-serif;
+}
+
+.colon{ 
+  display: inline;
+  vertical-align: 0.5em;
 }

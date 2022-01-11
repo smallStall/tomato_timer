@@ -43,7 +43,7 @@ export default class MyDocument extends Document {
           />
 
           <link
-            href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Syne&family=Zen+Kaku+Gothic+New:wght@500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Roboto&family=Zen+Kaku+Gothic+New:wght@500&display=swap"
             rel="stylesheet"
           />
           <meta
