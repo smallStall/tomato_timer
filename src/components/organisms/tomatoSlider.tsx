@@ -63,20 +63,15 @@ const TomatoSlider: React.VFC<Props> = ({
 
   const onChangeSlider = (_event: any, value: number | number[]) => {
     if (status === StatusValues.stopped && typeof value === "number") {
-      setSliderVal(value);
+      if(value <= 0){
+        setSliderVal(value);
+      }
     }
   };
 
   const onCommitedSlider = (_event: any, value: number | number[]) => {
     if (value > 0 || typeof value !== "number") {
       return;
-    }
-    if (status === StatusValues.paused) {
-      timer.resume();
-    } else if (status === StatusValues.stopped) {
-      delay(timer.start, 200);
-    } else if (isRunning) {
-      timer.pause();
     }
   };
 
