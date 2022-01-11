@@ -10,7 +10,6 @@ type Props = {
 const Digit: React.VFC<Props> = ({ seconds }) => {
   const min = seconds > 0 ? Math.floor(seconds / 60) : 0;
   const sec = seconds > 0 ? Math.floor(seconds - min * 60) : 0;
-  const style = {} as React.CSSProperties;
   return (
     <p className={styles.root}>
       {min}
