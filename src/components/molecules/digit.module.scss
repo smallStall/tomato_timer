@@ -1,5 +1,5 @@
 .root {
-  --font-size: 3em;
+  --font-size: 40px;
   display: flex;
   justify-content: center;
   font-size: var(--font-size);
@@ -9,6 +9,6 @@
 }
 
 .colon{ 
-  line-height: 1.38em;
-  margin: 0 0.01em 0 0.01em;
+  line-height: 55px;
+  margin: 0 1px 0 1px;
 }
