@@ -12,13 +12,11 @@ const Digit: React.VFC<Props> = ({ seconds }) => {
   const sec = seconds > 0 ? Math.floor(seconds - min * 60) : 0;
   const style = {} as React.CSSProperties;
   return (
-    <>
-      <div className={styles.root}>
-        <span>{min}</span>
-        <span className={styles.colon}>:</span>
-        <span>{(sec < 10 ? "0" : "") + minusToZero(sec)}</span>
-      </div>
-    </>
+    <p className={styles.root}>
+      {min}
+      <span className={styles.colon}>:</span>
+      {(sec < 10 ? "0" : "") + minusToZero(sec)}
+    </p>
   );
 };
 

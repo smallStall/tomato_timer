@@ -1,16 +1,14 @@
 .root {
-  --font-size: 40px;
+  --font-size: 3em;
   display: flex;
   justify-content: center;
   font-size: var(--font-size);
   color: var(--primary);
-  line-height: var(--font-size);
-  overflow: hidden;
-  height: var(--font-size);
   font-family: 'Roboto', sans-serif;
+  margin:  0 0 0.3em 0;
 }
 
 .colon{ 
-  display: inline;
-  vertical-align: 0.5em;
+  line-height: 1.38em;
+  margin: 0 0.01em 0 0.01em;
 }
