@@ -7,7 +7,7 @@ import { CountContext } from "../../pages/theme";
 import Head from "next/head";
 import Digit from "../molecules/digit";
 import TimerButtons from "../organisms/timerButtons";
-import { returnActivity, toastTomato, makeNotifyMessage } from "../../libs/notify";
+import { returnActivity, makeNotifyMessage } from "../../libs/notify";
 import MsgToast from "components/molecules/msgToast";
 import styles from "./timer.module.scss";
 
@@ -23,27 +23,20 @@ const INTERVAL = 1;
 const Timer: React.VFC = () => {
   const { volume } = useContext(VolumeContext);
   const { count: contextCount, setCount } = useContext(CountContext);
-  const [barOpen, setBarOpen] = useState(false);  
+  const [barOpen, setBarOpen] = useState(false);
   const workTime = process.env.isProd ? PROD_WORK_TIME : TEST_WORK_TIME;
   const restTime = process.env.isProd ? PROD_REST_TIME : TEST_REST_TIME;
   const delayTime = process.env.isProd ? PROD_DELAY_TIME : TEST_DELAY_TIME;
 
   const { timer, displayTime, activity, count, status, isRunning } =
-    useIntervalTimer(
-      workTime,
-      restTime,
-      INTERVAL,
-      volume,
-      delayTime,
-    );
+    useIntervalTimer(workTime, restTime, INTERVAL, volume, delayTime);
   const [minutes, setMinutes] = useState(-1);
   useEffect(() => {
-    const min = Math.floor(displayTime / 60)
-    if(min != minutes){
+    const min = Math.floor(displayTime / 60);
+    if (min != minutes) {
       setMinutes(min);
     }
-  }, [displayTime, minutes])
-
+  }, [displayTime, minutes]);
 
   useEffect(() => {
     const counterStop = ((count + 1) % 100).toString();
@@ -58,16 +51,10 @@ const Timer: React.VFC = () => {
     }
   }, [activity]);
 
-  useEffect(() => {
-    toastTomato();
-  }, []);
-
   return (
     <>
       <Head>
-        <title>
-          {returnActivity(status, contextCount, activity, minutes)}
-        </title>
+        <title>{returnActivity(status, contextCount, activity, minutes)}</title>
       </Head>
 
       <div className={styles.container}>
