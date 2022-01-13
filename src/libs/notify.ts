@@ -46,7 +46,6 @@ export function getPermission() {
 }
 
 export function makeNotifyMessage(count: number, activity: Activity) {
-
   if (activity === "NextRest" || activity === "Rest") {
     return (count + 1).toString() + "個ポモドーロを達成しました。リフレッシュしましょう。";
   } else if((activity === "NextWork" || activity === "Work")) {

@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Slider } from "@mui/material";
 import { Timer, Status } from "../../types/intervalTimer";
 import styles from "./tomatoSlider.module.scss";
-import { delay } from "../../libs/accesories";
 import { StatusValues } from "../../types/intervalTimer";
+import MsgToast from "components/molecules/msgToast";
 
 const SLIDER_MARK_NUM = 5;
 
@@ -52,6 +52,7 @@ const TomatoSlider: React.VFC<Props> = ({
   isRunning,
 }) => {
   const [sliderVal, setSliderVal] = useState(-secondsLeft / 60);
+  const [isDisplayMessage, setDisplayMessage] = useState(false);
   useEffect(() => {
     if (!isRunning) {
       return;
@@ -70,12 +71,13 @@ const TomatoSlider: React.VFC<Props> = ({
   };
 
   const onCommitedSlider = (_event: any, value: number | number[]) => {
-    if (value > 0 || typeof value !== "number") {
-      return;
+    if (typeof value == "number") {
+      setDisplayMessage(true);
     }
   };
 
   return (
+    <>
     <Slider
       classes={{
         root: styles.root,
@@ -98,6 +100,14 @@ const TomatoSlider: React.VFC<Props> = ({
       onChange={onChangeSlider}
       onChangeCommitted={onCommitedSlider}
     />
+    <MsgToast
+      message={"トマトが移動しました。"}
+      open={isDisplayMessage}
+      buttonNum={0}
+      handleClose={() => {setDisplayMessage(false)}}
+      duration={2500}
+     />
+     </>
   );
 };
 

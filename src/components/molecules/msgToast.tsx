@@ -25,11 +25,11 @@ export default function MsgToast({
     open = false;
     return isOk;
   },
+  duration = 11000,
   buttonNum = 0,
   yesLabel = "はい",
   vertical = "bottom",
   horizontal = "right",
-  duration = 11000,
 }: Props) {
   if (buttonNum < 0 || buttonNum > 2) {
     throw new Error("buttonNum validation error");

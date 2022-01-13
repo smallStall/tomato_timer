@@ -8,7 +8,7 @@ import { minusToZero } from "../../libs/accesories"
 const getPrevCountTime = (st: State) => (st.workTime + st.restTime + st.delayTime * 2) * st.count 
 
 function calcActivity(st: State) {
-  if (st.status === StatusValues.stopped || st.elapsedTime < st.delayTime) {
+  if (st.status === StatusValues.stopped) {
     return "None";
   }
   const previousCountTime = getPrevCountTime(st);
