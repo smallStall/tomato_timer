@@ -1,2 +1,1 @@
-
-This is the timer for Pomodoro Technique.
+This is the interval timer for study and programming.

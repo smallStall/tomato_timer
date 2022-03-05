@@ -83,7 +83,7 @@ export default function MsgToast({
         message={message}
         action={action}
         anchorOrigin={{ horizontal, vertical }}
-        sx={{ width: "37em", cursor: "pointer" }}
+        sx={{ width: "15em", fontSize: "1.4em", cursor: "pointer"}}
         disableWindowBlurListener={true}
       />
     </div>

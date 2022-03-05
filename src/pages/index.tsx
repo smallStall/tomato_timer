@@ -13,7 +13,7 @@ import Menu from "../components/templates/menu";
 const Home: NextPage = () => {
   return (
     <Theme>
-      <Title title={"ポモドーロタイマー"} />
+      <Title title={"トマトタイマー"} />
       <section className={styles.main}>
         <section className={styles.sideBarTopBar}>
           <Menu />

@@ -1,0 +1,23 @@
+{
+    "name":             "ポモドーロ・タイマー",
+    "short_name":       "ポモタマ",
+    "description":      "ポモドーロ・テクニック用のタイマーです。",
+    "start_url":        "/",
+    "display":          "standalone",
+    "orientation":      "portrate-primary",
+    "background_color": "#fff4d6",
+    "theme_color":      "#ae0d16",
+    "dir": "ltr",
+	"icons": [
+		{
+			"src": "/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	]
+}
