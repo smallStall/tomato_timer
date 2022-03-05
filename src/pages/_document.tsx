@@ -52,8 +52,8 @@ export default class MyDocument extends Document {
           />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="small_s_tall" />
-          <meta name="twitter:title" content="ポモドーロ・タイマー" />
-          <meta name="twitter:description" content="トマトが動く可愛らしいタイマーです。25分と5分のお知らせを交互に繰り返します。音が鳴ります。" />
+          <meta name="twitter:title" content="トマト・タイマー" />
+          <meta name="twitter:description" content="トマトが動くタイマーです。25分と5分のお知らせを交互に繰り返します。音が鳴ります。" />
           <meta name="twitter:image" content="https://pomodoro-tech-timer.com//twitter-card.png" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta

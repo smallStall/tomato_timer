@@ -71,8 +71,8 @@ export const HistoryDialog: React.VFC<Props> = ({ open, onClose }) => {
       open={open}
       keepMounted
       onClose={() => onClose(false)}
-      aria-labelledby="ポモドーロ履歴"
-      aria-describedby="ポモドーロを何個取ったかの履歴"
+      aria-labelledby="トマト履歴"
+      aria-describedby="トマトを何個取ったかの履歴"
       maxWidth="lg"
     >
       <DialogTitle>ポモドーロ履歴</DialogTitle>

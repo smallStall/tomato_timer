@@ -8,6 +8,7 @@ import { reducer } from "./intervalTimerReducer/reducer";
 import { StatusValues } from "../types/intervalTimer";
 import { useSound } from "./useSound";
 import { useHistory } from "./useHistory";
+import * as workerTimers from 'worker-timers';
 
 export default Timer;
 
@@ -74,6 +75,16 @@ export const useIntervalTimer = (
     }
   }, [addHistory, count, state.activity])
   useEffect(() => {
+    const intervalId = workerTimers.setInterval(() => {
+      if (status === StatusValues.running || status === StatusValues.resume) {
+        setTime();
+        const sec = state.displayTime % 60
+        if (sec > 58.2 && sec < 59.8) { //60秒ごとに音の時間を再設定する
+          adjustSound(elapsedTime - state.count * (workTime + restTime + 2 * delayTime));
+        }
+      }
+    }, elapsedTime === 0 ? interval * 900 : interval * 990)
+    /*
     let unmounted = false; //メモリリークが発生しないようにするための処理
     function timer(ms: number) {
       return new Promise((resolve) => {
@@ -93,6 +104,8 @@ export const useIntervalTimer = (
     }
     timer(elapsedTime === 0 ? interval * 900 : interval * 990);
     return () => { unmounted = true }
+    */
+    return () => { workerTimers.clearInterval(intervalId) };
   }
     , [adjustSound, delayTime, elapsedTime, interval, restTime, setTime, state.count, state.displayTime, status, workTime]);
 
