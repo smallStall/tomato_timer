@@ -8,23 +8,22 @@ const HistoryIcon = ({ label }: { label: string }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const onClick = () => {
     setDialogOpen(true);
+    console.log("tanltie");
   };
 
   return (
-    <div className={styles.root}>
-      <Typography className={styles.label}>{label}</Typography>
-      <IconButton
-        className={styles.iconButton}
-        aria-label="history"
-        onClick={() => onClick()}
-      >
-        <ManageSearchIcon className={styles.volumeUp} />
-      </IconButton>
+    <>
+      <div className={styles.root} onClick={() => onClick()}>
+        <Typography className={styles.label}>{label}</Typography>
+        <IconButton className={styles.iconButton} aria-label="history">
+          <ManageSearchIcon className={styles.volumeUp} />
+        </IconButton>
+      </div>
       <HistoryDialog
         onClose={(_isOK) => setDialogOpen(false)}
         open={dialogOpen}
       />
-    </div>
+    </>
   );
 };
 

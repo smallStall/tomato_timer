@@ -1,12 +1,5 @@
 export type Status = "STOPPED" | "RUNNING" | "PAUSED" | "RESUME";
 
-export const StatusValues: { [key: string]: Status } = {
-  stopped: "STOPPED",
-  running: "RUNNING",
-  paused: "PAUSED",
-  resume: "RESUME",
-} as const;
-
 export type Activity = "None" | "Work" | "NextRest" | "Rest" | "NextWork";
 // None -> Work -> NextRest(delayTime) -> Rest -> NextWork(delayTime) -> ...
 
@@ -23,6 +16,7 @@ export interface State {
   readonly restTime: number;
   readonly delayTime: number;
   readonly prevCountTime: number;
+  readonly maxCount: number;
 }
 
 export interface Timer {
@@ -32,6 +26,8 @@ export interface Timer {
   restart: () => void;
   advance: (seconds: number) => void;
   restore: () => void;
+  setMaxCount: (maxCount: number) => void;
+  stop: () => void;
 }
 
 export type UseIntervalTimerReturn = {

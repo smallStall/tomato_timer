@@ -40,11 +40,21 @@ const Timer: React.VFC = () => {
 
   useEffect(() => {
     const counterStop = ((count + 1) % 100).toString();
-    setCount(
-      counterStop +
-        (activity === "Work" || activity === "None" ? "コ目" : "コ　")
-    );
+    setCount({
+      ...contextCount,
+      now:
+        counterStop +
+        (activity === "Work" ? "コ目" : "コ"),
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activity, count, setCount]);
+
+  useEffect(() => {
+    timer.setMaxCount(contextCount.maxCount);
+    console.log("atkinatanie")
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contextCount.maxCount])
+
   useEffect(() => {
     if (activity === "NextRest" || activity === "NextWork") {
       setBarOpen(true);
@@ -54,7 +64,9 @@ const Timer: React.VFC = () => {
   return (
     <>
       <Head>
-        <title>{returnActivity(status, contextCount, activity, minutes)}</title>
+        <title>
+          {returnActivity(status, contextCount.now, activity, minutes)}
+        </title>
       </Head>
 
       <div className={styles.container}>

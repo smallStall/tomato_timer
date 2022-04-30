@@ -7,6 +7,9 @@ const RESTART = () => createActionType('restart');
 const RESUME = () => createActionType('resume');
 const ADVANCE = (seconds: number) => createActionType('advance', { seconds });
 const RESTORE = () => createActionType('restore');
+const SETMAXCOUNT = (maxCount: number) => createActionType('setMaxCount', {maxCount});
+const STOP = () => createActionType('stop');
+
 
 
 
@@ -18,4 +21,6 @@ export type TimerActionsType = ReturnType<
   | typeof RESUME
   | typeof ADVANCE
   | typeof RESTORE
+  | typeof SETMAXCOUNT
+  | typeof STOP
 >;

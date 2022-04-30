@@ -75,7 +75,7 @@ export const HistoryDialog: React.VFC<Props> = ({ open, onClose }) => {
       aria-describedby="トマトを何個取ったかの履歴"
       maxWidth="lg"
     >
-      <DialogTitle>ポモドーロ履歴</DialogTitle>
+      <DialogTitle>トマト履歴</DialogTitle>
       <TableContainer className={styles.tables}>
         {leftHistoryLength < maxHistoryRow
           ? getList(history)

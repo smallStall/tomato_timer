@@ -4,7 +4,7 @@ import { Activity, Status } from 'types/intervalTimer';
 export function toastTomato() {
   const count = getVisitedCount();
   if (count < 2) {
-    toast('ポモドーロ・テクニック用のタイマーです。音が鳴るので気をつけてください。', { icon: '🔊', autoClose: 10000, position: "bottom-right" });
+    toast('タイムボックス用のタイマーです。音が鳴るので気をつけてください。', { icon: '🔊', autoClose: 10000, position: "bottom-right" });
   }
   plusVititedCount();
 }
@@ -27,7 +27,7 @@ export function notifyMe(message: string) {
 
 export function pomodoroNotification(message: string) {
   const notification = new Notification(
-    'ポモドーロタイマー',
+    'トマトタイマー',
     {
       body: message,
       tag: 'pomodoro-timer',
@@ -46,11 +46,14 @@ export function getPermission() {
 }
 
 export function makeNotifyMessage(count: number, activity: Activity) {
+  if (activity === "None") {
+    return "トマトを" + (count + 1).toString() + "コ全て取りました🍅🍅🍅🍅"
+  }
   if (activity === "NextRest" || activity === "Rest") {
     return (count + 1).toString() + "個ポモドーロを達成しました。リフレッシュしましょう。";
-  } else if((activity === "NextWork" || activity === "Work")) {
+  } else if ((activity === "NextWork" || activity === "Work")) {
     return "リフレッシュが終わりました。作業に移ります。";
-  }else{
+  } else {
     return "";
   }
 }
@@ -59,7 +62,7 @@ export const returnActivity = (status: Status, count: string, activity: Activity
 
   const minStr = min + "分";
   const minSecStr: string = (minStr === "0分" ? "あと少し" : minStr);
-  const countStr = "・" + count.replace("　", "") + "🍅";
+  const countStr = "・" + count.toString() + "🍅";
   switch (activity) {
     case "NextRest":
       return minSecStr + countStr;
@@ -70,7 +73,6 @@ export const returnActivity = (status: Status, count: string, activity: Activity
     case "Rest":
       return minSecStr + "・リフレッシュ中" + countStr;
     default:
-      return "ポモドーロタイマー"
-
+      return "トマトタイマー"
   }
 };
