@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Timer, Status, StatusValues } from "../../types/intervalTimer";
+import { Timer, Status } from "../../types/intervalTimer";
 import styles from "./timerButton.module.scss";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import IconButton from "@mui/material/IconButton";
@@ -21,10 +21,10 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
     (status: Status) => {
       if (isRunning) {
         timer.pause();
-      } else if (status === StatusValues.stopped) {
+      } else if (status === 'STOPPED') {
         timer.start();
         setStartMsgOpen(true);
-      } else if (status === StatusValues.paused) {
+      } else if (status === 'PAUSED') {
         timer.resume();
       }
     },
@@ -37,7 +37,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
 
   const getIconRestart = useCallback(
     (isRunning: boolean, status: Status) => {
-      return isRunning || status === StatusValues.stopped ? null : (
+      return isRunning || status === 'STOPPED' ? null : (
         <IconButton aria-label="stop" onClick={onClickRestart}>
           <RestartAltIcon className={styles.restartButton} />
         </IconButton>

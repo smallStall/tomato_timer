@@ -1,23 +1,25 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, MutableRefObject } from "react";
 import { Howl } from "howler";
 import { Sound } from "../types/sound"
 const PROD_MP3_PATH = "zihou1.mp3";
 const PROD_OGG_PATH = "zihou1.mp3";
 const TEST_SOUND_PATH = "test1.mp3";
 const soundPath = process.env.isProd ? [PROD_MP3_PATH, PROD_OGG_PATH] : [TEST_SOUND_PATH];
+const endSoundPath = "end.mp3";
 
 export const useSound = (volume: number): Sound => {
   const soundRef = useRef<Howl>();
+  const endSoundRef = useRef<Howl>();
   const pausedTimeRef = useRef(-1);
   if (volume < 0 || volume > 1) {
     throw new Error("volume error")
   }
-  const play = useCallback(() => {
-    if (soundRef.current == null) {
-      soundRef.current = new Howl({
-        src: soundPath,
+  const playSoundCallback = (path: Array<string>, ref: MutableRefObject<Howl | undefined>, isLoop: boolean) => {
+    if (ref.current == null) {
+      ref.current = new Howl({
+        src: path,
         html5: true,
-        loop: true,
+        loop: isLoop,
         preload: false,
         onplayerror: (id, message) => {
           if (!process.env.isProd) {
@@ -25,7 +27,7 @@ export const useSound = (volume: number): Sound => {
           }
         },
       });
-      const sound = soundRef.current;
+      const sound = ref.current;
       sound.load();
       sound.once("load", () => {
         if (sound != null) {
@@ -33,17 +35,26 @@ export const useSound = (volume: number): Sound => {
           sound.play();
         }
       })
-    } else if (!soundRef.current.playing()) { //if sound is paused
-      soundRef.current.play(); //If you don't play when you pause, the sound will overlap, and there will be two IntervalTimers.
+    } else if (!ref.current.playing()) { //if sound is paused
+      ref.current.play(); //If you don't play when you pause, the sound will overlap, and there will be two IntervalTimers.
       //pausedTimeRef.current = -1; Keep the previous pausedTimeRef
     }
-    soundRef.current.seek(0);
+    ref.current.seek(0);
+  }
+  const play = useCallback(() => {
+    playSoundCallback(soundPath, soundRef, true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [volume]);
+  const playEnd = useCallback(() => {
+    playSoundCallback([endSoundPath], endSoundRef, false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [volume]);
+
   const pause = useCallback(() => {
     if (soundRef.current == null) {
       return;
     }
-    if(soundRef.current.playing()){ // if sound is playing
+    if (soundRef.current.playing()) { // if sound is playing
       pausedTimeRef.current = soundRef.current.seek();
       soundRef.current.pause();
     }
@@ -64,11 +75,18 @@ export const useSound = (volume: number): Sound => {
     }
     soundRef.current.seek(position);
   }, [])
+  const stop = useCallback(() => {
+    if (soundRef.current == null) {
+      return;
+    }
+    soundRef.current.stop();
+  }, [])
+
 
   useEffect(() => {
     if (soundRef.current != null) {
       soundRef.current.volume(volume);
     }
   }, [volume])
-  return { playSound: play, pauseSound: pause, resumeSound: resume, adjustSound: adjust }
+  return { playSound: play, pauseSound: pause, resumeSound: resume, adjustSound: adjust, stopSound: stop, playEnd: playEnd }
 }

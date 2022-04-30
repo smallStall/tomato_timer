@@ -22,6 +22,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiSlider: {
+      styleOverrides: {
+        root: {
+          ".MuiSlider-valueLabelLabel": {
+            color: "var(--background)",
+          },
+        },
+      },
+    },
     MuiSwitch: {
       styleOverrides: {
         root: {
@@ -65,13 +74,16 @@ export const VolumeContext = createContext<{
 }>({ setVolume: () => {}, volume: 0 });
 
 export const CountContext = createContext<{
-  setCount: Dispatch<SetStateAction<string>>;
-  count: string;
-}>({ setCount: () => {}, count: "" });
+  setCount: Dispatch<SetStateAction<{ now: string; maxCount: number }>>;
+  count: { now: string; maxCount: number };
+}>({ setCount: () => {}, count: { now: "", maxCount: 0 } });
 
 export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(1);
-  const [count, setCount] = useState("1コ目");
+  const [count, setCount] = useState<{ now: string; maxCount: number }>({
+    now: "1コ目",
+    maxCount: 0,
+  });
   return (
     <>
       <CssBaseline />

@@ -1,7 +1,7 @@
 {
-    "name":             "ポモドーロ・タイマー",
+    "name":             "トマト・タイマー",
     "short_name":       "ポモタマ",
-    "description":      "ポモドーロ・テクニック用のタイマーです。",
+    "description":      "タイムボックス法、33分33秒の法則用のタイマーです。",
     "start_url":        "/",
     "display":          "standalone",
     "orientation":      "portrate-primary",

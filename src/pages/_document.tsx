@@ -48,7 +48,7 @@ export default class MyDocument extends Document {
           />
           <meta
             name="description"
-            content="ポモドーロ・テクニック用のタイマーです。トマトが動く可愛らしいタイマーです。スタートして25分後にタイマーが鳴り、その5分後にまたタイマーが鳴ります。"
+            content="タイムボックス用のタイマーです。トマトが動く可愛らしいタイマーです。スタートして25分後にタイマーが鳴り、その5分後にまたタイマーが鳴ります。"
           />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="small_s_tall" />

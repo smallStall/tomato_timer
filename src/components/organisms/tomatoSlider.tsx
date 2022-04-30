@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Slider } from "@mui/material";
 import { Timer, Status } from "../../types/intervalTimer";
 import styles from "./tomatoSlider.module.scss";
-import { StatusValues } from "../../types/intervalTimer";
 import MsgToast from "components/molecules/msgToast";
 
 const SLIDER_MARK_NUM = 5;
@@ -17,7 +16,7 @@ function roundDigit(num: number, digit: number) {
   }
 }
 
-function createSliderMarks(maxTime: number, status: string) {
+function createSliderMarks(maxTime: number, status: Status) {
   type SliderLabel = { value: number; label: string };
   let arr: SliderLabel[];
   arr = [];
@@ -31,7 +30,7 @@ function createSliderMarks(maxTime: number, status: string) {
   }
   arr.push({
     value: 0,
-    label: status === StatusValues.stopped ? "👈" : "👍",
+    label: status === 'STOPPED' ? "👈" : "👍",
   });
   return arr;
 }
@@ -63,7 +62,7 @@ const TomatoSlider: React.VFC<Props> = ({
   }, [secondsLeft, isRunning]);
 
   const onChangeSlider = (_event: any, value: number | number[]) => {
-    if (status === StatusValues.stopped && typeof value === "number") {
+    if (status === 'STOPPED' && typeof value === "number") {
       if(value <= 0){
         setSliderVal(value);
       }

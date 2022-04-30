@@ -1,25 +1,25 @@
 import { TimerActionsType } from './actions';
-import { State, StatusValues } from "../../types/intervalTimer";
+import { State, Status } from "../../types/intervalTimer";
 import { minusToZero } from "../../libs/accesories"
 /*1 count is 
   workTime -> delayTime -> restTime -> delayTime
 */
 
-const getPrevCountTime = (st: State) => (st.workTime + st.restTime + st.delayTime * 2) * st.count 
+const getPrevCountTime = (st: State) => (st.workTime + st.restTime + st.delayTime * 2) * st.count
 
 function calcActivity(st: State) {
-  if (st.status === StatusValues.stopped) {
+  if (st.status === 'STOPPED') {
     return "None";
   }
   const previousCountTime = getPrevCountTime(st);
   const thisElapsedTime = st.elapsedTime - previousCountTime;
-  if(thisElapsedTime < st.workTime){
+  if (thisElapsedTime < st.workTime) {
     return 'Work';
   } else if (st.elapsedTime >= st.workTime &&
-    thisElapsedTime < st.workTime + st.delayTime){ //if in delayTime
-    return "NextRest"; 
+    thisElapsedTime < st.workTime + st.delayTime) { //if in delayTime
+    return "NextRest";
   } else if (thisElapsedTime >= st.workTime + st.delayTime &&
-    thisElapsedTime < st.workTime + st.restTime){
+    thisElapsedTime < st.workTime + st.restTime) {
     return "Rest";
   } else { //if in delayTime
     return "NextWork";
@@ -46,9 +46,19 @@ export function reducer(state: State, action: TimerActionsType): State {
   switch (action.type) {
 
     case 'setTime': {
-      const thisElapsedTime = state.status === StatusValues.resume || state.status === StatusValues.running ? 
-        Date.now() / 1000  - state.initialTime: state.elapsedTime;
-
+      const thisElapsedTime = state.status === 'RESUME' || state.status === 'RUNNING' ?
+        Date.now() / 1000 - state.initialTime : state.elapsedTime;
+      //１時間以上間隔が空いていたら
+      if(thisElapsedTime - state.elapsedTime > 3600){
+        return {
+          ...state,
+          count: 0,
+          maxCount : 0,
+          activity:'None',
+          status: 'STOPPED',
+          displayTime: 0,
+        }  
+      }
       const count = calcCount({ ...state, elapsedTime: thisElapsedTime });
       return {
         ...state,
@@ -62,7 +72,7 @@ export function reducer(state: State, action: TimerActionsType): State {
       document.documentElement.setAttribute('animation', 'paused')
       return {
         ...state,
-        status: StatusValues.paused,
+        status: 'PAUSED',
         pausedTime: Date.now() / 1000,
         elapsedTime: state.elapsedTime,
         displayTime: state.displayTime,
@@ -70,15 +80,17 @@ export function reducer(state: State, action: TimerActionsType): State {
     }
     case 'resume': {
       document.documentElement.setAttribute('animation', 'running');
-      if(state.pausedTime < 0){
+      if (state.pausedTime < 0) {
         return state;
       }
+      const thisElapsedTime = Date.now() / 1000 - state.initialTime;      
       const diff = state.pausedTime > 0 ? Date.now() / 1000 - state.pausedTime : 0;
       return {
         ...state,
-        status: StatusValues.resume,
+        status: 'RESUME',
         initialTime: state.initialTime + diff,
         pausedTime: -1,
+        elapsedTime: thisElapsedTime,
       }
     }
     case 'start': {
@@ -89,7 +101,7 @@ export function reducer(state: State, action: TimerActionsType): State {
         displayTime: state.workTime,
         initialTime: Date.now() / 1000,
         activity: 'Work',
-        status: StatusValues.running,
+        status: 'RUNNING',
       }
     }
     case 'restart': {
@@ -98,11 +110,12 @@ export function reducer(state: State, action: TimerActionsType): State {
         ...state,
         prevInitialTime: state.initialTime,
         initialTime: Date.now() / 1000,
-        status: StatusValues.running,
+        status: 'RUNNING',
+        maxCount: 0
       }
     }
     case 'advance': {
-      const { seconds } = action.payload; 
+      const { seconds } = action.payload;
       const initialTime = state.initialTime + seconds;
       const elapsedTime = Date.now() / 1000 - initialTime;
       const count = calcCount({ ...state, elapsedTime: elapsedTime });
@@ -112,21 +125,37 @@ export function reducer(state: State, action: TimerActionsType): State {
         count: count,
         elapsedTime: elapsedTime,
         activity: calcActivity({ ...state, elapsedTime: elapsedTime, count: count }),
-        displayTime: calcDisplayTime({ ...state, elapsedTime: elapsedTime, count: count}),
-      }      
+        displayTime: calcDisplayTime({ ...state, elapsedTime: elapsedTime, count: count }),
+      }
     }
     case 'restore': {
       document.documentElement.setAttribute('animation', 'running');
-      if(state.prevInitialTime < 0){
+      if (state.prevInitialTime < 0) {
         return state;
       }
       return {
         ...state,
-        status: StatusValues.resume,
+        status: 'RESUME',
         initialTime: state.prevInitialTime,
         prevInitialTime: -1,
         pausedTime: -1,
       }
+    }
+    case 'setMaxCount': {
+      const { maxCount } = action.payload;
+      return {
+        ...state,
+        maxCount: maxCount
+      }
+    }
+    case 'stop': {
+      document.documentElement.setAttribute('animation', 'paused');
+      return {
+        ...state,
+        activity:'None',
+        status: 'STOPPED',
+        displayTime: 0,
+      }  
     }
   }
 }

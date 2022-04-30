@@ -22,13 +22,9 @@ const SoundIcon = ({ label }: { label: string }) => {
   };
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} onClick={() => onClick()}>
       <Typography className={styles.label}>{label}</Typography>
-      <IconButton
-        className={styles.iconButton}
-        aria-label="sound"
-        onClick={() => onClick()}
-      >
+      <IconButton className={styles.iconButton} aria-label="sound">
         <VolumeUpIcon className={styles.volumeUp} />
       </IconButton>
     </div>
