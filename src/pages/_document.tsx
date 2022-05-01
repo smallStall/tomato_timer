@@ -61,10 +61,6 @@ export default class MyDocument extends Document {
             name="msapplication-config"
             content="/favicons/browserconfig.xml"
           />
-          <meta
-            name="google-site-verification"
-            content="TYjcuk-zolZETilEVYzqPyuqK7uj_PFi19DPHyQ0Qr8"
-          />
         </Head>
         <body>
           <Main />
