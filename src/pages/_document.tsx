@@ -48,13 +48,14 @@ export default class MyDocument extends Document {
           />
           <meta
             name="description"
-            content="タイムボックス用のタイマーです。トマトが動く可愛らしいタイマーです。スタートして25分後にタイマーが鳴り、その5分後にまたタイマーが鳴ります。"
+            content="webで使うタイムボックス用のタイマーです。トマトが動く可愛らしいタイマーです。スタートして25分後にタイマーが鳴り、その5分後にまたタイマーが鳴ります。"
           />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="small_s_tall" />
           <meta name="twitter:title" content="トマト・タイマー" />
           <meta name="twitter:description" content="トマトが動くタイマーです。25分と5分のお知らせを交互に繰り返します。音が鳴ります。" />
           <meta name="twitter:image" content="https://pomodoro-tech-timer.com//twitter-card.png" />
+          <meta name="google-site-verification" content="bJf1jv13RsQyj9WdeIOc4FJ8kOW_kx8dkklcn9ms_6I" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta
             name="msapplication-config"
