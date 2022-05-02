@@ -35,7 +35,10 @@ const Timer: React.VFC = () => {
     const min = Math.floor(displayTime / 60);
     if (min != minutes) {
       setMinutes(min);
+      const totalTime = activity === 'Rest' || activity === 'NextRest' ? 0 : 5;
+      setCount({...contextCount, nokoriMinutes: totalTime + min})
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayTime, minutes]);
 
   useEffect(() => {
@@ -51,7 +54,6 @@ const Timer: React.VFC = () => {
 
   useEffect(() => {
     timer.setMaxCount(contextCount.maxCount);
-    console.log("atkinatanie")
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contextCount.maxCount])
 

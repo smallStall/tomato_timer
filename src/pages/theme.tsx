@@ -74,15 +74,16 @@ export const VolumeContext = createContext<{
 }>({ setVolume: () => {}, volume: 0 });
 
 export const CountContext = createContext<{
-  setCount: Dispatch<SetStateAction<{ now: string; maxCount: number }>>;
-  count: { now: string; maxCount: number };
-}>({ setCount: () => {}, count: { now: "", maxCount: 0 } });
+  setCount: Dispatch<SetStateAction<{ now: string; maxCount: number; nokoriMinutes: number }>>;
+  count: { now: string; maxCount: number; nokoriMinutes: number };
+}>({ setCount: () => {}, count: { now: "", maxCount: 0, nokoriMinutes: 30 } });
 
 export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(1);
-  const [count, setCount] = useState<{ now: string; maxCount: number }>({
+  const [count, setCount] = useState<{ now: string; maxCount: number; nokoriMinutes: number }>({
     now: "1コ目",
     maxCount: 0,
+    nokoriMinutes: 30
   });
   return (
     <>

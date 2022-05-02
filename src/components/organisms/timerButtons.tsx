@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { Timer, Status } from "../../types/intervalTimer";
 import styles from "./timerButton.module.scss";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -16,7 +16,10 @@ type Props = {
 const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
   const [isRestoreMsgOpen, setRestoreMsgOpen] = useState(false);
   const [isStartMsgOpen, setStartMsgOpen] = useState(false);
-
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  useEffect(()=> {
+    buttonRef.current?.focus()
+  }, []);
   const onClick = useCallback(
     (status: Status) => {
       if (isRunning) {
@@ -66,7 +69,7 @@ const TimerButtons: React.VFC<Props> = ({ timer, isRunning, status }) => {
 
   return (
     <div className={styles.root}>
-      <IconButton onClick={() => onClick(status)} className={styles.iconButton}>
+      <IconButton ref={buttonRef} onClick={() => onClick(status)} className={styles.iconButton}>
         {getIcon(isRunning)}
       </IconButton>
       {getIconRestart(isRunning, status)}
