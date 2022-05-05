@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import { Dialog, DialogTitle, DialogActions } from "@mui/material";
 import { CountContext } from "../../pages/theme";
 import styles from "./maxTomato.module.scss";
+import { minWidth } from "@mui/system";
 
 type Props = {
   open: boolean;
@@ -35,7 +36,8 @@ export const MaxTomatoDialog: React.VFC<Props> = ({ open, onClose }) => {
       return "";
     }
     const now = new Date();
-    now.setMinutes(now.getMinutes() + (sliderVal - 1) * 30 - 5 + count.nokoriMinutes);
+    const countNum = Number(count.now.match(/\d+/)) - 1;
+    now.setMinutes(now.getMinutes() + (sliderVal - 1 - countNum) * 30 - 5 + count.nokoriMinutes);
     return (
       "終了予定時間 " +
       now.getHours().toString() +
@@ -51,16 +53,15 @@ export const MaxTomatoDialog: React.VFC<Props> = ({ open, onClose }) => {
       onClose={() => onClose(false)}
       aria-labelledby="トマトをいくつ取る？"
       aria-describedby="トマトの最大数"
-      maxWidth="xl"
     >
-      <DialogTitle sx={{ paddingBottom: "60px" }}>
+      <DialogTitle sx={{ paddingBottom: "60px", minWidth:"15em", textAlign:"center"}}>
         トマトをいくつ取る？
       </DialogTitle>
       <Slider
         aria-label="Custom marks"
         defaultValue={0}
         step={1}
-        max={8}
+        max={10}
         valueLabelDisplay="on"
         onChangeCommitted={onCommitSlider}
         onChange={onChangeSlider}
