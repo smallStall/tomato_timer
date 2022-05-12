@@ -83,7 +83,7 @@ export const useIntervalTimer = (
   useEffect(() => {
     if (state.activity === 'NextRest') {
       addHistory(count);
-      if ((state.count + 1) >= state.maxCount) {
+      if (state.maxCount !== 0 && (state.count + 1) >= state.maxCount) {
         stop();
         playEnd();
       }
