@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import styles from "./footer.module.scss";
 import TwitterIcon from "../molecules/twitterIcon";
 import GithubIcon from "../molecules/githubIcon";

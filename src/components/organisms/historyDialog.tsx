@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import {
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  TableHead,
-} from "@mui/material";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
 import { useHistory } from "hooks/useHistory";
 import { useMobileWindow } from "hooks/useMobileWindow";
 import { CountAt } from "types/history";
@@ -27,10 +25,10 @@ export const HistoryDialog: React.VFC<Props> = ({ open, onClose }) => {
   const { getHistory } = useHistory();
   const [history] = useState(getHistory());
   const [maxHistoryRow, setMaxHistoryRow] = useState(MAX_HISTORY_ROW);
-  const { isMobile  } = useMobileWindow(); 
-  useEffect(()=> {
+  const { isMobile } = useMobileWindow();
+  useEffect(() => {
     setMaxHistoryRow(isMobile ? MAX_HISTORY_ROW * 5 : MAX_HISTORY_ROW);
-  }, [isMobile])
+  }, [isMobile]);
   const leftHistoryLength = Math.floor(history.length / 2);
   let prevDayStr = "";
   const getListItem = (

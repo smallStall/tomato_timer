@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FormControlLabel, Switch } from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 import styles from "./themeIcon.module.scss";
 
 type Props = { label: string };

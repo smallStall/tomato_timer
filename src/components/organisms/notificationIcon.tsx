@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Typography, IconButton } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import { pomodoroNotification } from "libs/notify";
 import styles from "./notificationIcon.module.scss";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";

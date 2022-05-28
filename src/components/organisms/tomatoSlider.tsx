@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
-import { Slider } from "@mui/material";
+import Slider from "@mui/material/Slider";
 import { Timer, Status } from "../../types/intervalTimer";
 import styles from "./tomatoSlider.module.scss";
 import MsgToast from "components/molecules/msgToast";

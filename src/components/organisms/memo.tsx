@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import React, { useState, useEffect, useContext } from "react";
 import { isMobile } from "libs/accesories";
 import styles from "./memo.module.scss";

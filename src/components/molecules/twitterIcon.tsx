@@ -1,5 +1,6 @@
 import React from "react";
-import { IconButton, SvgIcon } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import SvgIcon from "@mui/material/SvgIcon";
 import styles from "./twitterIcon.module.scss"
 
 type Props = {

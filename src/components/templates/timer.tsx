@@ -46,7 +46,7 @@ const Timer: React.VFC = () => {
     setCount({
       ...contextCount,
       now:
-        counterStop +
+        (activity === "None" ? "0" : counterStop) +
         (activity === "Work" ? "コ目" : "コ"),
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps

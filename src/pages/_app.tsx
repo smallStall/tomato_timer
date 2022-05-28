@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import React, { useCallback } from "react";
-import { CssBaseline } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 import "./_app.scss";
 import { StyledEngineProvider } from "@mui/material/styles";
 

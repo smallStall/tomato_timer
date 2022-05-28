@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 import { Typography } from "@mui/material";
-import { Dialog, DialogTitle, DialogActions } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
 import { CountContext } from "../../pages/theme";
 import styles from "./maxTomato.module.scss";
-import { minWidth } from "@mui/system";
 
 type Props = {
   open: boolean;
@@ -15,7 +16,6 @@ type Props = {
 export const MaxTomatoDialog: React.VFC<Props> = ({ open, onClose }) => {
   const { count, setCount } = useContext(CountContext);
   const [sliderVal, setSliderVal] = useState(count.maxCount);
-
   const onCommitSlider = (_event: any, value: number | number[]) => {
     if (typeof value === "number") {
       if (value >= 0) {
@@ -54,7 +54,7 @@ export const MaxTomatoDialog: React.VFC<Props> = ({ open, onClose }) => {
       aria-labelledby="トマトをいくつ取る？"
       aria-describedby="トマトの最大数"
     >
-      <DialogTitle sx={{ paddingBottom: "60px", minWidth:"15em", textAlign:"center"}}>
+      <DialogTitle sx={{ paddingBottom: "60px", paddingTop: "30px", minWidth:"15em", textAlign:"center"}}>
         トマトをいくつ取る？
       </DialogTitle>
       <Slider
@@ -86,6 +86,7 @@ export const MaxTomatoDialog: React.VFC<Props> = ({ open, onClose }) => {
             onClose(false);
           }}
           color="primary"
+          sx={{paddingBottom: "15px"}}
         >
           OK
         </Button>
