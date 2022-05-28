@@ -155,6 +155,11 @@ export function reducer(state: State, action: TimerActionsType): State {
         activity:'None',
         status: 'STOPPED',
         displayTime: 0,
+        elapsedTime: 0,
+        prevInitialTime: -1,
+        pausedTime: -1,
+        count: 0,
+        prevCountTime: 0,
       }  
     }
   }

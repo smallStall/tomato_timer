@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Typography, IconButton } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import styles from "./historyIcon.module.scss";
 import { HistoryDialog } from "components/organisms/historyDialog";
@@ -8,7 +9,6 @@ const HistoryIcon = ({ label }: { label: string }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const onClick = () => {
     setDialogOpen(true);
-    console.log("tanltie");
   };
 
   return (

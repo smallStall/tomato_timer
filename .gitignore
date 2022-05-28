@@ -19,6 +19,8 @@
 .DS_Store
 *.pem
 myRule.txt
+*.au
+*.aup
 
 # debug
 npm-debug.log*

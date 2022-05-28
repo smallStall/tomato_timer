@@ -81,9 +81,9 @@ export const CountContext = createContext<{
 export default function Theme({ children }: Props) {
   const [volume, setVolume] = useState(1);
   const [count, setCount] = useState<{ now: string; maxCount: number; nokoriMinutes: number }>({
-    now: "1コ目",
+    now: "0コ目",
     maxCount: 0,
-    nokoriMinutes: 30
+    nokoriMinutes: 0
   });
   return (
     <>

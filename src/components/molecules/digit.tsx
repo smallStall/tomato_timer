@@ -1,5 +1,4 @@
 import React from "react";
-import { Typography } from "@mui/material";
 import styles from "./digit.module.scss";
 import { minusToZero } from "../../libs/accesories";
 

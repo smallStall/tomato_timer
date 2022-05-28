@@ -5,11 +5,12 @@ const PROD_MP3_PATH = "zihou1.mp3";
 const PROD_OGG_PATH = "zihou1.mp3";
 const TEST_SOUND_PATH = "test1.mp3";
 const soundPath = process.env.isProd ? [PROD_MP3_PATH, PROD_OGG_PATH] : [TEST_SOUND_PATH];
+const startSoundPath = "start.mp3";
 const endSoundPath = "end.mp3";
 
 export const useSound = (volume: number): Sound => {
   const soundRef = useRef<Howl>();
-  const endSoundRef = useRef<Howl>();
+  const smallSoundRef = useRef<Howl>();
   const pausedTimeRef = useRef(-1);
   if (volume < 0 || volume > 1) {
     throw new Error("volume error")
@@ -42,11 +43,12 @@ export const useSound = (volume: number): Sound => {
     ref.current.seek(0);
   }
   const play = useCallback(() => {
-    playSoundCallback(soundPath, soundRef, true)
+    playSoundCallback([startSoundPath], smallSoundRef, false);
+    playSoundCallback(soundPath, soundRef, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [volume]);
-  const playEnd = useCallback(() => {
-    playSoundCallback([endSoundPath], endSoundRef, false)
+  const playEndSound = useCallback(() => {
+    playSoundCallback([endSoundPath], smallSoundRef, false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [volume]);
 
@@ -88,5 +90,5 @@ export const useSound = (volume: number): Sound => {
       soundRef.current.volume(volume);
     }
   }, [volume])
-  return { playSound: play, pauseSound: pause, resumeSound: resume, adjustSound: adjust, stopSound: stop, playEnd: playEnd }
+  return { playSound: play, pauseSound: pause, resumeSound: resume, adjustSound: adjust, stopSound: stop, playEnd: playEndSound }
 }

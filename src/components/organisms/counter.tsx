@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { CountContext } from "../../pages/theme";
 import { MaxTomatoDialog } from "components/organisms/maxTomatoDialog";
 import styles from "./counter.module.scss";

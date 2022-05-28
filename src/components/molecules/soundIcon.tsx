@@ -1,5 +1,6 @@
 import React from "react";
-import { Typography, IconButton } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import Timer2 from "../../../public/test.mp3";
 import { Howl } from "howler";
