@@ -17,7 +17,7 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           {/*<meta name="theme-color" content={theme.palette.primary.main} />*/}
-          <link rel="canonical" href="https://pomodoro-tech-timer.com" />
+          <link rel="canonical" href="https://tomato-timer.net" />
           <link
             rel="apple-touch-icon"
             sizes="180x180"
